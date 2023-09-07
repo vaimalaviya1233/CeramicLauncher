@@ -36,7 +36,7 @@
                 android:includeFontPadding="false"
                 android:textSize="14sp"
                 android:lineSpacingExtra="6dp"
-                android:textColor="@color/cardtitle"
+                android:textColor="@color/ui_card_title"
                 android:ellipsize="end"/>
         </LinearLayout>
     </LinearLayout>

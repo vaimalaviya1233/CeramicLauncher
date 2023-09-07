@@ -32,6 +32,6 @@
             android:layout_marginTop="32dp"
             android:textColor="#545556"
             android:textSize="12sp"
-            android:fontFamily="@font/roboto_mono"/>
+            android:fontFamily="monospace"/>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

@@ -65,7 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <posidon.launcher.view.Seekbar
+        <one.zagura.CeramicLauncher.view.Seekbar
             android:id="@+id/red"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
             android:progressBackgroundTint="#88550000"
             android:padding="12dp"
             android:max="255"/>
-        <posidon.launcher.view.Seekbar
+        <one.zagura.CeramicLauncher.view.Seekbar
             android:id="@+id/green"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
             android:progressBackgroundTint="#88005500"
             android:padding="12dp"
             android:max="255"/>
-        <posidon.launcher.view.Seekbar
+        <one.zagura.CeramicLauncher.view.Seekbar
             android:id="@+id/blue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
             android:progressBackgroundTint="#88000088"
             android:padding="12dp"
             android:max="255"/>
-        <posidon.launcher.view.Seekbar
+        <one.zagura.CeramicLauncher.view.Seekbar
             android:id="@+id/alpha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

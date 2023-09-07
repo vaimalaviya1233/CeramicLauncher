@@ -22,17 +22,10 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/hometheme">
-
-        <provider
-            android:authorities="posidon.launcher.fivesecdelaycp"
-            android:grantUriPermissions="true"
-            android:exported="true"
-            android:enabled="true"
-            android:name=".external.kustom.Kustom5SecsProvider"/>
 
         <service
             android:name=".feed.notifications.NotificationService"
@@ -68,10 +61,10 @@
             android:theme="@style/hometheme" />
 
         <activity
-            android:name=".customizations.settingScreens.Customizations"
+            android:name=".customizations.settingScreens.CustomMain"
             android:icon="@drawable/customizations"
             android:label="@string/settings_title"
-            android:taskAffinity="posidon.launcher.Customizations"
+            android:taskAffinity="one.zagura.CeramicLauncher.CustomMain"
             android:theme="@style/settings"
             android:exported="true">
             <intent-filter>
@@ -85,7 +78,7 @@
             android:theme="@style/settings"
             android:exported="true">
             <intent-filter>
-                <action android:name="posidon.launcher.settings.DRAWER"/>
+                <action android:name="one.zagura.CeramicLauncher.settings.DRAWER"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
@@ -95,17 +88,7 @@
             android:theme="@style/settings"
             android:exported="true">
             <intent-filter>
-                <action android:name="posidon.launcher.settings.FEED"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".customizations.settingScreens.CustomNews"
-            android:configChanges="keyboardHidden|screenSize|orientation"
-            android:theme="@style/settings"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="posidon.launcher.settings.NEWS"/>
+                <action android:name="one.zagura.CeramicLauncher.settings.FEED"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
@@ -115,7 +98,7 @@
             android:theme="@style/settings"
             android:exported="true">
             <intent-filter>
-                <action android:name="posidon.launcher.settings.NOTIFICATIONS"/>
+                <action android:name="one.zagura.CeramicLauncher.settings.NOTIFICATIONS"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
@@ -125,25 +108,17 @@
             android:theme="@style/settings"
             android:exported="true">
             <intent-filter>
-                <action android:name="posidon.launcher.settings.DOCK"/>
+                <action android:name="one.zagura.CeramicLauncher.settings.DOCK"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".feed.news.chooser.FeedChooser"
-            android:configChanges="keyboardHidden|screenSize|orientation"
-            android:theme="@style/settings" />
-        <activity
-            android:name=".customizations.RemovedArticles"
-            android:configChanges="keyboardHidden|screenSize|orientation"
-            android:theme="@style/settings" />
         <activity
             android:name=".customizations.settingScreens.CustomFolders"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/settings"
             android:exported="true">
             <intent-filter>
-                <action android:name="posidon.launcher.settings.FOLDERS"/>
+                <action android:name="one.zagura.CeramicLauncher.settings.FOLDERS"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
@@ -153,7 +128,7 @@
             android:theme="@style/settings"
             android:exported="true">
             <intent-filter>
-                <action android:name="posidon.launcher.settings.SEARCH"/>
+                <action android:name="one.zagura.CeramicLauncher.settings.SEARCH"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
@@ -163,7 +138,7 @@
             android:theme="@style/settings"
             android:exported="true">
             <intent-filter>
-                <action android:name="posidon.launcher.settings.THEME"/>
+                <action android:name="one.zagura.CeramicLauncher.settings.THEME"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
@@ -173,7 +148,7 @@
             android:theme="@style/settings"
             android:exported="true">
             <intent-filter>
-                <action android:name="posidon.launcher.settings.GESTURES"/>
+                <action android:name="one.zagura.CeramicLauncher.settings.GESTURES"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
@@ -218,22 +193,13 @@
             </intent-filter>
             <meta-data
                 android:name="com.android.systemui.action_assist_icon"
-                android:resource="@mipmap/ic" />
-        </activity>
-        <activity
-            android:name=".search.ConsoleActivity"
-            android:configChanges="keyboardHidden|screenSize|orientation"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
+                android:resource="@mipmap/ic_launcher" />
         </activity>
 
         <activity
-            android:name=".tutorial.Tutorial"
+            android:name=".setup.Setup"
             android:configChanges="keyboardHidden|screenSize|orientation"
-            android:theme="@style/tutorial" />
+            android:theme="@style/setup" />
         <activity android:name=".search.HiddenAppsActivity" android:theme="@style/hiddenApps" />
         <activity
             android:name=".customizations.FakeLauncherActivity"
@@ -245,7 +211,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
 
         <activity
             android:name=".external.AddShortcutActivity"
@@ -259,12 +224,6 @@
                 <action android:name="android.content.pm.action.CONFIRM_PIN_SHORTCUT" />
             </intent-filter>
         </activity>
-
-
-        <activity
-            android:name=".feed.news.readers.WebViewActivity"
-            android:configChanges="keyboardHidden|screenSize|orientation"
-            android:theme="@style/settings"/>
 
         <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts" />
     </application>

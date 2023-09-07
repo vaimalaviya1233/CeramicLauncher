@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:padding="12dp"
-        android:textColor="@color/cardtxt"
+        android:textColor="@color/ui_card_text"
         android:textSize="18sp"
         android:text="@string/are_you_sure"/>
     <TextView
@@ -24,7 +24,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/button_bg_round"
         android:backgroundTint="#33ff5555"
-        android:textColor="@color/cardtitle"
+        android:textColor="@color/ui_card_title"
         android:textSize="18sp"
         android:text="@string/yes"/>
 </LinearLayout>

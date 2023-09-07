@@ -6,7 +6,7 @@ plugins {
 android {
     compileSdk 34
     defaultConfig {
-        applicationId "posidon.launcher"
+        applicationId "one.zagura.CeramicLauncher"
         minSdkVersion 26
         targetSdk 34
         versionCode 70
@@ -19,7 +19,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    namespace 'posidon.launcher'
+    namespace 'one.zagura.CeramicLauncher'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17

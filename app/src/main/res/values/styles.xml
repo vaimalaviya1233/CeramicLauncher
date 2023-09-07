@@ -1,5 +1,4 @@
 <resources>
-
     <style name="hometheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowShowWallpaper">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -8,7 +7,7 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:dialogTheme">@style/dialog</item>
         <item name="colorAccent">@color/accent</item>
-        <item name="android:fontFamily">@font/atkinson_hyperlegible</item>
+        <item name="android:fontFamily">sans-serif</item>
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowContentTransitions">true</item>
     </style>
@@ -46,9 +45,9 @@
     </style>
 
     <style name="settings" parent="hometheme">
-        <item name="colorPrimary">@color/settingsbg</item>
-        <item name="android:windowBackground">@color/settingsbg</item>
-        <item name="android:navigationBarColor">@color/settingsbg</item>
+        <item name="colorPrimary">@color/ui_background</item>
+        <item name="android:windowBackground">@color/ui_background</item>
+        <item name="android:navigationBarColor">@color/ui_background</item>
         <item name="android:windowShowWallpaper">false</item>
     </style>
 
@@ -61,7 +60,7 @@
         <item name="android:drawablePadding">15dp</item>
         <item name="android:paddingStart">6dp</item>
         <item name="android:paddingEnd">8dp</item>
-        <item name="android:textColor">@color/cardtxt</item>
+        <item name="android:textColor">@color/ui_card_text</item>
     </style>
 
     <style name="settingsInput">
@@ -73,7 +72,7 @@
         <item name="android:paddingStart">15dp</item>
         <item name="android:paddingEnd">15dp</item>
         <item name="android:clipToPadding">false</item>
-        <item name="android:textColor">@color/cardtxt</item>
+        <item name="android:textColor">@color/ui_card_text</item>
         <item name="android:textColorHint">#252627</item>
         <item name="android:background">@drawable/input_bg</item>
     </style>
@@ -99,15 +98,30 @@
         <item name="android:paddingBottom">14dp</item>
         <item name="android:drawablePadding">24dp</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/cardtitle</item>
+        <item name="android:textColor">@color/ui_card_title</item>
     </style>
 
-    <style name="settingscard">
-        <item name="android:background">@drawable/settings_card</item>
+    <style name="ui_card">
+        <item name="android:background">@drawable/ui_card</item>
         <item name="android:layout_margin">8dp</item>
         <item name="android:paddingTop">12dp</item>
         <item name="android:paddingBottom">12dp</item>
         <item name="android:clipToPadding">false</item>
+    </style>
+
+    <style name="ui_button">
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/button_bg</item>
+        <item name="android:backgroundTint">@color/accent_background</item>
+        <item name="android:textColor">@color/accent_foreground</item>
+        <item name="android:minWidth">64dp</item>
+        <item name="android:paddingVertical">10dp</item>
+        <item name="android:paddingHorizontal">24dp</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="ui_button_round" parent="ui_button">
+        <item name="android:background">@drawable/button_bg_round</item>
     </style>
 
     <style name="settingsEntry">
@@ -115,16 +129,12 @@
         <item name="android:layout_marginRight">12dp</item>
     </style>
 
-    <style name="tutorial" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/wallgallerybg</item>
-        <item name="android:statusBarColor">@color/tutorialbg</item>
-        <item name="android:navigationBarColor">@color/cardbg</item>
-        <item name="android:windowBackground">@color/tutorialbg</item>
-        <item name="android:fontFamily">@font/posidon_sans</item>
-    </style>
-
-    <style name="welcome" parent="tutorial">
-        <item name="android:navigationBarColor">@color/tutorialbg</item>
+    <style name="setup" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/ui_background</item>
+        <item name="android:windowBackground">@color/ui_background</item>
+        <item name="android:statusBarColor">@color/ui_background</item>
+        <item name="android:navigationBarColor">@color/ui_card_background</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="hiddenApps" parent="hometheme">

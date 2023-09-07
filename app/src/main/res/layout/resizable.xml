@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:parentTag="posidon.launcher.view.ResizableLayout">
+    tools:parentTag="one.zagura.CeramicLauncher.view.ResizableLayout">
     <ImageView
         android:id="@+id/cross"
         android:layout_width="48dp"

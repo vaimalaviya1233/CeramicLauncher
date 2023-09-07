@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
-        <item>@font/posidon_sans</item>
-        <item>@font/roboto_mono</item>
-        <item>@font/lexend_deca</item>
-        <item>@font/atkinson_hyperlegible</item>
-        <item>@font/inter</item>
+        <item>@font/rubik_medium_caps</item>
     </array>
 </resources>

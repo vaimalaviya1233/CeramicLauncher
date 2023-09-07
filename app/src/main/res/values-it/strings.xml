@@ -122,7 +122,7 @@
     <string name="grouping">Raggruppamento</string>
     <string name="recolor_white_bgs">Tinta sfondi bianchi</string>
     <string name="oops">Oops!</string>
-    <string name="posidon_launcher_crashed">posidon launcher si è arrestato in modo anomalo</string>
+    <string name="posidon_launcher_crashed">Ceramic Launcher si è arrestato in modo anomalo</string>
     <string name="send_bug_report">Invia segnalazione di bug</string>
     <string name="show_name">Mostra nome</string>
     <string name="name_color">Colore nome</string>
@@ -153,7 +153,6 @@
     <string name="github_contributors">Collaboratori Github</string>
     <string name="lock_home">Blocca schermata home</string>
     <string name="starred_contacts">Contatti speciali</string>
-    <string name="kustom_variables">Variabili Kustom</string>
     <string name="swipe_bg_color">Scorri in background</string>
     <string name="hide_crash_logs">Nascondi i log degli arresti anomali</string>
     <string name="ignore_navbar_height">Ignora l\'altezza della barra di navigazione</string>
@@ -207,6 +206,7 @@
     <string name="hide_persistent_notifications">Hide persistent notifications</string>
     <string name="unhide">Unhide</string>
     <string name="add">Add</string>
+    <string name="searchbar">Searchbar</string>
 
     <plurals name="num_notifications">
         <item quantity="one">%1$d notifiche</item>

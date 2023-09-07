@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="@color/cardtitle"
+            android:textColor="@color/ui_card_title"
             android:singleLine="true"/>
     </LinearLayout>
     <View

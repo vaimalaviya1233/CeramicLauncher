@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textColor="@color/cardtxt"
+                android:textColor="@color/ui_card_text"
                 android:padding="8dp"
                 android:includeFontPadding="false"/>
             <TextView
@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="32sp"
-                android:textColor="@color/cardtitle"
+                android:textColor="@color/ui_card_title"
                 android:padding="8dp"
                 android:includeFontPadding="false"/>
         </LinearLayout>
@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
-                android:textColor="@color/cardtitle"
+                android:textColor="@color/ui_card_title"
                 android:paddingLeft="18dp"
                 android:paddingRight="18dp"
                 android:paddingBottom="4dp"
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textColor="@color/cardtxt"
+                android:textColor="@color/ui_card_text"
                 android:paddingTop="8dp"
                 android:paddingLeft="18dp"
                 android:paddingRight="18dp"
@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="14sp"
-                    android:textColor="@color/cardtxt"
+                    android:textColor="@color/ui_card_text"
                     android:textStyle="bold"
                     android:includeFontPadding="false"/>
                 <ImageView
@@ -100,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/duckduckgo_results"
                     android:textSize="14sp"
-                    android:textColor="@color/cardtxt"
+                    android:textColor="@color/ui_card_text"
                     android:includeFontPadding="false"/>
             </LinearLayout>
         </LinearLayout>
@@ -110,7 +110,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:visibility="gone"/>
-        <posidon.launcher.view.GridView
+        <one.zagura.CeramicLauncher.view.GridView
             android:id="@+id/searchgrid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -147,7 +147,7 @@
             android:hint="@string/searchbarhint"
             android:inputType="textFilter"
             android:padding="12dp"
-            android:textColor="@color/cardtxt"
+            android:textColor="@color/ui_card_text"
             android:textColorHint="@color/hint"
             android:textSize="16sp" />
         <ImageView

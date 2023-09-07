@@ -22,14 +22,14 @@
             android:paddingTop="10dp"
             android:paddingBottom="62dp"
             android:clipToPadding="false"
-            android:background="@drawable/settings_card"/>
+            android:background="@drawable/ui_card"/>
     </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="#ee000000"
-        android:backgroundTint="@color/settingscardbg">
+        android:backgroundTint="@color/ui_card_background">
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"

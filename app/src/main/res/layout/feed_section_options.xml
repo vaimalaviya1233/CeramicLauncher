@@ -21,27 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="@string/notifications"
-            android:textColor="@color/cardtxt"
-            android:textSize="15sp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/news_section"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_margin="8dp"
-        android:gravity="center_vertical">
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_news"
-            android:tint="#ffffff"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="@string/settings_title_news"
-            android:textColor="@color/cardtxt"
+            android:textColor="@color/ui_card_text"
             android:textSize="15sp"/>
     </LinearLayout>
     <LinearLayout
@@ -61,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="@string/starred_contacts"
-            android:textColor="@color/cardtxt"
+            android:textColor="@color/ui_card_text"
             android:textSize="15sp"/>
     </LinearLayout>
     <LinearLayout
@@ -81,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="@string/media_player"
-            android:textColor="@color/cardtxt"
+            android:textColor="@color/ui_card_text"
             android:textSize="15sp"/>
     </LinearLayout>
     <LinearLayout
@@ -101,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="@string/widget"
-            android:textColor="@color/cardtxt"
+            android:textColor="@color/ui_card_text"
             android:textSize="15sp"/>
     </LinearLayout>
     <LinearLayout
@@ -121,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="@string/spacer"
-            android:textColor="@color/cardtxt"
+            android:textColor="@color/ui_card_text"
             android:textSize="15sp"/>
     </LinearLayout>
 </LinearLayout>
