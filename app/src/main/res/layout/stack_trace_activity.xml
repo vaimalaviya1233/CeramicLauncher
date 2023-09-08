@@ -15,14 +15,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="42sp"
-            android:textColor="#ffffff"
+            android:textColor="@color/ui_card_title"
             android:text="@string/oops"
             android:layout_marginTop="64dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:textColor="#C0C1C2"
+            android:textColor="@color/ui_card_text"
             android:text="@string/posidon_launcher_crashed"/>
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:textColor="#545556"
+            android:textColor="@color/ui_card_text_secondary"
             android:textSize="12sp"
             android:fontFamily="monospace"/>
     </LinearLayout>

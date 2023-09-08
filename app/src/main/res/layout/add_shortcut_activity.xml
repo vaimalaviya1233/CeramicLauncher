@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom|center_horizontal">
-    <one.zagura.CeramicLauncher.view.drawer.DockView
+    <one.zagura.CeramicLauncher.ui.view.drawer.DockView
         android:id="@+id/dock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

@@ -9,6 +9,6 @@
         <intent
             android:action="android.intent.action.MAIN"
             android:targetPackage="one.zagura.CeramicLauncher"
-            android:targetClass="one.zagura.CeramicLauncher.customizations.settingScreens.CustomMain" />
+            android:targetClass="one.zagura.CeramicLauncher.ui.customizations.settingScreens.CustomMain" />
     </shortcut>
 </shortcuts>

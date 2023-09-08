@@ -28,7 +28,7 @@
         android:theme="@style/hometheme">
 
         <service
-            android:name=".feed.notifications.NotificationService"
+            android:name="one.zagura.CeramicLauncher.provider.notifications.NotificationService"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
             android:exported="true">
             <intent-filter>
@@ -56,12 +56,12 @@
         </activity>
 
         <activity
-            android:name=".feed.order.FeedOrderActivity"
+            android:name="one.zagura.CeramicLauncher.ui.order.FeedOrderActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
-            android:theme="@style/hometheme" />
+            android:theme="@style/settings" />
 
         <activity
-            android:name=".customizations.settingScreens.CustomMain"
+            android:name="one.zagura.CeramicLauncher.ui.customizations.settingScreens.CustomMain"
             android:icon="@drawable/customizations"
             android:label="@string/settings_title"
             android:taskAffinity="one.zagura.CeramicLauncher.CustomMain"
@@ -73,7 +73,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".customizations.settingScreens.CustomDrawer"
+            android:name="one.zagura.CeramicLauncher.ui.customizations.settingScreens.CustomDrawer"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/settings"
             android:exported="true">
@@ -83,7 +83,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".customizations.settingScreens.CustomHome"
+            android:name="one.zagura.CeramicLauncher.ui.customizations.settingScreens.CustomHome"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/settings"
             android:exported="true">
@@ -93,7 +93,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".customizations.settingScreens.CustomNotifications"
+            android:name="one.zagura.CeramicLauncher.ui.customizations.settingScreens.CustomNotifications"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/settings"
             android:exported="true">
@@ -103,7 +103,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".customizations.settingScreens.CustomDock"
+            android:name="one.zagura.CeramicLauncher.ui.customizations.settingScreens.CustomDock"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/settings"
             android:exported="true">
@@ -113,7 +113,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".customizations.settingScreens.CustomFolders"
+            android:name="one.zagura.CeramicLauncher.ui.customizations.settingScreens.CustomFolders"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/settings"
             android:exported="true">
@@ -123,7 +123,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".customizations.settingScreens.CustomSearch"
+            android:name="one.zagura.CeramicLauncher.ui.customizations.settingScreens.CustomSearch"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/settings"
             android:exported="true">
@@ -133,7 +133,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".customizations.settingScreens.CustomTheme"
+            android:name="one.zagura.CeramicLauncher.ui.customizations.settingScreens.CustomTheme"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/settings"
             android:exported="true">
@@ -143,7 +143,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".customizations.settingScreens.CustomGestures"
+            android:name="one.zagura.CeramicLauncher.ui.customizations.settingScreens.CustomGestures"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/settings"
             android:exported="true">
@@ -153,34 +153,34 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".customizations.settingScreens.CustomHiddenApps"
+            android:name="one.zagura.CeramicLauncher.ui.customizations.settingScreens.CustomHiddenApps"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/settings" />
         <activity
-            android:name=".customizations.settingScreens.CustomHiddenAppNotifications"
+            android:name="one.zagura.CeramicLauncher.ui.customizations.settingScreens.CustomHiddenAppNotifications"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/settings" />
         <activity
-            android:name=".customizations.settingScreens.CustomOther"
+            android:name="one.zagura.CeramicLauncher.ui.customizations.settingScreens.CustomOther"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/settings" />
         <activity
-            android:name=".customizations.settingScreens.CustomDev"
+            android:name="one.zagura.CeramicLauncher.ui.customizations.settingScreens.CustomDev"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/settings" />
         <activity
-            android:name=".customizations.settingScreens.About"
-            android:configChanges="keyboardHidden|screenSize|orientation"
-            android:theme="@style/settings" />
-
-
-        <activity
-            android:name=".tools.StackTraceActivity"
+            android:name="one.zagura.CeramicLauncher.ui.customizations.settingScreens.About"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/settings" />
 
+
         <activity
-            android:name=".search.SearchActivity"
+            android:name=".util.StackTraceActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation"
+            android:theme="@style/settings" />
+
+        <activity
+            android:name="one.zagura.CeramicLauncher.ui.search.SearchActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:label="@string/settings_title_search"
             android:exported="true">
@@ -197,12 +197,12 @@
         </activity>
 
         <activity
-            android:name=".setup.Setup"
+            android:name="one.zagura.CeramicLauncher.ui.Setup"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/setup" />
-        <activity android:name=".search.HiddenAppsActivity" android:theme="@style/hiddenApps" />
+        <activity android:name="one.zagura.CeramicLauncher.ui.hidden.HiddenAppsActivity" android:theme="@style/hiddenApps" />
         <activity
-            android:name=".customizations.FakeLauncherActivity"
+            android:name="one.zagura.CeramicLauncher.ui.customizations.FakeLauncherActivity"
             android:enabled="false"
             android:exported="true">
             <intent-filter>

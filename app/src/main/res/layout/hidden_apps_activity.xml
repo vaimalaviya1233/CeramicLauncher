@@ -13,7 +13,7 @@
         android:textSize="18sp"
         android:textColor="#ddffffff"
         android:text="@string/hidden_apps"/>
-    <one.zagura.CeramicLauncher.view.GridView
+    <one.zagura.CeramicLauncher.ui.view.GridView
         android:id="@+id/grid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

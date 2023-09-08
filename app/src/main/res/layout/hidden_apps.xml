@@ -1,45 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:id="@+id/settings">
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="192dp"
-            android:gravity="center"
-            android:text="@string/setting_title_hide_apps"
-            android:textColor="#ffffff"
-            android:textSize="32sp"/>
-        <ListView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@android:color/transparent"
-            android:paddingTop="10dp"
-            android:paddingBottom="62dp"
-            android:clipToPadding="false"
-            android:background="@drawable/ui_card"/>
-    </LinearLayout>
+        android:layout_height="96dp"
+        android:gravity="center"
+        android:text="@string/setting_title_hide_apps"
+        android:textColor="@color/ui_card_title"
+        android:fontFamily="serif"
+        android:textSize="32sp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/ui_separator"/>
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@android:color/transparent"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:clipToPadding="false"/>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="#ee000000"
-        android:backgroundTint="@color/ui_card_background">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@drawable/ui_card_separator"/>
+        android:background="@color/ui_card_background">
         <EditText
             android:id="@+id/search"
             style="@style/ui_input"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_margin="6dp"
+            android:layout_margin="8dp"
             android:hint="@string/searchbarhint"/>
     </FrameLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

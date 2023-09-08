@@ -20,24 +20,24 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import io.posidon.android.conveniencelib.Device
-import one.zagura.CeramicLauncher.feed.notifications.NotificationService
-import one.zagura.CeramicLauncher.items.Folder
-import one.zagura.CeramicLauncher.items.LauncherItem
-import one.zagura.CeramicLauncher.items.PinnedShortcut
-import one.zagura.CeramicLauncher.items.users.ItemLongPress
-import one.zagura.CeramicLauncher.search.SearchActivity
-import one.zagura.CeramicLauncher.storage.Settings
+import one.zagura.CeramicLauncher.provider.notifications.NotificationService
+import one.zagura.CeramicLauncher.data.items.Folder
+import one.zagura.CeramicLauncher.data.items.LauncherItem
+import one.zagura.CeramicLauncher.data.items.PinnedShortcut
+import one.zagura.CeramicLauncher.ui.ItemLongPress
+import one.zagura.CeramicLauncher.ui.search.SearchActivity
+import one.zagura.CeramicLauncher.util.storage.Settings
 import one.zagura.CeramicLauncher.external.GestureNavContract
-import one.zagura.CeramicLauncher.tools.Gestures
-import one.zagura.CeramicLauncher.items.users.AppLoader
-import one.zagura.CeramicLauncher.tools.LiveWallpaper
-import one.zagura.CeramicLauncher.tools.StackTraceActivity
-import one.zagura.CeramicLauncher.tools.Tools
-import one.zagura.CeramicLauncher.tools.Tools.updateNavbarHeight
-import one.zagura.CeramicLauncher.setup.Setup
-import one.zagura.CeramicLauncher.view.ResizableLayout
-import one.zagura.CeramicLauncher.view.drawer.DrawerView
-import one.zagura.CeramicLauncher.view.feed.Feed
+import one.zagura.CeramicLauncher.util.Gestures
+import one.zagura.CeramicLauncher.provider.AppLoader
+import one.zagura.CeramicLauncher.util.LiveWallpaper
+import one.zagura.CeramicLauncher.util.StackTraceActivity
+import one.zagura.CeramicLauncher.util.Tools
+import one.zagura.CeramicLauncher.util.Tools.updateNavbarHeight
+import one.zagura.CeramicLauncher.ui.Setup
+import one.zagura.CeramicLauncher.ui.view.ResizableLayout
+import one.zagura.CeramicLauncher.ui.view.drawer.DrawerView
+import one.zagura.CeramicLauncher.ui.view.feed.Feed
 import java.lang.ref.WeakReference
 import kotlin.math.abs
 import kotlin.system.exitProcess
@@ -88,12 +88,6 @@ class Home : AppCompatActivity() {
         }
 
         updateNavbarHeight(this@Home)
-
-        if (Settings["search:asHome", false]) {
-            startActivity(Intent(this, SearchActivity::class.java))
-            finish()
-            return
-        }
 
         powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
 
@@ -210,11 +204,6 @@ class Home : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (Settings["search:asHome", false]) {
-            startActivity(Intent(this, SearchActivity::class.java))
-            finish()
-            return
-        }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             overridePendingTransition(R.anim.home_enter, R.anim.appexit)
         }
@@ -223,15 +212,13 @@ class Home : AppCompatActivity() {
     }
 
     private fun onUpdate() {
-        if (!Settings["search:asHome", false]) {
-            val tmp = Tools.navbarHeight
-            updateNavbarHeight(this)
-            if (Global.customized || tmp != Tools.navbarHeight) {
-                setCustomizations()
-            }
-            if (feed.notifications != null || Settings["notif:badges", true]) {
-                NotificationService.onUpdate()
-            }
+        val tmp = Tools.navbarHeight
+        updateNavbarHeight(this)
+        if (Global.customized || tmp != Tools.navbarHeight) {
+            setCustomizations()
+        }
+        if (feed.notifications != null || Settings["notif:badges", true]) {
+            NotificationService.onUpdate()
         }
     }
 
@@ -258,22 +245,20 @@ class Home : AppCompatActivity() {
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        if (!Settings["search:asHome", false]) {
-            if (hasFocus) {
-                if (feed.notifications != null || Settings["notif:badges", true]) {
-                    try { startService(Intent(this, NotificationService::class.java)) }
-                    catch (e: Exception) {}
-                }
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R && Settings["mnmlstatus", false]) window.decorView.systemUiVisibility =
-                    SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                    SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                    SYSTEM_UI_FLAG_LOW_PROFILE
-                drawer.loadAppsIfShould()
-            } else {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R)  window.decorView.systemUiVisibility =
-                    SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                    SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        if (hasFocus) {
+            if (feed.notifications != null || Settings["notif:badges", true]) {
+                try { startService(Intent(this, NotificationService::class.java)) }
+                catch (e: Exception) {}
             }
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R && Settings["mnmlstatus", false]) window.decorView.systemUiVisibility =
+                SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                SYSTEM_UI_FLAG_LOW_PROFILE
+            drawer.loadAppsIfShould()
+        } else {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R)  window.decorView.systemUiVisibility =
+                SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         }
     }
 

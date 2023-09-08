@@ -1,6 +1,6 @@
 package one.zagura.CeramicLauncher.external.root
 
-import one.zagura.CeramicLauncher.items.App
+import one.zagura.CeramicLauncher.data.items.App
 import java.nio.charset.Charset
 
 object Root {

@@ -26,11 +26,11 @@ import io.posidon.android.conveniencelib.units.toFloatPixels
 import io.posidon.android.conveniencelib.units.toPixels
 import one.zagura.CeramicLauncher.Home
 import one.zagura.CeramicLauncher.R
-import one.zagura.CeramicLauncher.storage.Settings
-import one.zagura.CeramicLauncher.tools.Tools
-import one.zagura.CeramicLauncher.view.ResizableLayout
-import one.zagura.CeramicLauncher.view.feed.WidgetSection
-import one.zagura.CeramicLauncher.view.recycler.GridLayoutManager
+import one.zagura.CeramicLauncher.util.storage.Settings
+import one.zagura.CeramicLauncher.util.Tools
+import one.zagura.CeramicLauncher.ui.view.ResizableLayout
+import one.zagura.CeramicLauncher.ui.view.feed.WidgetSection
+import one.zagura.CeramicLauncher.ui.view.recycler.GridLayoutManager
 
 class Widget(
     val widgetId: Int

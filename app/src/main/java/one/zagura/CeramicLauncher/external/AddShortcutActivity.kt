@@ -8,9 +8,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import one.zagura.CeramicLauncher.Home
 import one.zagura.CeramicLauncher.R
-import one.zagura.CeramicLauncher.items.PinnedShortcut
-import one.zagura.CeramicLauncher.tools.Dock
-import one.zagura.CeramicLauncher.view.drawer.DockView
+import one.zagura.CeramicLauncher.data.items.PinnedShortcut
+import one.zagura.CeramicLauncher.util.Dock
+import one.zagura.CeramicLauncher.ui.view.drawer.DockView
 
 class AddShortcutActivity : AppCompatActivity() {
 

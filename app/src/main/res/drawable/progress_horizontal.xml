@@ -3,7 +3,7 @@
     <item android:id="@android:id/background"
           android:gravity="center_vertical|fill_horizontal">
         <shape android:shape="rectangle">
-            <corners android:radius="50dp"/>
+            <corners android:radius="0dp"/>
             <solid android:color="#55111111"/>
         </shape>
     </item>
@@ -11,7 +11,7 @@
           android:gravity="center_vertical|fill_horizontal">
         <scale android:scaleWidth="100%">
             <shape android:shape="rectangle">
-                <corners android:radius="50dp"/>
+                <corners android:radius="0dp"/>
                 <solid android:color="#55eeeeee"/>
             </shape>
         </scale>
@@ -20,7 +20,7 @@
           android:gravity="center_vertical|fill_horizontal">
         <scale android:scaleWidth="100%">
             <shape android:shape="rectangle">
-                <corners android:radius="50dp"/>
+                <corners android:radius="0dp"/>
                 <solid android:color="#ffffffff"/>
             </shape>
         </scale>

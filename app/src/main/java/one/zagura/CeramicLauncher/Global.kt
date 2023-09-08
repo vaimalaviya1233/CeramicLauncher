@@ -1,9 +1,7 @@
 package one.zagura.CeramicLauncher
 
 import android.graphics.Color
-import androidx.core.graphics.ColorUtils
-import one.zagura.CeramicLauncher.items.App
-import one.zagura.CeramicLauncher.tools.Tools
+import one.zagura.CeramicLauncher.data.items.App
 import kotlin.math.max
 import kotlin.math.min
 

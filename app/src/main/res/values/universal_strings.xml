@@ -1,8 +1,4 @@
 <resources translatable="false">
     <string name="app_name">Ceramic Launcher</string>
-
     <string name="developer">Zagura</string>
-    <string name="sajid_shaik">Sajid Shaik</string>
-
-    <string name="opml">OPML</string>
 </resources>
