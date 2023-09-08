@@ -1,12 +1,3 @@
-This is not your typical pixel launcher. posidon launcher was built from scratch, to be a different experience.
-
-Minimal: There are constant improvements and optimizations in the ux, to make all of the settings as easy to understand as possible.
-
-Feature-rich:
-- Dock supports up to 7 columns and 3 rows of icons
-- News & Notifications feed
-- App search
-
-Different: This launcher doesn't have pages, it has a scrollable feed. It's UI was inspired by One UI & elementary OS.
-
-posidon launcher is a nonprofit project, so I wont always be able to fix everything by myself, if you want to help posidon launcher become better, please report any bugs at t.me/posidonlauncher.
+This launcher consists of only one, scrolling page.
+You can add widgets, your notifications, or a media player to it in the order you want.
+Under the scrollable content you have a multirow dock to place your apps close to your fingers

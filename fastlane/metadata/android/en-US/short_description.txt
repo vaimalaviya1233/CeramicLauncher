@@ -1,1 +1,1 @@
-A one-page launcher with an rss feed
+A single page launcher
