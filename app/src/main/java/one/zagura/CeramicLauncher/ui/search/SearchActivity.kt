@@ -229,8 +229,8 @@ class SearchActivity : AppCompatActivity() {
                 for (contact in contactList) {
                     if (searchOptimize(contact.label).contains(searchOptimizedString) ||
                         contact.label.contains(string) ||
-                        contact.phone.contains(searchOptimizedString) ||
-                        contact.phone.contains(string)) {
+                        contact.phone != null && (contact.phone.contains(searchOptimizedString) ||
+                        contact.phone.contains(string))) {
                         results.add(contact)
                         i++
                         continue

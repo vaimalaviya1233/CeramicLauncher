@@ -4,6 +4,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
+import android.graphics.Path
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.ContactsContract
@@ -21,8 +22,7 @@ class ContactItem private constructor(
     override var label: String,
     override val icon: Drawable,
     val lookupKey: String,
-    val phone: String,
-    val id: Int
+    val phone: String?,
 ) : LauncherItem() {
 
     override fun open(context: Context, view: View, dockI: Int) {
@@ -39,7 +39,6 @@ class ContactItem private constructor(
 
         other as ContactItem
 
-        if (id == other.id) return true
         if (lookupKey != other.lookupKey) return false
         if (phone != other.phone) return false
         if (label != other.label) return false
@@ -47,7 +46,7 @@ class ContactItem private constructor(
         return true
     }
 
-    override fun hashCode() = id
+    override fun hashCode() = lookupKey.hashCode()
 
     companion object {
         fun getList(requiresStar: Boolean = false): Iterable<ContactItem> {
@@ -58,8 +57,7 @@ class ContactItem private constructor(
                         ContactsContract.CommonDataKinds.Phone.NUMBER,
                         ContactsContract.CommonDataKinds.Phone.STARRED,
                         ContactsContract.CommonDataKinds.Phone.IS_PRIMARY,
-                        ContactsContract.Contacts.PHOTO_ID,
-                        ContactsContract.Contacts._ID), null, null, null)
+                        ContactsContract.Contacts.PHOTO_ID), null, null, null)
 
             val contactMap = HashMap<String, ContactItem>()
 
@@ -70,7 +68,6 @@ class ContactItem private constructor(
                 val numberIndex = cur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
                 val starredIndex = cur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.STARRED)
                 val photoIdIndex = cur.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)
-                val contactIdIndex = cur.getColumnIndex(ContactsContract.Contacts._ID)
 
                 if (cur.count != 0) {
 
@@ -92,8 +89,7 @@ class ContactItem private constructor(
                         val lookupKey = cur.getString(lookupIndex)
                         val name = cur.getString(displayNameIndex)
                         if (name.isNullOrBlank()) continue
-                        val contactId = cur.getInt(contactIdIndex)
-                        val phone = cur.getString(numberIndex) ?: ""
+                        val phone = cur.getString(numberIndex)
                         val photoId = cur.getString(photoIdIndex)
                         val iconUri: Uri? = if (photoId != null) {
                             ContentUris.withAppendedId(ContactsContract.Data.CONTENT_URI, photoId.toLong())
@@ -105,12 +101,12 @@ class ContactItem private constructor(
                         } catch (e: FileNotFoundException) { Icons.generateContactPicture(name, tmpLAB, textP) } ?: NonDrawable()
                         pic.setBounds(0, 0, pic.intrinsicWidth, pic.intrinsicHeight)
 
-                        val icon = MaskedDrawable(
-                            pic,
-                            Icons.IconShape(Settings["icshape", 4]).getPath(pic.intrinsicWidth, pic.intrinsicHeight)
-                        )
+                        val icon = MaskedDrawable(pic, Path().apply {
+                            addCircle(pic.intrinsicWidth / 2f, pic.intrinsicHeight / 2f, pic.intrinsicWidth / 2f - 2, Path.Direction.CCW)
+                            fillType = Path.FillType.INVERSE_EVEN_ODD
+                        })
 
-                        val contact = ContactItem(name, icon, lookupKey, phone, contactId)
+                        val contact = ContactItem(name, icon, lookupKey, phone)
 
                         if (!contactMap.containsKey(lookupKey)) {
                             contactMap[lookupKey] = contact
@@ -145,5 +141,5 @@ class ContactItem private constructor(
         }
     }
 
-    override fun toString() = id.toString()
+    override fun toString() = lookupKey
 }

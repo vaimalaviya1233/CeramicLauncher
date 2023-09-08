@@ -4,16 +4,20 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewParent
 import android.widget.GridLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import io.posidon.android.conveniencelib.Device
 import io.posidon.android.conveniencelib.units.dp
 import io.posidon.android.conveniencelib.units.toFloatPixels
 import io.posidon.android.conveniencelib.units.toPixels
@@ -23,8 +27,19 @@ import one.zagura.CeramicLauncher.data.items.LauncherItem
 import one.zagura.CeramicLauncher.util.storage.Settings
 import one.zagura.CeramicLauncher.ui.view.groupView.ItemGroupView
 import kotlin.concurrent.thread
+import kotlin.math.min
 
-class ContactCardView(context: Context, attrs: AttributeSet? = null) : ItemGroupView(context, attrs), FeedSection {
+class ContactCardView(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs), FeedSection {
+
+    private val items = ArrayList<LauncherItem>()
+    private val gridLayout = GridLayout(context)
+    init {
+        orientation = VERTICAL
+        addView(gridLayout, LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        ))
+    }
 
     var columns
         get() = gridLayout.columnCount
@@ -32,40 +47,52 @@ class ContactCardView(context: Context, attrs: AttributeSet? = null) : ItemGroup
             gridLayout.columnCount = value
         }
 
-    init {
-        title = context.getString(R.string.starred_contacts)
-        textView.run {
-            val p = 10.dp.toPixels(context)
-            setPaddingRelative(p, 16.dp.toPixels(context), 0, p)
+    fun setItems(list: Iterable<ContactItem>, parent: ViewParent) {
+        clear()
+        list.forEachIndexed { i, item ->
+            items.add(item)
+            gridLayout.addView(getItemView(i, item, parent).apply {
+                setOnTouchListener { _, event ->
+                    val parent = this@ContactCardView.parent
+                    if (parent != null) {
+                        val parentContainer = parent as View
+                        if (parentContainer.canScrollVertically(-1)) {
+                            parentContainer.parent.requestDisallowInterceptTouchEvent(true)
+                        }
+                    }
+                    gridLayout.onTouchEvent(event)
+                    false
+                }
+            })
         }
-        setPadding(8.dp.toPixels(context), 0, 8.dp.toPixels(context), 0)
     }
 
-    override fun getItemView(item: LauncherItem, parent: ViewParent): View {
-        item as ContactItem
-        return (LayoutInflater.from(context).inflate(R.layout.drawer_item, gridLayout, false)).apply {
-            layoutParams.width = (gridLayout.measuredWidth) / columns
+    fun clear() {
+        items.clear()
+        gridLayout.removeAllViews()
+    }
+
+    fun getItemView(i: Int, item: ContactItem, parent: ViewParent): View {
+        return (LayoutInflater.from(context).inflate(R.layout.floating_item, gridLayout, false)).apply {
+            val appSize = min(64.dp.toPixels(context), this@ContactCardView.measuredWidth / columns - 4.dp.toPixels(context) * 2)
             findViewById<ImageView>(R.id.iconimg).setImageDrawable(item.icon)
             findViewById<View>(R.id.iconimg).run {
-                layoutParams.height = 74.dp.toPixels(context)
-                layoutParams.width = 74.dp.toPixels(context)
+                layoutParams.height = appSize
+                layoutParams.width = appSize
             }
-            findViewById<TextView>(R.id.icontxt).text = item.label
-            findViewById<TextView>(R.id.icontxt).setTextColor(Settings["contacts_card:text_color", 0xff252627.toInt()])
-            findViewById<TextView>(R.id.notificationBadge).visibility = View.GONE
+            with(findViewById<TextView>(R.id.icontxt)) {
+                text = item.label
+                backgroundTintList = ColorStateList.valueOf(Settings["contacts_card:bg_color", 0xffffffff.toInt()])
+                setTextColor(Settings["contacts_card:text_color", 0xff252627.toInt()])
+            }
             setOnClickListener { v -> item.open(context, v, -1) }
-            (layoutParams as GridLayout.LayoutParams).bottomMargin = Settings["verticalspacing", 12].dp.toPixels(context)
+            (layoutParams as GridLayout.LayoutParams).bottomMargin = if (i / columns == 0) 0 else Settings["verticalspacing", 12].dp.toPixels(context)
         }
     }
 
     override fun updateTheme(activity: Activity) {
         val marginX = Settings["feed:card_margin_x", 16].dp.toPixels(context)
         val marginY = Settings["feed:card_margin_y", 9].dp.toPixels(context)
-        background = ShapeDrawable().apply {
-            val r = Settings["feed:card_radius", 8].dp.toFloatPixels(context)
-            shape = RoundRectShape(floatArrayOf(r, r, r, r, r, r, r, r), null, null)
-            paint.color = Settings["contacts_card:bg_color", -0x1]
-        }
         columns = Settings["contacts_card:columns", 5]
         (layoutParams as MarginLayoutParams).run {
             leftMargin = marginX
@@ -73,7 +100,6 @@ class ContactCardView(context: Context, attrs: AttributeSet? = null) : ItemGroup
             topMargin = marginY
             bottomMargin = marginY
         }
-        textView.setTextColor(Settings["contacts_card:text_color", 0xff252627.toInt()])
     }
 
     override fun onResume(activity: Activity) {
