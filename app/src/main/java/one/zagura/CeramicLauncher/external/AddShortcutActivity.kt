@@ -29,7 +29,6 @@ class AddShortcutActivity : AppCompatActivity() {
 
         val dock = findViewById<DockView>(R.id.dock)
         dock.searchBar.visibility = View.GONE
-        dock.battery.visibility = View.GONE
 
         dock.loadApps()
         dock.onItemClick = { context, view, i, item ->

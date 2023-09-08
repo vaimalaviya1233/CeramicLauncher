@@ -14,6 +14,7 @@ import androidx.appcompat.widget.ListPopupWindow
 import androidx.recyclerview.widget.RecyclerView
 import io.posidon.android.conveniencelib.units.dp
 import io.posidon.android.conveniencelib.units.toFloatPixels
+import one.zagura.CeramicLauncher.Global
 import one.zagura.CeramicLauncher.R
 import one.zagura.CeramicLauncher.drawable.NonDrawable
 import one.zagura.CeramicLauncher.items.App
@@ -33,21 +34,13 @@ object ItemLongPress {
 
     var currentPopup: PopupWindow? = null
     fun makePopupWindow(context: Context, item: LauncherItem, onEdit: ((View) -> Unit)?, onRemove: ((View) -> Unit)?, onInfo: ((View) -> Unit)?, removeFunction: Int): PopupWindow {
-        val color = Settings["drawer:background_color", 0xa4171717.toInt()]
-        val txtColor = Settings["drawer:labels:color", 0xddffffff.toInt()]
-
         val content = if (item is App && item.getShortcuts(context)!!.isNotEmpty()) {
             val shortcuts = item.getShortcuts(context)
             val c = LayoutInflater.from(context).inflate(R.layout.app_long_press_menu_w_shortcuts, null)
             val recyclerView: RecyclerView = c.findViewById(R.id.shortcuts)
             recyclerView.isNestedScrollingEnabled = false
             recyclerView.layoutManager = LinearLayoutManager(context)
-            recyclerView.adapter = ShortcutAdapter(context, shortcuts!!, txtColor)
-            recyclerView.background = ShapeDrawable().apply {
-                val r = 18.dp.toFloatPixels(context)
-                shape = RoundRectShape(floatArrayOf(0f, 0f, 0f, 0f, r, r, r, r), null, null)
-                paint.color = 0x33000000
-            }
+            recyclerView.adapter = ShortcutAdapter(context, shortcuts!!)
             c
         } else LayoutInflater.from(context).inflate(R.layout.app_long_press_menu, null)
         val window = PopupWindow(content, ListPopupWindow.WRAP_CONTENT, ListPopupWindow.WRAP_CONTENT, true)
@@ -61,23 +54,11 @@ object ItemLongPress {
         val propertiesButton = content.findViewById<View>(R.id.appinfobtn)
 
         title.text = item.label
-        title.setTextColor(txtColor)
-
-        content.findViewById<View>(R.id.bg).background = run {
-            val bg = ShapeDrawable()
-            val r = 18.dp.toFloatPixels(context)
-            bg.shape = RoundRectShape(floatArrayOf(r, r, r, r, r, r, r, r), null, null)
-            bg.paint.color = color
-            bg
-        }
 
         if (removeButton is TextView) {
-            removeButton.setTextColor(txtColor)
-            (propertiesButton as TextView).setTextColor(txtColor)
-            (editButton as TextView).setTextColor(txtColor)
-            removeButton.compoundDrawableTintList = ColorStateList.valueOf(txtColor)
-            propertiesButton.compoundDrawableTintList = ColorStateList.valueOf(txtColor)
-            editButton.compoundDrawableTintList = ColorStateList.valueOf(txtColor)
+            removeButton.compoundDrawableTintList = ColorStateList.valueOf(Global.getPastelAccent())
+            (propertiesButton as TextView).compoundDrawableTintList = ColorStateList.valueOf(Global.getPastelAccent())
+            (editButton as TextView).compoundDrawableTintList = ColorStateList.valueOf(Global.getPastelAccent())
             when (removeFunction) {
                 HIDE -> {
                     removeButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_hide, 0, 0, 0)
@@ -89,9 +70,9 @@ object ItemLongPress {
                 }
             }
         } else {
-            (removeButton as ImageView).imageTintList = ColorStateList.valueOf(txtColor)
-            (propertiesButton as ImageView).imageTintList = ColorStateList.valueOf(txtColor)
-            (editButton as ImageView).imageTintList = ColorStateList.valueOf(txtColor)
+            (removeButton as ImageView).imageTintList = ColorStateList.valueOf(Global.getPastelAccent())
+            (propertiesButton as ImageView).imageTintList = ColorStateList.valueOf(Global.getPastelAccent())
+            (editButton as ImageView).imageTintList = ColorStateList.valueOf(Global.getPastelAccent())
             when (removeFunction) {
                 HIDE, UNHIDE -> {
                     removeButton.setImageResource(R.drawable.ic_hide)

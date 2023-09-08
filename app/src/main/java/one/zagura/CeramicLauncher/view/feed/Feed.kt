@@ -3,9 +3,7 @@ package one.zagura.CeramicLauncher.view.feed
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.PorterDuff
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
@@ -14,17 +12,13 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.LinearLayout.VERTICAL
-import android.widget.ProgressBar
-import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.posidon.android.conveniencelib.getStatusBarHeight
 import io.posidon.android.conveniencelib.units.dp
 import io.posidon.android.conveniencelib.units.toFloatPixels
 import io.posidon.android.conveniencelib.units.toPixels
-import one.zagura.CeramicLauncher.Global
 import one.zagura.CeramicLauncher.Home
-import one.zagura.CeramicLauncher.LauncherMenu
 import one.zagura.CeramicLauncher.R
 import one.zagura.CeramicLauncher.external.widgets.Widget
 import one.zagura.CeramicLauncher.feed.notifications.NotificationService
@@ -42,14 +36,12 @@ class Feed : FrameLayout {
     inline fun init(drawer: DrawerView) {
         this.drawer = drawer
         onTopOverScroll = {
-            if (!LauncherMenu.isActive && drawer.state != BottomSheetBehavior.STATE_EXPANDED) {
-                Gestures.performTrigger(Settings["gesture:top_overscroll", Gestures.PULL_DOWN_NOTIFICATIONS])
+            if (drawer.state != BottomSheetBehavior.STATE_EXPANDED) {
+                Gestures.performTrigger(Settings["gesture:top_overscroll", Gestures.PULL_DOWN_NOTIFICATIONS], drawer.context)
             }
         }
         onBottomOverScroll = {
-            if (!LauncherMenu.isActive) {
-                Gestures.performTrigger(Settings["gesture:bottom_overscroll", Gestures.OPEN_APP_DRAWER])
-            }
+            Gestures.performTrigger(Settings["gesture:bottom_overscroll", Gestures.OPEN_APP_DRAWER], drawer.context)
         }
     }
 
@@ -174,10 +166,8 @@ class Feed : FrameLayout {
 
     private fun handleDockOnScroll(distance: Int, threshold: Float, y: Int, drawer: DrawerView) {
         if (distance > threshold || y < threshold || y >= desktopContent.height - drawer.dock.dockHeight - height) {
-            if (!LauncherMenu.isActive) {
-                drawer.isHideable = false
-                drawer.state = BottomSheetBehavior.STATE_COLLAPSED
-            }
+            drawer.isHideable = false
+            drawer.state = BottomSheetBehavior.STATE_COLLAPSED
         } else if (distance < -threshold) {
             drawer.isHideable = true
             drawer.state = BottomSheetBehavior.STATE_HIDDEN

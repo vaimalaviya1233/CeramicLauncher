@@ -41,7 +41,7 @@ class ColorSettingView : IntSettingView {
     }
 
     fun setPreviewColor(it: Int) {
-        colorPreview.background = ColorTools.colorPreview(it)
+        colorPreview.background = ColorTools.colorPreview(it, context)
         val hsv = FloatArray(3)
         Color.colorToHSV(it, hsv)
         hsv[1] = min(hsv[1],0.5f)

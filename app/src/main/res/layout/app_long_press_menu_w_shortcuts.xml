@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:minWidth="192dp"
-    android:id="@+id/bg">
+    android:background="@drawable/ui_card">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:singleLine="true"
-            android:textColor="#ffffff"
+            android:textColor="@color/ui_card_title"
             android:textSize="20sp"
             android:padding="5dp"
             android:layout_marginEnd="12dp"/>
@@ -27,25 +28,31 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:padding="5dp"
-            android:src="@drawable/ic_app_remove"/>
+            android:src="@drawable/ic_app_remove"
+            app:tint="@color/ui_card_text"/>
         <ImageView
             android:id="@+id/appinfobtn"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:padding="5dp"
-            android:src="@drawable/ic_info"/>
+            android:src="@drawable/ic_info"
+            app:tint="@color/ui_card_text"/>
         <ImageView
             android:id="@+id/editbtn"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:padding="5dp"
-            android:src="@drawable/ic_edit"/>
+            android:src="@drawable/ic_edit"
+            app:tint="@color/ui_card_text"/>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/ui_card_separator"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shortcuts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"/>
+        android:paddingVertical="4dp"/>
 </LinearLayout>

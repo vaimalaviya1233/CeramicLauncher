@@ -105,10 +105,10 @@ class ContactItem private constructor(
                         } catch (e: FileNotFoundException) { Icons.generateContactPicture(name, tmpLAB, textP) } ?: NonDrawable()
                         pic.setBounds(0, 0, pic.intrinsicWidth, pic.intrinsicHeight)
 
-                        val icon = Icons.applyInsets(MaskedDrawable(
+                        val icon = MaskedDrawable(
                             pic,
                             Icons.IconShape(Settings["icshape", 4]).getPath(pic.intrinsicWidth, pic.intrinsicHeight)
-                        ))
+                        )
 
                         val contact = ContactItem(name, icon, lookupKey, phone, contactId)
 

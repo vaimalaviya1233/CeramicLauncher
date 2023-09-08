@@ -51,12 +51,6 @@ class Home : AppCompatActivity() {
 
     val homeView by lazy { findViewById<ViewGroup>(R.id.homeView)!! }
 
-    private val batteryInfoReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            dock.battery.progress = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0)
-        }
-    }
-
     val appReloader = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             drawer.loadApps()
@@ -107,7 +101,6 @@ class Home : AppCompatActivity() {
 
         getSystemService(LauncherApps::class.java).registerCallback(AppLoader.Callback(applicationContext, drawer::onAppLoaderEnd))
 
-        registerReceiver(batteryInfoReceiver, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         registerReceiver(
             appReloader,
             IntentFilter().apply {
@@ -244,9 +237,6 @@ class Home : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        if (LauncherMenu.isActive) {
-            LauncherMenu.dialog!!.dismiss()
-        }
         drawer.state = STATE_COLLAPSED
         if (!Settings["feed:keep_pos", false]) {
             feed.scroll.scrollTo(0, if (Settings["feed:rest_at_bottom", false]) feed.desktopContent.height else 0)
@@ -260,9 +250,6 @@ class Home : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        runCatching {
-            unregisterReceiver(batteryInfoReceiver)
-        }
         runCatching {
             unregisterReceiver(appReloader)
         }
@@ -293,7 +280,7 @@ class Home : AppCompatActivity() {
     override fun onBackPressed() = when {
         drawer.state == STATE_EXPANDED -> drawer.state = STATE_COLLAPSED
         ResizableLayout.currentlyResizing != null -> ResizableLayout.currentlyResizing?.resizing = false
-        else -> Gestures.performTrigger(Settings["gesture:back", ""])
+        else -> Gestures.performTrigger(Settings["gesture:back", ""], this)
     }
 
     fun openSearch(v: View) = SearchActivity.open(this)

@@ -14,7 +14,6 @@ import io.posidon.android.conveniencelib.units.dp
 import io.posidon.android.conveniencelib.units.toFloatPixels
 import io.posidon.android.conveniencelib.units.toPixels
 import one.zagura.CeramicLauncher.Global
-import one.zagura.CeramicLauncher.LauncherMenu
 import one.zagura.CeramicLauncher.R
 import one.zagura.CeramicLauncher.storage.Settings
 import one.zagura.CeramicLauncher.tools.Tools
@@ -119,7 +118,7 @@ open class ResizableLayout(context: Context, attrs: AttributeSet? = null) : Fram
 
     private val longPressHandler = Handler()
     private val onLongPress = Runnable {
-        if (!Settings["locked", false] && !LauncherMenu.isActive && hasWindowFocus()) {
+        if (!Settings["locked", false] && hasWindowFocus()) {
             context.vibrate()
             currentlyResizing?.resizing = false
             resizing = true

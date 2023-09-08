@@ -55,7 +55,7 @@ class CustomDock : AppCompatActivity() {
                     labelId = R.string.radius,
                     key = "dock:radius",
                     default = 0,
-                    max = 40,
+                    max = 30,
                 )
                 numberSeekBar(
                     labelId = R.string.bottom_padding,

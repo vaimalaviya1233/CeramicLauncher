@@ -28,7 +28,6 @@ class AppsAdapter(
 
     class ViewHolder(
         var icon: ImageView,
-        var iconFrame: View,
         var text: TextView)
 
     override fun getView(position: Int, cv: View?, parent: ViewGroup): View? {
@@ -42,7 +41,6 @@ class AppsAdapter(
             }
             holder = ViewHolder(
                 convertView.findViewById(R.id.iconimg),
-                convertView.findViewById(R.id.iconFrame),
                 convertView.findViewById(R.id.icontxt))
 
             if (Settings["drawer:labels:enabled", true]) {
@@ -51,8 +49,8 @@ class AppsAdapter(
                 Customizer.styleLabel("drawer:labels", holder.text, 0xddffffff.toInt(), 12)
             } else holder.text.visibility = View.INVISIBLE
 
-            holder.iconFrame.layoutParams.height = appSize
-            holder.iconFrame.layoutParams.width = appSize
+            holder.icon.layoutParams.height = appSize
+            holder.icon.layoutParams.width = appSize
 
             convertView.tag = holder
         } else {

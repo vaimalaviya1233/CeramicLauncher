@@ -70,7 +70,7 @@ class AppSectionView(val drawer: DrawerView, val themeKey: String) : ItemGroupVi
             }
         }).apply {
             findViewById<ImageView>(R.id.iconimg).setImageDrawable(item.icon)
-            findViewById<View>(R.id.iconFrame).run {
+            findViewById<View>(R.id.iconimg).run {
                 layoutParams.height = appSize
                 layoutParams.width = appSize
             }

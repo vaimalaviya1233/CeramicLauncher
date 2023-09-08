@@ -52,30 +52,6 @@ object Icons {
         return drawable
     }
 
-    fun applyInsets(icon: Drawable): Drawable {
-        return LayerDrawable(arrayOf(icon)).apply {
-            val diameter = max(intrinsicWidth, intrinsicHeight)
-            val p = 8 * diameter / Settings["drawer:icons:size", 64]
-            setLayerInset(0, p, p, p, p)
-        }.let {
-            if (icon is BitmapDrawable) {
-                BitmapDrawable(Tools.appContext!!.resources, it.toBitmap())
-            } else it
-        }
-    }
-
-    fun badge(icon: Drawable, badge: Drawable, icSizeDP: Int): Drawable {
-        val drawable = LayerDrawable(arrayOf(icon, badge))
-        val diameter = max(drawable.intrinsicWidth, drawable.intrinsicHeight)
-        val p = 8 * diameter / icSizeDP
-        drawable.setLayerInset(0, p, p, p, p)
-        val o = diameter - (20.sp.toFloatPixels(Tools.appContext!!) * diameter / icSizeDP.dp.toFloatPixels(Tools.appContext!!)).toInt()
-        drawable.setLayerInset(1, o, o, 0, 0)
-        return if (icon is BitmapDrawable) {
-            BitmapDrawable(Tools.appContext!!.resources, drawable.toBitmap())
-        } else drawable
-    }
-
     private val pics = HashMap<Int, ContactDrawable>()
     fun generateContactPicture(name: String, tmpLab: DoubleArray, paint: Paint): Drawable? {
         if (name.isEmpty()) return null
@@ -111,14 +87,6 @@ object Icons {
             onGenerated(ColorTools.iconBadge(bg), if (bg.luminance > .6f) 0xff111213.toInt() else 0xffffffff.toInt())
         } else {
             onGenerated(ColorTools.iconBadge(customBG), if (customBG.luminance > .6f) 0xff111213.toInt() else 0xffffffff.toInt())
-        }
-    }
-
-    inline fun animateIfShould(context: Context, drawable: Drawable) {
-        if (!(context.getSystemService(Context.POWER_SERVICE) as PowerManager).isPowerSaveMode && Settings["animatedicons", true]) {
-            try {
-                AnimUtils.tryAnimate(Home.instance, drawable)
-            } catch (e: Exception) {}
         }
     }
 

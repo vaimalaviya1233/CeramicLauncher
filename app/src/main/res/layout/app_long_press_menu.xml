@@ -5,37 +5,46 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:minWidth="192dp"
-    android:paddingTop="14dp"
-    android:id="@+id/bg">
+    android:background="@drawable/ui_card">
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
-        android:textColor="#ffffff"
+        android:textColor="@color/ui_card_title"
         android:textSize="20sp"
-        android:paddingLeft="18dp"
-        android:paddingRight="18dp"
-        android:paddingBottom="14dp"/>
+        android:paddingHorizontal="18dp"
+        android:paddingVertical="10dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/ui_card_separator"
+        android:layout_marginBottom="14dp"/>
     <TextView
         android:id="@+id/removeBtn"
         style="@style/applongpressbtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/ui_card_text"
         android:text="@string/remove_icon"
-        android:drawableStart="@drawable/ic_app_remove"/>
+        android:drawableStart="@drawable/ic_app_remove"
+        android:drawableTint="@color/ui_card_text"/>
     <TextView
         android:id="@+id/appinfobtn"
         style="@style/applongpressbtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/ui_card_text"
         android:text="@string/propenties"
-        android:drawableStart="@drawable/ic_info"/>
+        android:drawableStart="@drawable/ic_info"
+        android:drawableTint="@color/ui_card_text"/>
     <TextView
         android:id="@+id/editbtn"
         style="@style/applongpressbtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/ui_card_text"
         android:text="@string/edit"
-        android:drawableStart="@drawable/ic_edit"/>
+        android:drawableStart="@drawable/ic_edit"
+        android:drawableTint="@color/ui_card_text"/>
 </LinearLayout>

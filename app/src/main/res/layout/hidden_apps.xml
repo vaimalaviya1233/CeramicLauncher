@@ -33,10 +33,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="@drawable/card_separator"/>
+            android:background="@drawable/ui_card_separator"/>
         <EditText
             android:id="@+id/search"
-            style="@style/settingsInput"
+            style="@style/ui_input"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_margin="6dp"

@@ -59,7 +59,6 @@ abstract class AppTickingActivity : AppCompatActivity() {
 
         class ViewHolder(
             var icon: ImageView,
-            var iconFrame: FrameLayout,
             var text: TextView
         )
 
@@ -71,9 +70,8 @@ abstract class AppTickingActivity : AppCompatActivity() {
                 convertView = LayoutInflater.from(activity).inflate(R.layout.list_item, parent, false)!!
                 viewHolder = ViewHolder(
                     convertView.findViewById(R.id.iconimg),
-                    convertView.findViewById(R.id.iconFrame),
                     convertView.findViewById(R.id.icontxt)).apply {
-                    iconFrame.layoutParams.run {
+                    icon.layoutParams.run {
                         width = appSize
                         height = appSize
                     }

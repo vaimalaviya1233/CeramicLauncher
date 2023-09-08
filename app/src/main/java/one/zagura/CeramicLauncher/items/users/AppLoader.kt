@@ -20,7 +20,7 @@ import java.util.LinkedList
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.thread
 
-class AppLoader (
+class AppLoader(
     private val context: Context,
     private val onEnd: () -> Unit
 ) {

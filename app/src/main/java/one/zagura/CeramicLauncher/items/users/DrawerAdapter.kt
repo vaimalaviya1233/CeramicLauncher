@@ -23,7 +23,6 @@ class DrawerAdapter : BaseAdapter(), SectionIndexer, HighlightAdapter {
 
     internal class ViewHolder(
         val icon: ImageView,
-        val iconFrame: FrameLayout,
         val text: TextView,
         val notificationBadge: TextView)
 
@@ -37,12 +36,11 @@ class DrawerAdapter : BaseAdapter(), SectionIndexer, HighlightAdapter {
                 else li.inflate(R.layout.list_item, parent, false)
             holder = ViewHolder(
                 convertView.findViewById(R.id.iconimg),
-                convertView.findViewById(R.id.iconFrame),
                 convertView.findViewById(R.id.icontxt),
                 convertView.findViewById(R.id.notificationBadge))
             val appSize = Settings["drawer:icons:size", 64].dp.toPixels(parent.context)
-            holder.iconFrame.layoutParams.height = appSize
-            holder.iconFrame.layoutParams.width = appSize
+            holder.icon.layoutParams.height = appSize
+            holder.icon.layoutParams.width = appSize
             convertView.tag = holder
 
             if (Settings["drawer:labels:enabled", true]) {

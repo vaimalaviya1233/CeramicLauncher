@@ -13,7 +13,7 @@
         android:layout_height="64dp"
         android:layout_margin="8dp"/>
     <EditText
-        style="@style/settingsInput"
+        style="@style/ui_input"
         android:id="@+id/editlabel"
         android:layout_width="wrap_content"
         android:layout_height="48dp"

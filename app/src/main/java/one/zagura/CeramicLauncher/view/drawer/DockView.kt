@@ -47,7 +47,7 @@ class DockView : LinearLayout {
     var onItemLongClick: (Context, View, dockI: Int, item: LauncherItem) -> Boolean = { _, _, _, _ -> false }
 
     fun updateTheme(drawer: View) {
-        layoutParams = (layoutParams as MarginLayoutParams).apply {
+        containerContainer.layoutParams = (containerContainer.layoutParams as MarginLayoutParams).apply {
             val m = Settings["dock:margin_x", 16].dp.toPixels(context)
             leftMargin = m
             rightMargin = m
@@ -84,26 +84,19 @@ class DockView : LinearLayout {
         }
         if (!Settings["dock:searchbar:enabled", false]) {
             searchBar.visibility = GONE
-            battery.visibility = GONE
             return
         }
         searchBar.visibility = VISIBLE
-        battery.visibility = VISIBLE
         if (Settings["dock:searchbar:below_apps", true]) { searchBar.bringToFront() }
         else { containerContainer.bringToFront() }
         run {
             val color = Settings["dock:searchbar:text_color", -0x1000000]
             searchTxt.setTextColor(color)
             searchIcon.imageTintList = ColorStateList.valueOf(color)
-            battery.progressTintList = ColorStateList.valueOf(color)
-            battery.indeterminateTintMode = PorterDuff.Mode.MULTIPLY
-            battery.progressBackgroundTintList = ColorStateList.valueOf(color)
-            battery.progressBackgroundTintMode = PorterDuff.Mode.MULTIPLY
-            (battery.progressDrawable as LayerDrawable).getDrawable(3).setTint(if (color.luminance > .6f) -0x23000000 else -0x11000001)
         }
         searchBar.background = ShapeDrawable().apply {
             val r = Settings["dock:searchbar:radius", 30].dp.toFloatPixels(context)
-            shape = RoundRectShape(floatArrayOf(r, r, r, r, r, r, r, r), null, null)
+            shape = RoundRectShape(floatArrayOf(r, r, 0f, 0f, 0f, 0f, r, r), null, null)
             paint.color = Settings["dock:searchbar:background_color", -0x22000001]
         }
     }
@@ -128,28 +121,15 @@ class DockView : LinearLayout {
         textSize = 16f
     }
 
-    val battery = ProgressBar(context, null, R.style.Widget_AppCompat_ProgressBar_Horizontal).apply {
-        run {
-            val p = 10.dp.toPixels(context)
-            setPadding(p, p, p, p)
-        }
-        max = 100
-        progressDrawable = context.getDrawable(R.drawable.battery_bar)
-    }
-
     val searchBar = LinearLayout(context).apply {
-
         gravity = Gravity.CENTER_VERTICAL
         orientation = HORIZONTAL
         setOnClickListener {
             SearchActivity.open(context)
         }
-
-        addView(searchIcon, LayoutParams(56.dp.toPixels(context), 48.dp.toPixels(context)))
+        setPadding(4.dp.toPixels(context), 0, 18.dp.toPixels(context), 0)
+        addView(searchIcon, LayoutParams(48.dp.toPixels(context), 48.dp.toPixels(context)))
         addView(searchTxt, LayoutParams(0, 48.dp.toPixels(context), 1f))
-        addView(battery, LayoutParams(56.dp.toPixels(context), 48.dp.toPixels(context)).apply {
-            marginEnd = 8.dp.toPixels(context)
-        })
     }
 
     val container = GridLayout(context)
@@ -165,9 +145,10 @@ class DockView : LinearLayout {
     init {
         gravity = Gravity.CENTER_HORIZONTAL
         orientation = VERTICAL
-        addView(searchBar, LayoutParams(MATCH_PARENT, 48.dp.toPixels(context)).apply {
+        addView(searchBar, LayoutParams(WRAP_CONTENT, 48.dp.toPixels(context)).apply {
             topMargin = 10.dp.toPixels(context)
             bottomMargin = 10.dp.toPixels(context)
+            gravity = Gravity.END
         })
         addView(containerContainer, LayoutParams(MATCH_PARENT, WRAP_CONTENT))
     }
@@ -180,7 +161,7 @@ class DockView : LinearLayout {
     fun loadApps() {
         val columnCount = Settings["dock:columns", 5]
         val marginX = Settings["dock:margin_x", 16].dp.toPixels(context)
-        val appSize = min(Settings["dock:icons:size", 74].dp.toPixels(context), (Device.screenWidth(context) - marginX * 2) / columnCount)
+        val appSize = min(Settings["dock:icons:size", 74].dp.toPixels(context), (Device.screenWidth(context) - marginX * 2) / columnCount - 4.dp.toPixels(context) * 2)
         val rowCount = Settings["dock:rows", 2]
         val showLabels = Settings["dock:labels:enabled", false]
         val notifBadgesEnabled = Settings["notif:badges", true]
@@ -192,7 +173,7 @@ class DockView : LinearLayout {
         }
         loop@ for (i in 0 until columnCount * rowCount) {
             val view = LayoutInflater.from(context).inflate(R.layout.drawer_item, container, false)
-            view.findViewById<View>(R.id.iconFrame).run {
+            view.findViewById<View>(R.id.iconimg).run {
                 layoutParams.height = appSize
                 layoutParams.width = appSize
             }
@@ -253,9 +234,13 @@ class DockView : LinearLayout {
     fun updateDimensions(drawer: DrawerView, feed: View, desktopContent: View) {
         val columnCount = Settings["dock:columns", 5]
         val marginX = Settings["dock:margin_x", 16].dp.toPixels(context)
-        val appSize = min(Settings["dock:icons:size", 74].dp.toPixels(context), (Device.screenWidth(context) - marginX * 2) / columnCount)
+        val appSize = min(Settings["dock:icons:size", 74].dp.toPixels(context), (Device.screenWidth(context) - marginX * 2) / columnCount - 4.dp.toPixels(context) * 2)
         val rowCount = Settings["dock:rows", 2]
-        val containerHeight = (appSize + if (Settings["dock:labels:enabled", false]) (Settings["dock:labels:text_size", 12].sp.toFloatPixels(context) + 4.dp.toFloatPixels(context)).toInt() else 0) * rowCount
+        val containerHeight = (
+            appSize + 4.dp.toPixels(context) * 2 +
+                if (Settings["dock:labels:enabled", false])
+                    (Settings["dock:labels:text_size", 12].sp.toFloatPixels(context) + 4.dp.toFloatPixels(context)).toInt()
+                else 0) * rowCount
         dockHeight = if (Settings["dock:searchbar:enabled", false] && !Device.isTablet(resources)) {
             containerHeight + 84.dp.toPixels(context)
         } else {

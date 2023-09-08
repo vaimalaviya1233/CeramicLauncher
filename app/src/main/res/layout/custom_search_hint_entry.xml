@@ -12,7 +12,7 @@
         android:drawableStart="@drawable/ic_label"
         android:text="@string/hint_text" />
     <EditText
-        style="@style/settingsInput"
+        style="@style/ui_input"
         android:id="@+id/hinttxt"
         android:layout_width="match_parent"
         android:focusable="true"

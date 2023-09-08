@@ -3,6 +3,7 @@ package one.zagura.CeramicLauncher.view.feed.notifications
 import android.app.RemoteInput
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.Typeface
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
 import android.os.Bundle
@@ -24,6 +25,7 @@ import one.zagura.CeramicLauncher.feed.notifications.NotificationItem
 import one.zagura.CeramicLauncher.feed.notifications.NotificationService
 import one.zagura.CeramicLauncher.storage.Settings
 import one.zagura.CeramicLauncher.tools.Gestures
+import one.zagura.CeramicLauncher.tools.theme.ColorTools
 import one.zagura.CeramicLauncher.view.SwipeableLayout
 import one.zagura.CeramicLauncher.view.feed.notifications.viewHolders.NotificationViewHolder
 
@@ -76,6 +78,7 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationViewHolder>() {
                 retView = LayoutInflater.from(context).inflate(R.layout.notification_normal_summary, null)
                 retView.apply {
                     setBackgroundColor(Settings["notif:background_color", -0x1])
+                    findViewById<View>(R.id.summary_separator).setBackgroundColor(Settings["notif:text_color", -0xdad9d9] and 0xffffff or 0x33000000.toInt())
                 }
             } else {
                 val v1 = when {
@@ -93,30 +96,12 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationViewHolder>() {
                             }
                         }
                     }
-                    notification.bigPic != null -> {
-                        LayoutInflater.from(context).inflate(R.layout.notification_big_pic, null).apply {
-                            findViewById<ImageView>(R.id.bigPic).setImageDrawable(notification.bigPic)
-                        }
-                    }
                     else -> {
                         LayoutInflater.from(context).inflate(R.layout.notification_normal, null)
                     }
                 }.apply {
                     setBackgroundColor(Settings["notif:background_color", -0x1])
                     findViewById<TextView>(R.id.txt).maxLines = Settings["notif:text:max_lines", 3]
-                    val padding = 8.dp.toPixels(context)
-                    when {
-                        notificationI == 0 || (notificationI == 1 && group[0].isSummary) -> {
-                            if (notificationI == group.lastIndex) {
-                                setPadding(padding, padding, padding, padding)
-                            }
-                            else {
-                                setPadding(padding, padding, padding, 0)
-                            }
-                        }
-                        notificationI == group.lastIndex -> setPadding(padding, 0, padding, padding)
-                        else -> setPadding(padding, 0, padding, 0)
-                    }
                 }
                 retView = SwipeableLayout(v1) {
                     try {
@@ -133,28 +118,28 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationViewHolder>() {
                     setIconColor(if (bg.luminance > .6f) 0xff000000.toInt() else 0xffffffff.toInt())
                     setSwipeColor(bg)
                 }
-                if (notification.actions != null && Settings["notificationActionsEnabled", false]) {
+                if (notification.actions != null && Settings["notif:actions:enabled", false]) {
                     v1.findViewById<LinearLayout>(R.id.action_list).visibility = View.VISIBLE
+                    v1.findViewById<View>(R.id.top_separator).visibility = View.VISIBLE
+                    v1.findViewById<View>(R.id.top_separator).setBackgroundColor(Settings["notif:text_color", -0xdad9d9] and 0xffffff or 0x33000000.toInt())
+                    v1.findViewById<View>(R.id.action_area).setBackgroundColor(Settings["notif:actions:background_color", 0x88e0e0e0.toInt()])
                     for (action in notification.actions) {
                         val a = TextView(context)
                         a.text = action.title
                         a.textSize = 14f
-                        a.setTextColor(Settings["notificationActionTextColor", -0xdad9d9])
-                        val r = Settings["notif:actions:radius", 24].dp.toFloatPixels(context)
-                        val bg = ShapeDrawable(RoundRectShape(floatArrayOf(r, r, r, r, r, r, r, r), null, null))
-                        bg.paint.color = Settings["notificationActionBGColor", 0x88e0e0e0.toInt()]
-                        a.background = bg
+                        a.isAllCaps = true
+                        a.typeface = Typeface.DEFAULT_BOLD
+                        a.setTextColor(Settings["notif:actions:text_color", -0xdad9d9])
                         val vPadding = 10.dp.toPixels(context)
-                        val hPadding = 15.dp.toPixels(context)
+                        val hPadding = 12.dp.toPixels(context)
                         a.setPadding(hPadding, vPadding, hPadding, vPadding)
                         v1.findViewById<LinearLayout>(R.id.action_list).addView(a)
-                        (a.layoutParams as LinearLayout.LayoutParams).leftMargin = 6.dp.toPixels(context)
-                        (a.layoutParams as LinearLayout.LayoutParams).rightMargin = 6.dp.toPixels(context)
                         a.setOnClickListener {
                             try {
                                 val oldInputs = action.remoteInputs
                                 if (oldInputs != null) {
-                                    v1.findViewById<View>(R.id.bottomSeparator).visibility = View.VISIBLE
+                                    v1.findViewById<View>(R.id.bottom_separator).visibility = View.VISIBLE
+                                    v1.findViewById<View>(R.id.bottom_separator).setBackgroundColor(Settings["notif:text_color", -0xdad9d9] and 0xffffff or 0x33000000.toInt())
                                     v1.findViewById<View>(R.id.reply).apply lin@ {
                                         visibility = View.VISIBLE
                                         val imm = getSystemService(context, InputMethodManager::class.java)!!
@@ -167,7 +152,7 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationViewHolder>() {
                                                 if (!hasFocus) {
                                                     text.clear()
                                                     this@lin.visibility = View.GONE
-                                                    v1.findViewById<View>(R.id.bottomSeparator).visibility = View.GONE
+                                                    v1.findViewById<View>(R.id.bottom_separator).visibility = View.GONE
                                                     imm.hideSoftInputFromWindow(windowToken, 0)
                                                 }
                                             }
@@ -178,7 +163,7 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationViewHolder>() {
                                             setOnClickListener {
                                                 textArea.text.clear()
                                                 this@lin.visibility = View.GONE
-                                                v1.findViewById<View>(R.id.bottomSeparator).visibility = View.GONE
+                                                v1.findViewById<View>(R.id.bottom_separator).visibility = View.GONE
                                             }
                                         }
                                         findViewById<ImageView>(R.id.replySend).apply {
@@ -202,7 +187,7 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationViewHolder>() {
                                                 action.actionIntent.send(context, 0, intent)
                                                 textArea.text.clear()
                                                 this@lin.visibility = View.GONE
-                                                v1.findViewById<View>(R.id.bottomSeparator).visibility = View.GONE
+                                                v1.findViewById<View>(R.id.bottom_separator).visibility = View.GONE
                                             }
                                         }
                                     }
@@ -217,8 +202,13 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationViewHolder>() {
                 v1
             }
 
+            view.findViewById<TextView>(R.id.source).apply {
+                text = notification.source
+                setTextColor(notification.color)
+            }
+            view.findViewById<ImageView>(R.id.source_icon).setImageDrawable(notification.sourceIcon)
             view.findViewById<TextView>(R.id.title).run {
-                text = notification.title ?: notification.source
+                text = notification.title
                 setTextColor(Settings["notif:title_color", -0xeeeded])
             }
             view.findViewById<TextView>(R.id.txt).run {
@@ -226,7 +216,9 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationViewHolder>() {
                 setTextColor(Settings["notif:text_color", -0xdad9d9])
             }
 
-            view.findViewById<ImageView>(R.id.iconimg).setImageDrawable(notification.icon)
+            if (notification.image != null) {
+                view.findViewById<ImageView>(R.id.iconimg).setImageDrawable(notification.image)
+            }
 
             view.setOnClickListener { notification.open() }
             view.setOnLongClickListener(Gestures::onLongPress)

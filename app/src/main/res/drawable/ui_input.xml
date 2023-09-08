@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="@color/ui_background"/>
+            <corners android:radius="2dp"/>
+        </shape>
+    </item>
+    <item
+        android:bottom="0dp"
+        android:top="-3dp"
+        android:left="-3dp"
+        android:right="-3dp">
+        <shape>
+            <stroke android:color="@color/ui_card_text" android:width="2dp"/>
+        </shape>
+    </item>
+</layer-list>

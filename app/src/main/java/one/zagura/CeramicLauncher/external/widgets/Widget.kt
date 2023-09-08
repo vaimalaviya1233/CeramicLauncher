@@ -140,7 +140,7 @@ class Widget(
                                         orientation = LinearLayout.VERTICAL
                                         val h = 48.dp.toPixels(this)
                                         addView(preview, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Device.screenWidth(context) / 2 - h))
-                                        addView(View(context).apply { setBackgroundResource(R.drawable.card_separator) }, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2.dp.toPixels(this)))
+                                        addView(View(context).apply { setBackgroundResource(R.drawable.ui_card_separator) }, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2.dp.toPixels(this)))
                                         addView(LinearLayout(context).apply {
                                             orientation = LinearLayout.HORIZONTAL
                                             addView(icon, LinearLayout.LayoutParams(h, h))

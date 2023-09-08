@@ -64,7 +64,7 @@ class SearchActivity : AppCompatActivity() {
     private val onAppLoaderEnd = { search(currentString) }
 
     private val daxResultIcon by lazy {
-        Icons.applyInsets(Icons.generateAdaptiveIcon(getDrawable(R.drawable.dax)!!))
+        Icons.generateAdaptiveIcon(getDrawable(R.drawable.dax)!!)
     }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -296,19 +296,7 @@ class SearchActivity : AppCompatActivity() {
             e.printStackTrace()
             val words =
                 string.lowercase(Locale.getDefault()).split(' ', ',', '.', '-', '+', '&', '_')
-            if (words.contains("ip")) {
-                stillWantIP = true
-                smartBox.visibility = View.VISIBLE
-                isShowingSmartCard = true
-                smartBox.findViewById<TextView>(R.id.type).setText(R.string.ip_address_external)
-                smartBox.findViewById<TextView>(R.id.result).text = ""
-                TextLoader.load("https://checkip.amazonaws.com") {
-                    runOnUiThread {
-                        if (stillWantIP) smartBox.findViewById<TextView>(R.id.result).text =
-                            it.trimEnd()
-                    }
-                }
-            } else if (
+            if (
                 words.contains("pi") ||
                 words.contains("π")
             ) {

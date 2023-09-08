@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,7 +16,7 @@
         android:layout_marginBottom="10dp"
         android:orientation="horizontal">
         <EditText
-            style="@style/settingsInput"
+            style="@style/ui_input"
             android:id="@+id/appname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -28,7 +29,7 @@
             android:ellipsize="end"
             android:includeFontPadding="false"
             android:gravity="start|center_vertical"
-            android:textColor="#ffffff"
+            android:textColor="@color/ui_card_title"
             android:textSize="32sp"/>
         <ImageView
             android:id="@+id/openinsettings"
@@ -37,8 +38,7 @@
             android:layout_gravity="end|center_vertical"
             android:src="@drawable/ic_settings"
             android:padding="8dp"
-            android:layout_marginEnd="-6dp"
-            android:tint="#ffffff"/>
+            android:layout_marginEnd="-6dp"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/main"
@@ -49,7 +49,8 @@
         <ImageView
             android:id="@+id/iconimg"
             android:layout_width="128dp"
-            android:layout_height="128dp"/>
+            android:layout_height="128dp"
+            android:padding="12dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="128dp"
@@ -60,11 +61,12 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
                 <ImageView
+                    android:id="@+id/version_icon"
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_info"
                     android:padding="12dp"
-                    android:tint="#ffffff"/>
+                    app:tint="@color/ui_card_text"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -74,13 +76,13 @@
                         android:layout_height="wrap_content"
                         android:text="@string/version"
                         android:textSize="18sp"
-                        android:textColor="#ffffff"/>
+                        android:textColor="@color/ui_card_text"/>
                     <TextView
                         android:id="@+id/version"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
-                        android:textColor="@color/ui_card_text"/>
+                        android:textColor="@color/ui_card_text_secondary"/>
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
@@ -90,16 +92,18 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
                 <ImageView
+                    android:id="@+id/uninstall_icon"
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_cross"
-                    android:padding="12dp"/>
+                    android:padding="12dp"
+                    app:tint="@color/ui_card_text"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/uninstall"
                     android:textSize="18sp"
-                    android:textColor="#ffffff"/>
+                    android:textColor="@color/ui_card_text"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -111,11 +115,12 @@
         android:gravity="center_vertical"
         android:visibility="gone">
         <ImageView
+            android:id="@+id/component_icon"
             android:layout_width="56dp"
             android:layout_height="match_parent"
             android:src="@drawable/ic_apps"
             android:padding="12dp"
-            android:tint="#ffffff"/>
+            app:tint="@color/ui_card_text"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -125,13 +130,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/component"
                 android:textSize="18sp"
-                android:textColor="#ffffff"/>
+                app:tint="@color/ui_card_text"/>
             <TextView
                 android:id="@+id/componentname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
-                android:textColor="@color/ui_card_text"/>
+                android:textColor="@color/ui_card_text_secondary"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

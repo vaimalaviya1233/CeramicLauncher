@@ -16,7 +16,6 @@ import one.zagura.CeramicLauncher.items.users.ShortcutAdapter.ShortcutViewHolder
 class ShortcutAdapter(
     private val context: Context,
     private val shortcuts: List<ShortcutInfo>,
-    private val txtColor: Int
 ) : RecyclerView.Adapter<ShortcutViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShortcutViewHolder {
@@ -29,7 +28,7 @@ class ShortcutAdapter(
     override fun onBindViewHolder(holder: ShortcutViewHolder, position: Int) {
         val txt = holder.view.findViewById<TextView>(R.id.icontxt)
         txt.text = shortcuts[position].shortLabel
-        txt.setTextColor(txtColor)
+        txt.setTextColor(holder.view.context.getColor(R.color.ui_card_text))
         val launcherApps = context.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
         holder.view.findViewById<ImageView>(R.id.iconimg).setImageDrawable(launcherApps.getShortcutIconDrawable(shortcuts[position], context.resources.displayMetrics.densityDpi))
         holder.view.setOnClickListener {

@@ -68,10 +68,7 @@ class Folder : LauncherItem {
         this.items = items
         uid = generateUid()
         label = "folder"
-        icon = icon(Tools.appContext!!)?.let {
-            Icons.animateIfShould(Tools.appContext!!, it)
-            Icons.applyInsets(it)
-        }
+        icon = icon(Tools.appContext!!)
     }
 
     override fun toString(): String {
@@ -86,14 +83,14 @@ class Folder : LauncherItem {
         try {
             val previewApps = min(items.size, 4)
             val drr = arrayOfNulls<Drawable>(previewApps + 1)
-            drr[0] = FastColorDrawable(Settings["folder:background_color", -0x22eeeded])
+            drr[0] = FastColorDrawable(Settings["folder:background_color", 0xdd333333.toInt()])
             for (i in 1..previewApps) {
                 drr[i] = BitmapDrawable(context.resources, items[i - 1].icon!!.toBitmap())
             }
             val layerDrawable = LayerDrawable(drr)
             val width = layerDrawable.intrinsicWidth
             val height = layerDrawable.intrinsicHeight
-            val paddingNear = width / 6
+            val paddingNear = width / 15
             val paddingFar = width / 12 * 7
             val paddingMedium = (paddingFar + paddingNear) / 2
             when (previewApps) {
@@ -137,10 +134,7 @@ class Folder : LauncherItem {
         val customIcon = Customizer.getCustomIcon("folder:$uid:icon")
         icon = (customIcon?.let {
             Icons.generateAdaptiveIcon(it)
-        } ?: icon(Tools.appContext!!))?.let {
-            Icons.animateIfShould(Tools.appContext!!, it)
-            Icons.applyInsets(it)
-        }
+        } ?: icon(Tools.appContext!!))
     }
 
     fun clear() {
@@ -301,7 +295,7 @@ class Folder : LauncherItem {
     private fun createItem(item: LauncherItem, context: Context, container: GridLayout?, appSize: Int, labelsEnabled: Boolean, notifBadgesEnabled: Boolean, notifBadgesShowNum: Boolean, onItemLongPress: View.OnLongClickListener, onItemClick: View.OnClickListener): View? {
         val appIcon = LayoutInflater.from(context).inflate(R.layout.drawer_item, container, false)
         val icon = appIcon.findViewById<ImageView>(R.id.iconimg)
-        appIcon.findViewById<View>(R.id.iconFrame).run {
+        icon.run {
             layoutParams.height = appSize
             layoutParams.width = appSize
         }

@@ -15,18 +15,12 @@ class CustomFolders : AppCompatActivity() {
         configureWindowForSettings()
         setSettingsContentView(R.string.settings_title_folders) {
             card {
+                title(R.string.settings_title_icons)
                 color(
                     labelId = R.string.background,
                     iconId = R.drawable.ic_color,
                     key = "folder:background_color",
-                    default = 0xDD111213.toInt(),
-                )
-                numberSeekBar(
-                    labelId = R.string.columns,
-                    key = "folder:columns",
-                    default = 3,
-                    max = 7,
-                    startsWith1 = true,
+                    default = 0xdd333333.toInt(),
                 )
             }
             card {
@@ -36,6 +30,13 @@ class CustomFolders : AppCompatActivity() {
                     iconId = R.drawable.ic_color,
                     key = "folder:window:background_color",
                     default = 0xDD111213.toInt(),
+                )
+                numberSeekBar(
+                    labelId = R.string.columns,
+                    key = "folder:columns",
+                    default = 3,
+                    max = 7,
+                    startsWith1 = true,
                 )
                 switch(
                     labelId = R.string.show_name,

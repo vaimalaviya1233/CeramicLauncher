@@ -31,8 +31,8 @@ import one.zagura.CeramicLauncher.view.recycler.LinearLayoutManager
 
 object ColorTools {
 
-    inline fun colorPreview(@ColorInt color: Int): Drawable {
-        return ColorPreviewDrawable(color)
+    inline fun colorPreview(@ColorInt color: Int, context: Context): Drawable {
+        return ColorPreviewDrawable(color, context)
     }
 
     inline fun iconBadge(@ColorInt color: Int): Drawable {
@@ -46,7 +46,7 @@ object ColorTools {
     fun pickColor(context: Context, @ColorInt initColor: Int, onSelect: (color: Int) -> Unit) {
         val d = BottomSheetDialog(context, R.style.bottomsheet)
         d.setContentView(R.layout.color_picker)
-        d.window!!.findViewById<View>(R.id.design_bottom_sheet).setBackgroundResource(R.drawable.bottom_sheet)
+        d.window!!.findViewById<View>(R.id.design_bottom_sheet).setBackgroundResource(R.color.ui_card_background)
         val alpha = d.findViewById<SeekBar>(R.id.alpha)!!
         val red = d.findViewById<SeekBar>(R.id.red)!!
         val green = d.findViewById<SeekBar>(R.id.green)!!
@@ -175,7 +175,7 @@ object ColorTools {
     fun pickColorNoAlpha(context: Context, @ColorInt initColor: Int, onSelect: (color: Int) -> Unit) {
         val d = BottomSheetDialog(context, R.style.bottomsheet)
         d.setContentView(R.layout.color_picker)
-        d.window!!.findViewById<View>(R.id.design_bottom_sheet).setBackgroundResource(R.drawable.bottom_sheet)
+        d.window!!.findViewById<View>(R.id.design_bottom_sheet).setBackgroundResource(R.color.ui_card_background)
         val red = d.findViewById<SeekBar>(R.id.red)!!
         val green = d.findViewById<SeekBar>(R.id.green)!!
         val blue = d.findViewById<SeekBar>(R.id.blue)!!
@@ -327,7 +327,7 @@ object ColorTools {
 
         override fun onBindViewHolder(holder: ColorViewHolder, i: Int) {
             holder.imageView.apply {
-                setImageDrawable(colorPreview(colors[i]))
+                setImageDrawable(colorPreview(colors[i], context))
                 setOnClickListener {
                     onItemClickListener?.invoke(colors[i])
                 }

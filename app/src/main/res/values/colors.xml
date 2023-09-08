@@ -6,8 +6,9 @@
     <color name="accent_background">#018C93</color>
     <color name="ui_background">#171717</color>
     <color name="ui_card_background">#292929</color>
-    <color name="ui_card_text">#D0D0D0</color>
     <color name="ui_card_title">#E1E2E3</color>
+    <color name="ui_card_text">#D0D0D0</color>
+    <color name="ui_card_text_secondary">#929292</color>
     <color name="cardspinnertxt">#939495</color>
     <color name="cardSeparator">#33dddddd</color>
     <color name="hint">#252627</color>

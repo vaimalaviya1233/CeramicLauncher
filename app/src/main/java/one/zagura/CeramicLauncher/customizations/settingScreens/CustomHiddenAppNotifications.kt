@@ -17,7 +17,6 @@ class CustomHiddenAppNotifications : AppTickingActivity() {
             apps.add(App(pacslist[i].packageName, pacslist[i].activities?.firstOrNull()?.name ?: "", label = pacslist[i].applicationInfo.loadLabel(pm).toString()).apply {
                 icon = pacslist[i].applicationInfo.loadIcon(pm)
                 icon = Icons.generateAdaptiveIcon(icon!!)
-                icon = Icons.applyInsets(icon!!)
             })
         }
 

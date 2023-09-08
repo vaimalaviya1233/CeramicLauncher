@@ -88,17 +88,15 @@ object NotificationCreator {
         }
         val color = getColor(notification)
         val isSummary = notification.notification.flags and Notification.FLAG_GROUP_SUMMARY != 0
-        val icon = (if (isSummary) null else getLargeIcon(context, notification)) ?: getSmallIcon(context, notification)?.apply {
-            AnimUtils.tryAnimate(Home.instance, this)
-            val colorList = ColorStateList.valueOf(
+        val source = getSource(context, notification)
+        val sourceIcon = getSmallIcon(context, notification)?.apply {
+            this.setTintList(ColorStateList.valueOf(
                 if (
                     color == Settings["notif:background_color", -0x1] ||
                     color == 0
                 ) Settings["notif:title_color", -0xeeeded] else color
-            )
-            this.setTintList(colorList)
+            ))
         }
-        val source = getSource(context, notification)
 
         //println(extras.keySet().joinToString("\n") { "$it -> " + extras[it].toString() })
 
@@ -108,15 +106,16 @@ object NotificationCreator {
 
         val autoCancel = notification.notification.flags and Notification.FLAG_AUTO_CANCEL != 0
 
-        val bigPic = getBigImage(context, extras)
+        val image = if (isSummary) null else getBigImage(context, extras) ?: getLargeIcon(context, notification)
 
         return NotificationItem(
             title = title,
             text = text,
             source = source,
+            sourceIcon = sourceIcon,
+            color = color,
             isSummary = isSummary,
-            bigPic = bigPic,
-            icon = icon,
+            image = image,
             actions = notification.notification.actions,
             contentIntent = notification.notification.contentIntent,
             key = notification.key,

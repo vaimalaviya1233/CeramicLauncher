@@ -46,7 +46,7 @@ class ContactCardView(context: Context, attrs: AttributeSet? = null) : ItemGroup
         return (LayoutInflater.from(context).inflate(R.layout.drawer_item, gridLayout, false)).apply {
             layoutParams.width = (gridLayout.measuredWidth) / columns
             findViewById<ImageView>(R.id.iconimg).setImageDrawable(item.icon)
-            findViewById<View>(R.id.iconFrame).run {
+            findViewById<View>(R.id.iconimg).run {
                 layoutParams.height = 74.dp.toPixels(context)
                 layoutParams.width = 74.dp.toPixels(context)
             }

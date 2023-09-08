@@ -8,6 +8,7 @@ import android.content.pm.LauncherApps
 import android.content.pm.LauncherApps.ShortcutQuery
 import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
@@ -64,9 +65,7 @@ class App(
     fun showProperties(context: Context) {
         val d = BottomSheetDialog(context, R.style.bottomsheet)
         d.setContentView(R.layout.app_properties)
-        val g = context.getDrawable(R.drawable.bottom_sheet) as GradientDrawable
-        g.setColor(Settings["drawer:background_color", 0xa4171717.toInt()])
-        d.window!!.findViewById<View>(R.id.design_bottom_sheet).background = g
+        d.window!!.findViewById<View>(R.id.design_bottom_sheet).setBackgroundResource(R.color.ui_card_background)
         val appName = d.findViewById<EditText>(R.id.appname)!!.apply {
             setText(label)
         }
@@ -80,10 +79,17 @@ class App(
             d.findViewById<TextView>(R.id.componentname)!!.text = "$packageName/$name"
             d.findViewById<View>(R.id.component)!!.visibility = View.VISIBLE
         }
-        d.findViewById<View>(R.id.openinsettings)!!.setOnClickListener {
-            d.dismiss()
-            context.open(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, ActivityOptions.makeCustomAnimation(context, R.anim.slideup, R.anim.home_exit).toBundle()) {
-                data = Uri.parse("package:$packageName")
+        val tint = ColorStateList.valueOf(Global.getPastelAccent())
+        d.findViewById<ImageView>(R.id.version_icon)!!.imageTintList = tint
+        d.findViewById<ImageView>(R.id.uninstall_icon)!!.imageTintList = tint
+        d.findViewById<ImageView>(R.id.component_icon)!!.imageTintList = tint
+        d.findViewById<ImageView>(R.id.openinsettings)!!.apply {
+            imageTintList = tint
+            setOnClickListener {
+                d.dismiss()
+                context.open(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, ActivityOptions.makeCustomAnimation(context, R.anim.slideup, R.anim.home_exit).toBundle()) {
+                    data = Uri.parse("package:$packageName")
+                }
             }
         }
         d.findViewById<View>(R.id.uninstallbtn)!!.setOnClickListener {

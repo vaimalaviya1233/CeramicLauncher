@@ -26,7 +26,6 @@ internal class SearchAdapter(
 
     class ViewHolder(
         var icon: ImageView,
-        var iconFrame: View,
         var text: TextView,
         var notificationBadge: TextView)
 
@@ -37,14 +36,12 @@ internal class SearchAdapter(
             convertView = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)
             holder = ViewHolder(
                 convertView.findViewById(R.id.iconimg),
-                convertView.findViewById(R.id.iconFrame),
                 convertView.findViewById(R.id.icontxt),
                 convertView.findViewById(R.id.notificationBadge))
             convertView.tag = holder
         } else holder = convertView.tag as ViewHolder
 
         val icon = holder.icon
-        val iconFrame = holder.iconFrame
         val text = holder.text
         val item = results[position]
         icon.setImageDrawable(item.icon)
@@ -62,8 +59,8 @@ internal class SearchAdapter(
             holder.notificationBadge.visibility = View.GONE
         }
         val appSize = Settings["search:icons:size", 56].dp.toPixels(context)
-        iconFrame.layoutParams.height = appSize
-        iconFrame.layoutParams.width = appSize
+        holder.icon.layoutParams.height = appSize
+        holder.icon.layoutParams.width = appSize
         return convertView
     }
 

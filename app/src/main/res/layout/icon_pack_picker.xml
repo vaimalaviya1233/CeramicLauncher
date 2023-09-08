@@ -63,7 +63,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@drawable/card_separator"
+                android:background="@drawable/ui_card_separator"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"/>
             <one.zagura.CeramicLauncher.view.GridView

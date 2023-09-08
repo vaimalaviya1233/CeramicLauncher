@@ -22,7 +22,7 @@ class CustomHome : AppCompatActivity() {
                     labelId = R.string.corner_radius,
                     key = "feed:card_radius",
                     default = 8,
-                    max = 25,
+                    max = 30,
                 )
                 numberSeekBar(
                     labelId = R.string.horizontal_margin,

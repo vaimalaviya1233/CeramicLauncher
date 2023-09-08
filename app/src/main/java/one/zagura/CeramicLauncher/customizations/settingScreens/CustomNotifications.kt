@@ -67,23 +67,17 @@ class CustomNotifications : AppCompatActivity() {
                 )
             }
             card {
-                switchTitle(R.string.action_buttons, "notificationActionsEnabled", false)
-                numberSeekBar(
-                    labelId = R.string.radius,
-                    key = "notif:actions:radius",
-                    default = 24,
-                    max = 50,
-                )
+                switchTitle(R.string.action_buttons, "notif:actions:enabled", false)
                 color(
                     R.string.background,
                     R.drawable.ic_color,
-                    "notificationActionBGColor",
+                    "notif:actions:background_color",
                     0x88e0e0e0.toInt(),
                 )
                 color(
                     R.string.text_color,
                     R.drawable.ic_color,
-                    "notificationActionTextColor",
+                    "notif:actions:text_color",
                     0xFF252627.toInt(),
                 )
             }
