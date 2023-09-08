@@ -9,8 +9,8 @@ android {
         applicationId "one.zagura.CeramicLauncher"
         minSdkVersion 26
         targetSdk 34
-        versionCode 70
-        versionName "22.1"
+        versionCode 1
+        versionName "23.0"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
