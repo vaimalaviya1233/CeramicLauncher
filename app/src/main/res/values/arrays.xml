@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="flag_presets">
+        <item>Ace</item>
+        <item>Non-Binary</item>
+        <item>Rainbow</item>
+        <item>Trans</item>
+    </string-array>
+</resources>

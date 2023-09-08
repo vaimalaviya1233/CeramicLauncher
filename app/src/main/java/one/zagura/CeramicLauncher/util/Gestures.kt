@@ -14,7 +14,7 @@ import one.zagura.CeramicLauncher.Global
 import one.zagura.CeramicLauncher.Home
 import one.zagura.CeramicLauncher.R
 import one.zagura.CeramicLauncher.ui.customizations.settingScreens.CustomMain
-import one.zagura.CeramicLauncher.ui.order.FeedOrderActivity
+import one.zagura.CeramicLauncher.ui.customizations.order.FeedOrderActivity
 import one.zagura.CeramicLauncher.data.items.App
 import one.zagura.CeramicLauncher.ui.search.SearchActivity
 import one.zagura.CeramicLauncher.util.storage.Settings

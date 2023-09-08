@@ -19,13 +19,13 @@ class CustomNotifications : AppCompatActivity() {
             color(
                 R.string.background,
                 R.drawable.ic_color,
-                "notif:",
+                "notif:background_color",
                 0xFFFFFFFF.toInt(),
             )
             switch(
                 R.string.collapse_notifications,
                 R.drawable.ic_arrow_up,
-                "collapseNotifications",
+                "notif:collapse",
                 default = false,
             )
             color(

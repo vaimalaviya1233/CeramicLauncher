@@ -56,7 +56,12 @@
         </activity>
 
         <activity
-            android:name="one.zagura.CeramicLauncher.ui.order.FeedOrderActivity"
+            android:name="one.zagura.CeramicLauncher.ui.customizations.order.FeedOrderActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation"
+            android:theme="@style/settings" />
+
+        <activity
+            android:name="io.posidon.android.slablauncher.ui.settings.flag.FlagSettingsActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:theme="@style/settings" />
 

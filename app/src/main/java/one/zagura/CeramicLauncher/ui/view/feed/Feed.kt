@@ -296,6 +296,14 @@ class Feed : FrameLayout {
                         dismiss()
                     }
                 }
+                findViewById<View>(R.id.flag_section)!!.run {
+                    if (sections.contains("flag")) {
+                        visibility = GONE
+                    } else setOnClickListener {
+                        onSelect("flag")
+                        dismiss()
+                    }
+                }
                 findViewById<View>(R.id.widget_section)!!.setOnClickListener {
                     Widget.selectWidget(activity) {
                         onSelect(it.toString())

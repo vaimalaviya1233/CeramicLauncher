@@ -206,6 +206,8 @@
     <string name="unhide">Unhide</string>
     <string name="add">Add</string>
     <string name="searchbar">Searchbar</string>
+    <string name="add_color">Add color</string>
+    <string name="flag">Flag</string>
 
     <plurals name="num_notifications">
         <item quantity="one">%1$d notifiche</item>

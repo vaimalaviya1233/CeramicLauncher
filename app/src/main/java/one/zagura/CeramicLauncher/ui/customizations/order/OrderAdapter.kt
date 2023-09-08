@@ -1,4 +1,4 @@
-package one.zagura.CeramicLauncher.ui.order
+package one.zagura.CeramicLauncher.ui.customizations.order
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,7 +11,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import io.posidon.android.conveniencelib.units.dp
-import io.posidon.android.conveniencelib.units.toFloatPixels
 import io.posidon.android.conveniencelib.units.toPixels
 import one.zagura.CeramicLauncher.Global
 import one.zagura.CeramicLauncher.R
@@ -94,6 +93,11 @@ class OrderAdapter(
             "music" -> {
                 holder.text.text = context.getString(R.string.media_player)
                 holder.icon.setImageResource(R.drawable.ic_play)
+                holder.icon.imageTintList = ColorStateList.valueOf(Global.getPastelAccent())
+            }
+            "flag" -> {
+                holder.text.text = context.getString(R.string.flag)
+                holder.icon.setImageResource(R.drawable.ic_shapes)
                 holder.icon.imageTintList = ColorStateList.valueOf(Global.getPastelAccent())
             }
             else -> {

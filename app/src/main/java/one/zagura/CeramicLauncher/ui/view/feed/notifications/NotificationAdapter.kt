@@ -38,7 +38,6 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.ViewHolder>
         val context = parent.context
 
         val view = LayoutInflater.from(context).inflate(R.layout.notification, null).apply {
-            setBackgroundColor(Settings["notif:background_color", -0x1])
             findViewById<TextView>(R.id.txt).maxLines = Settings["notif:text:max_lines", 3]
             setOnLongClickListener(Gestures::onLongPress)
         }

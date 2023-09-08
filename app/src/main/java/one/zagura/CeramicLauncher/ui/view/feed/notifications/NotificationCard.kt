@@ -129,7 +129,7 @@ class NotificationCard : CardView, FeedSection {
     }
 
     fun update() {
-        if (Settings["collapseNotifications", false]) {
+        if (Settings["notif:collapse", false]) {
             if (NotificationService.notificationsAmount > 1) {
                 parentNotification.visibility = VISIBLE
                 parentNotificationTitle.text = resources.getQuantityString(
@@ -166,7 +166,7 @@ class NotificationCard : CardView, FeedSection {
         parentNotificationTitle.setTextColor(Settings["notif:title_color", -0xeeeded])
         arrowUp.imageTintList = ColorStateList.valueOf(Settings["notif:text_color", -0xdad9d9])
         parentNotificationIcon.imageTintList = ColorStateList.valueOf(Global.accentColor)
-        isCollapsingEnabled = Settings["collapseNotifications", false] && NotificationService.notificationsAmount > 1
+        isCollapsingEnabled = Settings["notif:collapse", false] && NotificationService.notificationsAmount > 1
         val restAtBottom = Settings["feed:rest_at_bottom", false]
         (notifications.layoutManager as LinearLayoutManager).apply {
             reverseLayout = restAtBottom
@@ -176,7 +176,7 @@ class NotificationCard : CardView, FeedSection {
     }
 
     override fun onPause() {
-        if (Settings["collapseNotifications", false] && NotificationService.notificationsAmount > 1) {
+        if (Settings["notif:collapse", false] && NotificationService.notificationsAmount > 1) {
             collapse()
         }
     }

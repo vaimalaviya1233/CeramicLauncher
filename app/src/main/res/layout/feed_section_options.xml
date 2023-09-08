@@ -65,6 +65,26 @@
             android:textSize="15sp"/>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/flag_section"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_margin="8dp"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_shapes"
+            android:tint="#ffffff"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/flag"
+            android:textColor="@color/ui_card_text"
+            android:textSize="15sp"/>
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/widget_section"
         android:layout_width="match_parent"
         android:layout_height="64dp"

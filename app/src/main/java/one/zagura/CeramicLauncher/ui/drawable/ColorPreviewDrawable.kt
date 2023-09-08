@@ -35,8 +35,8 @@ class ColorPreviewDrawable(
             bounds.top.toFloat(),
             bounds.right.toFloat(),
             bounds.bottom.toFloat(),
-            bounds.width() / 4f,
-            bounds.height() / 4f,
+            bounds.width() / 2f,
+            bounds.height() / 2f,
             strokePaint,
         )
         canvas.drawRoundRect(
@@ -44,8 +44,8 @@ class ColorPreviewDrawable(
             bounds.top.toFloat() + strokeWidth,
             bounds.right.toFloat() - strokeWidth,
             bounds.bottom.toFloat() - strokeWidth,
-            (bounds.width() - strokeWidth * 2f) / 4f,
-            (bounds.height() - strokeWidth * 2f) / 4f,
+            (bounds.width() - strokeWidth * 2f) / 2f,
+            (bounds.height() - strokeWidth * 2f) / 2f,
             alphaBGPaint,
         )
         canvas.drawRoundRect(
@@ -53,8 +53,8 @@ class ColorPreviewDrawable(
             bounds.top.toFloat() + strokeWidth,
             bounds.right.toFloat() - strokeWidth,
             bounds.bottom.toFloat() - strokeWidth,
-            (bounds.width() - strokeWidth * 2f) / 4f,
-            (bounds.height() - strokeWidth * 2f) / 4f,
+            (bounds.width() - strokeWidth * 2f) / 2f,
+            (bounds.height() - strokeWidth * 2f) / 2f,
             paint,
         )
     }

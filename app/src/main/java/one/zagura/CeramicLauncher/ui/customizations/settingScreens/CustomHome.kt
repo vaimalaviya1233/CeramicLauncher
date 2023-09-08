@@ -6,7 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import one.zagura.CeramicLauncher.Global
 import one.zagura.CeramicLauncher.R
-import one.zagura.CeramicLauncher.ui.order.FeedOrderActivity
+import one.zagura.CeramicLauncher.ui.customizations.order.FeedOrderActivity
 import one.zagura.CeramicLauncher.util.storage.Settings
 import one.zagura.CeramicLauncher.ui.view.setting.*
 

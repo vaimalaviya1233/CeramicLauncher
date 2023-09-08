@@ -1,4 +1,4 @@
-package one.zagura.CeramicLauncher.ui.order
+package one.zagura.CeramicLauncher.ui.customizations.order
 
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -65,7 +65,7 @@ class FeedOrderActivity : AppCompatActivity() {
 
         }).attachToRecyclerView(recycler)
 
-        findViewById<FloatingActionButton>(R.id.fab).apply {
+        with(findViewById<FloatingActionButton>(R.id.fab)) {
             backgroundTintList = ColorStateList.valueOf(Global.getPastelAccent())
             imageTintList = ColorStateList.valueOf(context.getColor(R.color.ui_background))
             (layoutParams as FrameLayout.LayoutParams).bottomMargin = 20.dp.toPixels(context) + Tools.navbarHeight

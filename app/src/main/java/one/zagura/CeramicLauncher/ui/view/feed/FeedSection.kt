@@ -29,6 +29,7 @@ interface FeedSection {
             "starred_contacts" -> ContactCardView(context)
             "music" -> MusicCard(context)
             "notifications" -> NotificationCard(context)
+            "flag" -> FlagSection(context)
             else -> {
                 val key = string.substringBefore(':')
                 val value = string.substringAfter(':')
