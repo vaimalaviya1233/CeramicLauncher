@@ -38,7 +38,7 @@ class FeedOrderActivity : AppCompatActivity() {
 
             layoutManager = LinearLayoutManager(this@FeedOrderActivity, RecyclerView.VERTICAL, false)
             isNestedScrollingEnabled = false
-            adapter = OrderAdapter(this@FeedOrderActivity, sections)
+            adapter = OrderAdapter(sections)
         }
 
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(

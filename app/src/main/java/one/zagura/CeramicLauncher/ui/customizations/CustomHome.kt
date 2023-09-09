@@ -1,4 +1,4 @@
-package one.zagura.CeramicLauncher.ui.customizations.settingScreens
+package one.zagura.CeramicLauncher.ui.customizations
 
 import android.content.Intent
 import android.os.Bundle
@@ -18,18 +18,6 @@ class CustomHome : AppCompatActivity() {
         configureWindowForSettings()
         setSettingsContentView(R.string.settings_title_feed) {
             numberSeekBar(
-                labelId = R.string.corner_radius,
-                key = "feed:card_radius",
-                default = 8,
-                max = 30,
-            )
-            numberSeekBar(
-                labelId = R.string.horizontal_margin,
-                key = "feed:card_margin_x",
-                default = 16,
-                max = 32,
-            )
-            numberSeekBar(
                 labelId = R.string.vertical_margin,
                 key = "feed:card_margin_y",
                 default = 9,
@@ -43,7 +31,7 @@ class CustomHome : AppCompatActivity() {
             )
             switch(
                 labelId = R.string.keep_position,
-                iconId = R.drawable.ic_apps,
+                iconId = R.drawable.ic_other,
                 key = "feed:keep_pos",
                 default = false,
             )
@@ -58,24 +46,6 @@ class CustomHome : AppCompatActivity() {
                 iconId = R.drawable.ic_visible,
                 key = "feed:fading_edge",
                 default = true,
-            )
-            title(labelId = R.string.starred_contacts)
-            numberSeekBar(
-                labelId = R.string.columns,
-                key = "contacts_card:columns",
-                default = 5,
-                max = 5,
-                startsWith1 = true,
-            )
-            color(
-                labelId = R.string.background,
-                key = "contacts_card:bg_color",
-                default = 0xffffffff.toInt(),
-            )
-            color(
-                labelId = R.string.text_color,
-                key = "contacts_card:text_color",
-                default = 0xff252627.toInt(),
             )
         }
         Global.customized = true

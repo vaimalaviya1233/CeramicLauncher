@@ -1,4 +1,4 @@
-package one.zagura.CeramicLauncher.ui.customizations.settingScreens
+package one.zagura.CeramicLauncher.ui.customizations
 
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -22,13 +22,13 @@ class CustomSearch : AppCompatActivity() {
             }
             color(
                 labelId = R.string.text_color,
-                iconId = R.drawable.ic_color,
+                iconId = R.drawable.ic_droplet,
                 key = "searchtxtcolor",
                 default = 0xFFFFFFFF.toInt(),
             )
             color(
                 labelId = R.string.background,
-                iconId = R.drawable.ic_color,
+                iconId = R.drawable.ic_droplet,
                 key = "searchUiBg",
                 default = 0x88000000.toInt(),
             )
@@ -54,7 +54,7 @@ class CustomSearch : AppCompatActivity() {
             title(R.string.results)
             switch(
                 labelId = R.string.package_search,
-                iconId = R.drawable.ic_label,
+                iconId = R.drawable.ic_text,
                 key = "search:use_package_names",
                 default = false,
             )
@@ -66,7 +66,7 @@ class CustomSearch : AppCompatActivity() {
             )
             switch(
                 labelId = R.string.contacts,
-                iconId = R.drawable.ic_apps,
+                iconId = R.drawable.ic_other,
                 key = "search:use_contacts",
                 default = true,
             )

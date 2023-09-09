@@ -9,7 +9,7 @@
         android:id="@+id/hint_label"
         style="@style/settingsbtn"
         android:layout_width="wrap_content"
-        android:drawableStart="@drawable/ic_label"
+        android:drawableStart="@drawable/ic_text"
         android:text="@string/hint_text" />
     <EditText
         style="@style/ui_input"

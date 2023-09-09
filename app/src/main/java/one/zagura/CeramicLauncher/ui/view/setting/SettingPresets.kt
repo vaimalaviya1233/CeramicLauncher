@@ -10,7 +10,7 @@ fun SettingsViewScope.labelSettings(namespace: String, defaultEnabled: Boolean, 
     )
     color(
         labelId = R.string.color,
-        iconId = R.drawable.ic_color,
+        iconId = R.drawable.ic_droplet,
         key = "$namespace:color",
         default = defaultColor,
     )

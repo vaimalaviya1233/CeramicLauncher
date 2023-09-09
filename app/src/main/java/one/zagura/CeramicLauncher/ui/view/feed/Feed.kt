@@ -271,7 +271,7 @@ class Feed : FrameLayout {
             val sections = getSectionsFromSettings()
             BottomSheetDialog(activity, R.style.bottomsheet).apply {
                 setContentView(R.layout.feed_section_options)
-                window!!.findViewById<View>(R.id.design_bottom_sheet).setBackgroundResource(R.drawable.bottom_sheet)
+                window!!.findViewById<View>(R.id.design_bottom_sheet).setBackgroundResource(R.color.ui_card_background)
                 findViewById<View>(R.id.notifications_section)!!.run {
                     if (sections.contains("notifications")) {
                         visibility = GONE

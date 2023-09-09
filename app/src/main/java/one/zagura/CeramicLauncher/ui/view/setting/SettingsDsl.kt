@@ -11,7 +11,6 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ArrayRes
@@ -100,7 +99,7 @@ fun SettingsViewScope.color(
     @StringRes
     labelId: Int,
     @DrawableRes
-    iconId: Int = R.drawable.ic_color,
+    iconId: Int = R.drawable.ic_droplet,
     key: String,
     @ColorInt
     default: Int,

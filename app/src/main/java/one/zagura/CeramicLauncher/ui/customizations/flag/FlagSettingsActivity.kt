@@ -1,27 +1,19 @@
-package io.posidon.android.slablauncher.ui.settings.flag
+package one.zagura.CeramicLauncher.ui.customizations.flag
 
 import android.app.AlertDialog
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import io.posidon.android.conveniencelib.getNavigationBarHeight
 import io.posidon.android.conveniencelib.getStatusBarHeight
-import io.posidon.android.conveniencelib.units.dp
-import io.posidon.android.conveniencelib.units.toPixels
+import io.posidon.android.slablauncher.ui.settings.flag.ColorsAdapter
 import one.zagura.CeramicLauncher.Global
 import one.zagura.CeramicLauncher.R
-import one.zagura.CeramicLauncher.ui.view.feed.Feed
 import one.zagura.CeramicLauncher.ui.view.setting.configureWindowForSettings
-import one.zagura.CeramicLauncher.ui.view.setting.setSettingsContentView
 import one.zagura.CeramicLauncher.util.Tools
 import one.zagura.CeramicLauncher.util.storage.Settings
 
@@ -35,6 +27,7 @@ class FlagSettingsActivity : AppCompatActivity() {
 
         val colorsAdapter = ColorsAdapter()
         val colorsRecycler = findViewById<RecyclerView>(R.id.colors_recycler).apply {
+            setPadding(0, getStatusBarHeight(), 0, Tools.navbarHeight)
             layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
             this.adapter = colorsAdapter
         }
@@ -72,7 +65,10 @@ class FlagSettingsActivity : AppCompatActivity() {
         val FLAG_PRESET_NB = intArrayOf(0xfffcf431.toInt(), 0xfffcfcfc.toInt(), 0xff9d59d2.toInt(), 0xff2a2a2a.toInt())
         val FLAG_PRESET_RAINBOW = intArrayOf(0xffe50000.toInt(), 0xffff8d00.toInt(), 0xffffee00.toInt(), 0xff008121.toInt(), 0xff3a62bf.toInt(), 0xff760188.toInt())
         val FLAG_PRESET_TRANS = intArrayOf(0xff5bcffa.toInt(), 0xfff5abb9.toInt(), 0xffffffff.toInt(), 0xfff5abb9.toInt(), 0xff5bcffa.toInt())
-        val FLAG_PRESETS = arrayOf(FLAG_PRESET_ACE, FLAG_PRESET_NB, FLAG_PRESET_RAINBOW, FLAG_PRESET_TRANS)
+        val FLAG_PRESET_BI = intArrayOf(0xffD60270.toInt(), 0xffD60270.toInt(), 0xff9B4F96.toInt(), 0xff0038A8.toInt(), 0xff0038A8.toInt())
+        val FLAG_PRESET_WLW = intArrayOf(0xffD52D00.toInt(), 0xffFF9A56.toInt(), 0xffFFFFFF.toInt(), 0xffD162A4.toInt(), 0xffA30262.toInt())
+        val FLAG_PRESET_MLM = intArrayOf(0xff078D70.toInt(), 0xff98E8C1.toInt(), 0xffFFFFFF.toInt(), 0xff7BADE2.toInt(), 0xff3D1A78.toInt())
+        val FLAG_PRESETS = arrayOf(FLAG_PRESET_ACE, FLAG_PRESET_NB, FLAG_PRESET_RAINBOW, FLAG_PRESET_TRANS, FLAG_PRESET_BI, FLAG_PRESET_WLW, FLAG_PRESET_MLM)
     }
 
     class TouchCallback(val adapter: ColorsAdapter) : ItemTouchHelper.Callback() {

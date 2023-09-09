@@ -153,7 +153,7 @@ class NotificationCard : CardView, FeedSection {
     }
 
     override fun updateTheme(activity: Activity) {
-        val marginX = Settings["feed:card_margin_x", 16].dp.toPixels(context)
+        val marginX = Settings["notif:margin_x", 16].dp.toPixels(context)
         val marginY = Settings["feed:card_margin_y", 9].dp.toPixels(context)
         layoutParams = (layoutParams as MarginLayoutParams).apply {
             leftMargin = marginX
@@ -161,7 +161,7 @@ class NotificationCard : CardView, FeedSection {
             topMargin = marginY
             bottomMargin = marginY
         }
-        radius = Settings["feed:card_radius", 8].dp.toFloatPixels(context)
+        radius = Settings["notif:radius", 8].dp.toFloatPixels(context)
         setCardBackgroundColor(Settings["notif:background_color", -0x1])
         parentNotificationTitle.setTextColor(Settings["notif:title_color", -0xeeeded])
         arrowUp.imageTintList = ColorStateList.valueOf(Settings["notif:text_color", -0xdad9d9])

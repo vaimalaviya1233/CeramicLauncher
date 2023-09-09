@@ -1,4 +1,4 @@
-package one.zagura.CeramicLauncher.ui.customizations.settingScreens
+package one.zagura.CeramicLauncher.ui.customizations
 
 import android.app.Activity
 import android.content.ComponentName
@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import one.zagura.CeramicLauncher.Global
 import one.zagura.CeramicLauncher.R
-import one.zagura.CeramicLauncher.ui.customizations.FakeLauncherActivity
 import one.zagura.CeramicLauncher.util.storage.Settings
 import one.zagura.CeramicLauncher.ui.view.setting.*
 import java.io.FileNotFoundException

@@ -1,4 +1,4 @@
-package one.zagura.CeramicLauncher.ui.customizations.settingScreens
+package one.zagura.CeramicLauncher.ui.customizations
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +16,7 @@ class CustomDock : AppCompatActivity() {
         setSettingsContentView(R.string.settings_title_dock) {
             color(
                 labelId = R.string.background,
-                iconId = R.drawable.ic_color,
+                iconId = R.drawable.ic_droplet,
                 key = "dock:background_color",
                 default = 0xff242424.toInt(),
             )
@@ -71,13 +71,13 @@ class CustomDock : AppCompatActivity() {
             switchTitle(R.string.searchbar, "dock:searchbar:enabled", false)
             color(
                 labelId = R.string.background,
-                iconId = R.drawable.ic_color,
+                iconId = R.drawable.ic_droplet,
                 key = "dock:searchbar:background_color",
                 default = 0xDDFFFFFF.toInt(),
             )
             color(
                 labelId = R.string.hint_color,
-                iconId = R.drawable.ic_color,
+                iconId = R.drawable.ic_droplet,
                 key = "dock:searchbar:text_color",
                 default = 0xFF000000.toInt(),
             )

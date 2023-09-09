@@ -1,9 +1,8 @@
-package one.zagura.CeramicLauncher.ui.customizations.settingScreens
+package one.zagura.CeramicLauncher.ui.customizations
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import io.posidon.android.slablauncher.ui.settings.flag.FlagSettingsActivity
 import one.zagura.CeramicLauncher.Global
 import one.zagura.CeramicLauncher.R
 import one.zagura.CeramicLauncher.ui.customizations.order.FeedOrderActivity
@@ -28,19 +27,9 @@ class CustomMain : AppCompatActivity() {
                 onClick = { startActivity(Intent(it.context, FeedOrderActivity::class.java)) },
             )
             clickable(
-                labelId = R.string.flag,
-                iconId = R.drawable.ic_shapes,
-                onClick = { startActivity(Intent(it.context, FlagSettingsActivity::class.java)) },
-            )
-            clickable(
                 labelId = R.string.settings_title_feed,
                 iconId = R.drawable.ic_home,
                 onClick = { startActivity(Intent(it.context, CustomHome::class.java)) },
-            )
-            clickable(
-                labelId = R.string.notifications,
-                iconId = R.drawable.ic_notification,
-                onClick = { startActivity(Intent(it.context, CustomNotifications::class.java)) },
             )
             clickable(
                 labelId = R.string.settings_title_drawer,
@@ -49,7 +38,7 @@ class CustomMain : AppCompatActivity() {
             )
             clickable(
                 labelId = R.string.settings_title_dock,
-                iconId = R.drawable.ic_arrow_up,
+                iconId = R.drawable.ic_dock,
                 onClick = { startActivity(Intent(it.context, CustomDock::class.java)) },
             )
             clickable(
@@ -64,23 +53,23 @@ class CustomMain : AppCompatActivity() {
             )
             clickable(
                 labelId = R.string.settings_title_theme,
-                iconId = R.drawable.ic_color,
+                iconId = R.drawable.ic_droplet,
                 onClick = { startActivity(Intent(it.context, CustomTheme::class.java)) },
             )
             clickable(
                 labelId = R.string.settings_title_gestures,
-                iconId = R.drawable.ic_apps,
+                iconId = R.drawable.ic_other,
                 onClick = { startActivity(Intent(it.context, CustomGestures::class.java)) },
             )
             clickable(
                 labelId = R.string.settings_title_other,
-                iconId = R.drawable.ic_apps,
+                iconId = R.drawable.ic_other,
                 onClick = { startActivity(Intent(it.context, CustomOther::class.java)) },
             )
             if (Settings["dev:enabled", false]) {
                 clickable(
                     labelId = R.string.settings_title_dev,
-                    iconId = R.drawable.ic_apps,
+                    iconId = R.drawable.ic_other,
                     onClick = { startActivity(Intent(it.context, CustomDev::class.java)) },
                 )
             }

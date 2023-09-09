@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/ui_card_text"
         android:text="@string/remove_icon"
-        android:drawableStart="@drawable/ic_app_remove"
+        android:drawableStart="@drawable/ic_cross"
         android:drawableTint="@color/ui_card_text"/>
     <TextView
         android:id="@+id/appinfobtn"

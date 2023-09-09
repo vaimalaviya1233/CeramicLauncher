@@ -1,6 +1,6 @@
-package one.zagura.CeramicLauncher.ui.customizations.settingScreens
+package one.zagura.CeramicLauncher.ui.customizations
 
-import one.zagura.CeramicLauncher.ui.customizations.settingScreens.general.AppTickingActivity
+import one.zagura.CeramicLauncher.ui.customizations.general.AppTickingActivity
 import one.zagura.CeramicLauncher.data.items.App
 import one.zagura.CeramicLauncher.util.storage.Settings
 import one.zagura.CeramicLauncher.util.Sort

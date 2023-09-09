@@ -1,4 +1,4 @@
-package one.zagura.CeramicLauncher.ui.customizations.settingScreens
+package one.zagura.CeramicLauncher.ui.customizations
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -17,14 +17,14 @@ class CustomFolders : AppCompatActivity() {
             title(R.string.settings_title_icons)
             color(
                 labelId = R.string.background,
-                iconId = R.drawable.ic_color,
+                iconId = R.drawable.ic_droplet,
                 key = "folder:background_color",
                 default = 0xdd333333.toInt(),
             )
             title(R.string.window)
             color(
                 labelId = R.string.background,
-                iconId = R.drawable.ic_color,
+                iconId = R.drawable.ic_droplet,
                 key = "folder:window:background_color",
                 default = 0xDD111213.toInt(),
             )
@@ -43,7 +43,7 @@ class CustomFolders : AppCompatActivity() {
             )
             color(
                 labelId = R.string.name_color,
-                iconId = R.drawable.ic_color,
+                iconId = R.drawable.ic_droplet,
                 key = "folder:title_color",
                 default = 0xFFFFFFFF.toInt(),
             )

@@ -1,11 +1,10 @@
-package one.zagura.CeramicLauncher.ui.customizations.settingScreens
+package one.zagura.CeramicLauncher.ui.customizations
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import one.zagura.CeramicLauncher.Global
 import one.zagura.CeramicLauncher.R
 import one.zagura.CeramicLauncher.util.storage.Settings
-import one.zagura.CeramicLauncher.ui.view.setting.card
 import one.zagura.CeramicLauncher.ui.view.setting.configureWindowForSettings
 import one.zagura.CeramicLauncher.ui.view.setting.setSettingsContentView
 import one.zagura.CeramicLauncher.ui.view.setting.switch
@@ -25,7 +24,7 @@ class CustomDev : AppCompatActivity() {
             )
             switch(
                 labelId = R.string.hide_crash_logs,
-                iconId = R.drawable.ic_label,
+                iconId = R.drawable.ic_text,
                 key = "dev:hide_crash_logs",
                 default = true,
             )

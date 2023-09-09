@@ -1,4 +1,4 @@
-package one.zagura.CeramicLauncher.ui.customizations.settingScreens
+package one.zagura.CeramicLauncher.ui.customizations
 
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
@@ -29,7 +29,7 @@ class CustomTheme : AppCompatActivity() {
         setSettingsContentView(R.string.settings_title_theme) {
             color(
                 R.string.accent_color,
-                R.drawable.ic_color,
+                R.drawable.ic_droplet,
                 "accent",
                 0xff04A5AD.toInt(),
                 hasAlpha = false,

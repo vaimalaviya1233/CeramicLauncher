@@ -1,4 +1,4 @@
-package one.zagura.CeramicLauncher.ui.customizations.settingScreens
+package one.zagura.CeramicLauncher.ui.customizations
 
 import android.content.Intent
 import android.os.Bundle
@@ -23,7 +23,7 @@ class CustomDrawer : AppCompatActivity() {
             }
             color(
                 labelId = R.string.background,
-                iconId = R.drawable.ic_color,
+                iconId = R.drawable.ic_droplet,
                 key = "drawer:background_color",
                 default = 0xa4171717.toInt(),
             )
@@ -64,13 +64,13 @@ class CustomDrawer : AppCompatActivity() {
             switchTitle(R.string.searchbar, "drawer:searchbar:enabled", true)
             color(
                 labelId = R.string.background,
-                iconId = R.drawable.ic_color,
+                iconId = R.drawable.ic_droplet,
                 key = "drawer:searchbar:background_color",
                 default = 0xff242424.toInt(),
             )
             color(
                 labelId = R.string.text_color,
-                iconId = R.drawable.ic_color,
+                iconId = R.drawable.ic_droplet,
                 key = "drawer:searchbar:text_color",
                 default = 0xddffffff.toInt(),
             )
@@ -93,25 +93,25 @@ class CustomDrawer : AppCompatActivity() {
             )
             color(
                 labelId = R.string.text_color,
-                iconId = R.drawable.ic_color,
+                iconId = R.drawable.ic_droplet,
                 key = "drawer:scrollbar:text_color",
                 default = 0xaaeeeeee.toInt(),
             )
             color(
                 labelId = R.string.accent_color,
-                iconId = R.drawable.ic_color,
+                iconId = R.drawable.ic_droplet,
                 key = "drawer:scrollbar:highlight_color",
                 default = 0xffffffff.toInt(),
             )
             color(
                 labelId = R.string.floating_color,
-                iconId = R.drawable.ic_color,
+                iconId = R.drawable.ic_droplet,
                 key = "drawer:scrollbar:floating_color",
                 default = 0xffffffff.toInt(),
             )
             color(
                 labelId = R.string.background,
-                iconId = R.drawable.ic_color,
+                iconId = R.drawable.ic_droplet,
                 key = "drawer:scrollbar:bg_color",
                 default = 0x00000000,
             )
@@ -129,7 +129,7 @@ class CustomDrawer : AppCompatActivity() {
             )
             spinner(
                 labelId = R.string.position,
-                iconId = R.drawable.ic_apps,
+                iconId = R.drawable.ic_other,
                 key = "drawer:scrollbar:position",
                 default = 1,
                 array = R.array.scrollBarPosition,
@@ -141,7 +141,7 @@ class CustomDrawer : AppCompatActivity() {
             )
             spinner(
                 labelId = R.string.name_position,
-                iconId = R.drawable.ic_label,
+                iconId = R.drawable.ic_text,
                 key = "drawer:sections:name:position",
                 default = 0,
                 array = R.array.namePositions,

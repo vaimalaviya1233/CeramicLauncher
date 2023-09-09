@@ -1,4 +1,4 @@
-package one.zagura.CeramicLauncher.ui.customizations.settingScreens.general
+package one.zagura.CeramicLauncher.ui.customizations.general
 
 import android.os.Bundle
 import android.text.Editable

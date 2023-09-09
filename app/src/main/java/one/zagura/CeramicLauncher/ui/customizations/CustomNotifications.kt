@@ -1,4 +1,4 @@
-package one.zagura.CeramicLauncher.ui.customizations.settingScreens
+package one.zagura.CeramicLauncher.ui.customizations
 
 import android.content.Intent
 import android.os.Bundle
@@ -18,32 +18,45 @@ class CustomNotifications : AppCompatActivity() {
         setSettingsContentView(R.string.notifications) {
             color(
                 R.string.background,
-                R.drawable.ic_color,
+                R.drawable.ic_droplet,
                 "notif:background_color",
                 0xFFFFFFFF.toInt(),
             )
+            color(
+                R.string.swipe_bg_color,
+                R.drawable.ic_droplet,
+                "notif:card_swipe_bg_color",
+                0x880d0e0f.toInt(),
+            )
+            separator()
             switch(
                 R.string.collapse_notifications,
                 R.drawable.ic_arrow_up,
                 "notif:collapse",
                 default = false,
             )
-            color(
-                R.string.swipe_bg_color,
-                R.drawable.ic_color,
-                "notif:card_swipe_bg_color",
-                0x880d0e0f.toInt(),
+            numberSeekBar(
+                labelId = R.string.corner_radius,
+                key = "notif:radius",
+                default = 8,
+                max = 30,
+            )
+            numberSeekBar(
+                labelId = R.string.horizontal_margin,
+                key = "notif:margin_x",
+                default = 16,
+                max = 32,
             )
             title(R.string.text)
             color(
                 R.string.title_color,
-                R.drawable.ic_color,
+                R.drawable.ic_droplet,
                 "notif:title_color",
                 0xFF111213.toInt(),
             )
             color(
                 R.string.text_color,
-                R.drawable.ic_color,
+                R.drawable.ic_droplet,
                 "notif:text_color",
                 0xFF252627.toInt(),
             )
@@ -57,20 +70,20 @@ class CustomNotifications : AppCompatActivity() {
             switchTitle(R.string.action_buttons, "notif:actions:enabled", true)
             color(
                 R.string.background,
-                R.drawable.ic_color,
+                R.drawable.ic_droplet,
                 "notif:actions:background_color",
                 0x88e0e0e0.toInt(),
             )
             color(
                 R.string.text_color,
-                R.drawable.ic_color,
+                R.drawable.ic_droplet,
                 "notif:actions:text_color",
                 0xFF252627.toInt(),
             )
             switchTitle(R.string.notification_badges, "notif:badges", true)
             switch(
                 R.string.show_number,
-                R.drawable.ic_label,
+                R.drawable.ic_text,
                 "notif:badges:show_num",
                 default = true,
             )
@@ -83,7 +96,7 @@ class CustomNotifications : AppCompatActivity() {
             )
             color(
                 R.string.background,
-                R.drawable.ic_color,
+                R.drawable.ic_droplet,
                 "notif:badges:bg_color",
                 0xffff5555.toInt(),
             )

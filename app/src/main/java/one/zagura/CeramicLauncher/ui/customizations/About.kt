@@ -1,4 +1,4 @@
-package one.zagura.CeramicLauncher.ui.customizations.settingScreens
+package one.zagura.CeramicLauncher.ui.customizations
 
 import android.app.Activity
 import android.app.ActivityOptions
@@ -58,11 +58,13 @@ class About : Activity() {
             for (i in 0 until array.length()) {
                 val c = array.getJSONObject(i)
                 val name = c.getString("login")
-                contributors.add(Contributor(
+                contributors.add(
+                    Contributor(
                     name,
                     BitmapFactory.decodeStream(URL(c.getString("avatar_url")).openStream()),
                     c.getString("html_url")
-                ))
+                )
+                )
             }
             runOnUiThread {
                 contributorList.adapter = ListAdapter(this, contributors)

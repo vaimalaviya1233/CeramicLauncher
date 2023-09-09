@@ -131,7 +131,7 @@ class MusicCard : CardView, FeedSection {
     }
 
     override fun updateTheme(activity: Activity) {
-        val marginX = Settings["feed:card_margin_x", 16].dp.toPixels(context)
+        val marginX = Settings["notif:margin_x", 16].dp.toPixels(context)
         val marginY = Settings["feed:card_margin_y", 9].dp.toPixels(context)
         (layoutParams as MarginLayoutParams).apply {
             leftMargin = marginX
@@ -139,7 +139,7 @@ class MusicCard : CardView, FeedSection {
             bottomMargin = marginY
             topMargin = marginY
         }
-        radius = Settings["feed:card_radius", 8].dp.toFloatPixels(context)
+        radius = Settings["notif:radius", 8].dp.toFloatPixels(context)
     }
 
     fun updateTrack(color: Int, title: CharSequence?, subtitle: CharSequence?, icon: Drawable, contentIntent: PendingIntent?) {
@@ -155,7 +155,7 @@ class MusicCard : CardView, FeedSection {
             setTextColor(if (color.luminance >.6f) -0xeeeded else -0x1)
             text = subtitle
         }
-        val marginX = Settings["feed:card_margin_x", 16].dp.toPixels(context)
+        val marginX = Settings["notif:margin_x", 16].dp.toPixels(context)
         val w = 136.dp.toPixels(context)
         musicCardOverImg.background =
             if (resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_LTR) {

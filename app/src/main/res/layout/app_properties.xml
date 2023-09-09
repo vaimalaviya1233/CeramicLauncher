@@ -118,7 +118,7 @@
             android:id="@+id/component_icon"
             android:layout_width="56dp"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_apps"
+            android:src="@drawable/ic_other"
             android:padding="12dp"
             app:tint="@color/ui_card_text"/>
         <LinearLayout

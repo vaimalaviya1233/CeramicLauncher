@@ -1,4 +1,4 @@
-package one.zagura.CeramicLauncher.ui.customizations.settingScreens
+package one.zagura.CeramicLauncher.ui.customizations
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,13 +14,13 @@ class CustomGestures : AppCompatActivity() {
         setSettingsContentView(R.string.settings_title_gestures) {
             actionSelector(
                 labelId = R.string.pinch,
-                iconId = R.drawable.ic_apps,
+                iconId = R.drawable.ic_other,
                 key = "gesture:pinch",
                 default = Gestures.OPEN_OVERVIEW,
             )
             actionSelector(
                 labelId = R.string.long_press,
-                iconId = R.drawable.ic_apps,
+                iconId = R.drawable.ic_other,
                 key = "gesture:long_press",
                 default = Gestures.OPEN_OVERVIEW,
             )

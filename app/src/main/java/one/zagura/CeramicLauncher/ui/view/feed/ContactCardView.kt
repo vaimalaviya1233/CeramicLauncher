@@ -91,7 +91,7 @@ class ContactCardView(context: Context, attrs: AttributeSet? = null) : LinearLay
     }
 
     override fun updateTheme(activity: Activity) {
-        val marginX = Settings["feed:card_margin_x", 16].dp.toPixels(context)
+        val marginX = Settings["contacts_card:margin_x", 16].dp.toPixels(context)
         val marginY = Settings["feed:card_margin_y", 9].dp.toPixels(context)
         columns = Settings["contacts_card:columns", 5]
         (layoutParams as MarginLayoutParams).run {
