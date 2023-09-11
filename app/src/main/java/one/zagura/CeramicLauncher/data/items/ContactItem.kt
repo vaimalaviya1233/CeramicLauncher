@@ -78,19 +78,7 @@ class ContactItem private constructor(
                         color = 0xffffffff.toInt()
                         typeface = Typeface.SERIF
                         textAlign = Paint.Align.CENTER
-                        textSize = 72f
-                        isFakeBoldText = true
-                        isAntiAlias = true
-                        isSubpixelText = true
-                    }
-                    val textOverlayP = Paint().apply {
-                        color = 0xff000000.toInt()
-                        strokeWidth = 1.dp.toFloatPixels(Tools.appContext!!)
-                        typeface = Typeface.SERIF
-                        style = Paint.Style.STROKE
-                        textAlign = Paint.Align.CENTER
-                        textSize = 72f
-                        isFakeBoldText = true
+                        textSize = 48f
                         isAntiAlias = true
                         isSubpixelText = true
                     }
@@ -109,7 +97,7 @@ class ContactItem private constructor(
                             ContentUris.withAppendedId(ContactsContract.Data.CONTENT_URI, photoId.toLong())
                         } else null
 
-                        val icon = if (iconUri == null) Icons.generateContactPicture(name, textP, textOverlayP) ?: NonDrawable() else try {
+                        val icon = if (iconUri == null) Icons.generateContactPicture(name, textP) ?: NonDrawable() else try {
                             val inputStream = Tools.appContext!!.contentResolver.openInputStream(iconUri)
                             val pic = Drawable.createFromStream(inputStream, iconUri.toString()) ?: NonDrawable()
                             pic.setBounds(0, 0, pic.intrinsicWidth, pic.intrinsicHeight)
@@ -117,7 +105,7 @@ class ContactItem private constructor(
                                 addCircle(pic.intrinsicWidth / 2f, pic.intrinsicHeight / 2f, pic.intrinsicWidth / 2f - 2, Path.Direction.CCW)
                                 fillType = Path.FillType.INVERSE_EVEN_ODD
                             })
-                        } catch (e: FileNotFoundException) { Icons.generateContactPicture(name, textP, textOverlayP) } ?: NonDrawable()
+                        } catch (e: FileNotFoundException) { Icons.generateContactPicture(name, textP) } ?: NonDrawable()
 
                         val contact = ContactItem(name, icon, lookupKey, phone, starred)
 

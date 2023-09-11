@@ -50,36 +50,36 @@ class CustomTheme : AppCompatActivity() {
                 setImageDrawable(MaskedDrawable(bg, s.getPath(size, size)))
             }, 0, ViewGroup.LayoutParams(size, size))
         }
-        icShapeViews[Settings["icshape", 4]].setBackgroundResource(R.drawable.selection)
+        icShapeViews[Settings["icshape", 0]].setBackgroundResource(R.drawable.selection)
         Global.shouldSetApps = true
     }
 
     fun icshapedef(v: View) {
-        icShapeViews[Settings["icshape", 4]].setBackgroundColor(0x0)
+        icShapeViews[Settings["icshape", 0]].setBackgroundColor(0x0)
         Settings["icshape"] = 0
         v.setBackgroundResource(R.drawable.selection)
     }
 
     fun icshaperound(v: View) {
-        icShapeViews[Settings["icshape", 4]].setBackgroundColor(0x0)
+        icShapeViews[Settings["icshape", 0]].setBackgroundColor(0x0)
         Settings["icshape"] = 1
         v.setBackgroundResource(R.drawable.selection)
     }
 
     fun icshaperoundrect(v: View) {
-        icShapeViews[Settings["icshape", 4]].setBackgroundColor(0x0)
+        icShapeViews[Settings["icshape", 0]].setBackgroundColor(0x0)
         Settings["icshape"] = 2
         v.setBackgroundResource(R.drawable.selection)
     }
 
     fun icshaperect(v: View) {
-        icShapeViews[Settings["icshape", 4]].setBackgroundColor(0x0)
+        icShapeViews[Settings["icshape", 0]].setBackgroundColor(0x0)
         Settings["icshape"] = 3
         v.setBackgroundResource(R.drawable.selection)
     }
 
     fun icshapesquircle(v: View) {
-        icShapeViews[Settings["icshape", 4]].setBackgroundColor(0x0)
+        icShapeViews[Settings["icshape", 0]].setBackgroundColor(0x0)
         Settings["icshape"] = 4
         v.setBackgroundResource(R.drawable.selection)
     }

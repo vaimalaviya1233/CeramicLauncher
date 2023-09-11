@@ -28,7 +28,7 @@ import kotlin.random.Random
 object Icons {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    fun generateAdaptiveIcon(drawable: Drawable, iconShape: IconShape = IconShape(Settings["icshape", 4])): Drawable {
+    fun generateAdaptiveIcon(drawable: Drawable, iconShape: IconShape = IconShape(Settings["icshape", 0])): Drawable {
         if (drawable is AdaptiveIconDrawable) {
             val tmp = LayerDrawable(arrayOf(drawable.background ?: NonDrawable(), drawable.foreground ?: NonDrawable()))
             val w = tmp.intrinsicWidth
@@ -44,17 +44,15 @@ object Icons {
     }
 
     private val pics = HashMap<String, ContactDrawable>()
-    fun generateContactPicture(name: String, paint: Paint, overlayPaint: Paint): Drawable? {
-        if (name.isEmpty()) return null
-        val realName = name.trim().uppercase()
+    fun generateContactPicture(name: String, paint: Paint): Drawable? {
+        val realName = name.trim()
         if (realName.isEmpty()) return null
         return pics.getOrPut(name) {
             val random = Random(name.hashCode())
             ContactDrawable(
                 ColorTools.randomColors[random.nextInt(ColorTools.randomColors.size)],
-                realName[0],
+                realName.substring(0, realName.length.coerceAtMost(2)),
                 paint,
-                overlayPaint,
             )
         }
     }

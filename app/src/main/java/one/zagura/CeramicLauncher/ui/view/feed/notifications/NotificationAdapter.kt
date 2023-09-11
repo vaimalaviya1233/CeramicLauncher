@@ -88,7 +88,10 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.ViewHolder>
             actionList.isVisible = true
             view.findViewById<View>(R.id.top_separator).visibility = View.VISIBLE
             view.findViewById<View>(R.id.top_separator).setBackgroundColor(Settings["notif:text_color", -0xdad9d9] and 0xffffff or 0x33000000)
-            view.findViewById<View>(R.id.action_area).setBackgroundColor(Settings["notif:actions:background_color", 0x88e0e0e0.toInt()])
+            with(view.findViewById<View>(R.id.action_area)) {
+                setBackgroundColor(Settings["notif:actions:background_color", 0x88e0e0e0.toInt()])
+                isVisible = notification.actions.isNotEmpty()
+            }
             for (action in notification.actions) {
                 val a = TextView(context)
                 a.text = action.title
