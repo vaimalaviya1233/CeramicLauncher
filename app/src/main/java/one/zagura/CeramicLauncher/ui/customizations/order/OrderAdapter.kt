@@ -90,7 +90,7 @@ class OrderAdapter(val sections: ArrayList<String>) : RecyclerView.Adapter<Order
         when (section) {
             "starred_contacts" -> {
                 holder.text.text = context.getString(R.string.starred_contacts)
-                holder.icon.setImageResource(R.drawable.ic_other)
+                holder.icon.setImageResource(R.drawable.ic_contact)
                 holder.icon.imageTintList = ColorStateList.valueOf(Global.getPastelAccent())
                 holder.settingsIcon.isVisible = true
                 holder.settingsIcon.setOnClickListener {

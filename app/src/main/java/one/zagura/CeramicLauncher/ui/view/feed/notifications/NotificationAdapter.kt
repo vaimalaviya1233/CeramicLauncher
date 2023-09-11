@@ -65,6 +65,8 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.ViewHolder>
         val view = holder.card
         val notification = notifications[i]
 
+        view.reset()
+
         val progressBar = view.findViewById<ProgressBar>(R.id.progress)
         if (notification.max != -1 && notification.progress != -1 && notification.max != notification.progress) {
             progressBar.isVisible = true

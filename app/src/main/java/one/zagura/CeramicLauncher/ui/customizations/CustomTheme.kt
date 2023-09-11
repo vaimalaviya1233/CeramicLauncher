@@ -12,7 +12,7 @@ import io.posidon.android.conveniencelib.units.dp
 import io.posidon.android.conveniencelib.units.toPixels
 import one.zagura.CeramicLauncher.Global
 import one.zagura.CeramicLauncher.R
-import one.zagura.CeramicLauncher.ui.drawable.FastColorDrawable
+import one.zagura.CeramicLauncher.util.drawable.FastColorDrawable
 import one.zagura.CeramicLauncher.util.storage.Settings
 import one.zagura.CeramicLauncher.util.theme.Icons
 import one.zagura.CeramicLauncher.ui.view.setting.*
@@ -47,7 +47,7 @@ class CustomTheme : AppCompatActivity() {
         icShapeViews.onEachIndexed { i, v ->
             (v as ViewGroup).addView(ImageView(this).apply {
                 val s = Icons.IconShape(i)
-                setImageDrawable(if (s.isSquare) bg else MaskedDrawable(bg, s.getPath(size, size)))
+                setImageDrawable(MaskedDrawable(bg, s.getPath(size, size)))
             }, 0, ViewGroup.LayoutParams(size, size))
         }
         icShapeViews[Settings["icshape", 4]].setBackgroundResource(R.drawable.selection)

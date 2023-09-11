@@ -25,7 +25,7 @@ import io.posidon.android.conveniencelib.drawable.toBitmap
 import io.posidon.android.conveniencelib.units.dp
 import io.posidon.android.conveniencelib.units.toPixels
 import one.zagura.CeramicLauncher.R
-import one.zagura.CeramicLauncher.ui.drawable.ColorPreviewDrawable
+import one.zagura.CeramicLauncher.util.drawable.ColorPreviewDrawable
 import one.zagura.CeramicLauncher.util.Tools
 import one.zagura.CeramicLauncher.ui.view.recycler.LinearLayoutManager
 
@@ -43,6 +43,16 @@ object ColorTools {
         return d
     }
 
+    val randomColors = arrayOf(
+        0xffa473ff.toInt(),
+        0xff578cff.toInt(),
+        0xff04A5AD.toInt(),
+        0xff66b45f.toInt(),
+        0xfff2a735.toInt(),
+        0xfff6724b.toInt(),
+        0xffee3264.toInt(),
+    )
+
     fun pickColor(context: Context, @ColorInt initColor: Int, onSelect: (color: Int) -> Unit) {
         val d = BottomSheetDialog(context, R.style.bottomsheet)
         d.setContentView(R.layout.color_picker)
@@ -56,14 +66,7 @@ object ColorTools {
         d.findViewById<RecyclerView>(R.id.recycler)!!.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = ColorAdapter(getWallpaperColors(context).apply {
-                add(0xffee6170.toInt())
-                add(0xff32afce.toInt())
-                add(0xff37a051.toInt())
-                add(0xffd35744.toInt())
-                add(0xffddb63f.toInt())
-                add(0xff5a5bfa.toInt())
-                add(0xff5ae1be.toInt())
-                add(0xff04A5AD.toInt())
+                addAll(randomColors)
             }).apply { onItemClickListener = { color -> txt.setText(Integer.toHexString(color)) }}
         }
         var updatingAllowed = true
@@ -184,14 +187,7 @@ object ColorTools {
         d.findViewById<RecyclerView>(R.id.recycler)!!.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = ColorAdapter(getWallpaperColors(context).apply {
-                add(0xffee6170.toInt())
-                add(0xff32afce.toInt())
-                add(0xff37a051.toInt())
-                add(0xffd35744.toInt())
-                add(0xffddb63f.toInt())
-                add(0xff5a5bfa.toInt())
-                add(0xff5ae1be.toInt())
-                add(0xff04A5AD.toInt())
+                addAll(randomColors)
             }).apply { onItemClickListener = { color -> txt.setText(Integer.toHexString(color and 0xffffff)) }}
         }
         var updatingAllowed = true
@@ -294,13 +290,14 @@ object ColorTools {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             val drawable = WallpaperManager.getInstance(context).fastDrawable ?: return@apply
             val palette = Palette.from(drawable.toBitmap()).generate()
-            add(palette.getDominantColor(0xff04A5AD.toInt()))
-            add(palette.getDarkVibrantColor(0xff04A5AD.toInt()))
-            add(palette.getVibrantColor(0xff04A5AD.toInt()))
-            add(palette.getLightMutedColor(0xff04A5AD.toInt()))
-            add(palette.getMutedColor(0xff04A5AD.toInt()))
-            add(palette.getDarkMutedColor(0xff04A5AD.toInt()))
-            add(palette.getLightVibrantColor(0xff04A5AD.toInt()))
+            add(palette.getDominantColor(0))
+            add(palette.getDarkVibrantColor(0))
+            add(palette.getVibrantColor(0))
+            add(palette.getLightMutedColor(0))
+            add(palette.getMutedColor(0))
+            add(palette.getDarkMutedColor(0))
+            add(palette.getLightVibrantColor(0))
+            removeIf { it == 0 }
         }
     }
 

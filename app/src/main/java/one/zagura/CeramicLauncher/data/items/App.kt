@@ -44,7 +44,8 @@ class App(
             val intent = Intent(Intent.ACTION_MAIN)
             intent.component = ComponentName(packageName, name)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            (context.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps).startMainActivity(ComponentName(packageName, name), userHandle, null, when (Settings["anim:app_open", 0]) {
+            val launcherApps = context.getSystemService(LauncherApps::class.java)
+            launcherApps.startMainActivity(ComponentName(packageName, name), userHandle, null, when (Settings["anim:app_open", 0]) {
                 2 -> ActivityOptions.makeScaleUpAnimation(view, 0, 0, view?.measuredWidth ?: 0, view?.measuredHeight ?: 0).toBundle()
                 1 -> ActivityOptions.makeClipRevealAnimation(view, 0, 0, view?.measuredWidth ?: 0, view?.measuredHeight ?: 0).toBundle()
                 else -> ActivityOptions.makeCustomAnimation(context, R.anim.appopen, R.anim.home_exit).toBundle()
@@ -52,12 +53,16 @@ class App(
         } catch (e: Exception) { e.printStackTrace() }
     }
 
-    fun getShortcuts(context: Context): List<ShortcutInfo>? {
+    fun getShortcuts(context: Context): List<StaticShortcut> {
         val shortcutQuery = ShortcutQuery()
-        shortcutQuery.setQueryFlags(ShortcutQuery.FLAG_MATCH_DYNAMIC or ShortcutQuery.FLAG_MATCH_MANIFEST or ShortcutQuery.FLAG_MATCH_PINNED)
+        shortcutQuery.setQueryFlags(ShortcutQuery.FLAG_MATCH_MANIFEST)
         shortcutQuery.setPackage(packageName)
+        val launcherApps = context.getSystemService(LauncherApps::class.java)
         return try {
-            (context.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps).getShortcuts(shortcutQuery, Process.myUserHandle())
+            launcherApps.getShortcuts(shortcutQuery, Process.myUserHandle())?.map {
+                val icon = launcherApps.getShortcutIconDrawable(it, context.resources.displayMetrics.densityDpi)
+                StaticShortcut(packageName, it.id, it.shortLabel.toString(), icon, this)
+            }.orEmpty()
         } catch (e: Exception) { emptyList() }
     }
 

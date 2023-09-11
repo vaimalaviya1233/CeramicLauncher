@@ -34,7 +34,7 @@ import io.posidon.android.conveniencelib.units.toPixels
 import one.zagura.CeramicLauncher.Global
 import one.zagura.CeramicLauncher.Home
 import one.zagura.CeramicLauncher.R
-import one.zagura.CeramicLauncher.ui.drawable.NonDrawable
+import one.zagura.CeramicLauncher.util.drawable.NonDrawable
 import one.zagura.CeramicLauncher.data.items.Folder
 import one.zagura.CeramicLauncher.provider.AppLoader
 import one.zagura.CeramicLauncher.ui.ItemLongPress
@@ -79,7 +79,7 @@ class DrawerView : FrameLayout {
             return
         }
         searchBar.isVisible = true
-        searchTxt.setTextColor(Settings["searchtxtcolor", -0x1])
+        searchTxt.setTextColor(Settings["search:ui:text_color", -0x1])
         searchIcon.imageTintList = ColorStateList(arrayOf(intArrayOf(0)), intArrayOf(Settings["drawer:searchbar:text_color", 0xddffffff.toInt()]))
         searchBarVBox.background = ShapeDrawable().apply {
             val tr = Settings["drawer:searchbar:radius", 0].dp.toFloatPixels(context)

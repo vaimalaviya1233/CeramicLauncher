@@ -1,6 +1,7 @@
 package one.zagura.CeramicLauncher.ui.view.setting
 
 import android.content.Context
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.ViewGroup
@@ -64,11 +65,11 @@ class NumberBarSettingView : IntSettingView {
     override fun populateIcon() {
         textIcon = FontFitTextView(context).apply {
             gravity = Gravity.CENTER
-            defaultTextSize = 28.sp.toFloatPixels(context)
+            defaultTextSize = 24.sp.toFloatPixels(context)
             val p = 8.dp.toPixels(context)
             setPadding(p, 0, p, 0)
             setTextColor(Global.getPastelAccent())
-            typeface = resources.getFont(R.font.rubik_medium_caps)
+            typeface = Typeface.SANS_SERIF
         }
         addView(textIcon, LayoutParams(48.dp.toPixels(context), ViewGroup.LayoutParams.MATCH_PARENT))
     }

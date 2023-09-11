@@ -29,8 +29,8 @@ import io.posidon.android.conveniencelib.units.toFloatPixels
 import io.posidon.android.conveniencelib.units.toPixels
 import one.zagura.CeramicLauncher.Home
 import one.zagura.CeramicLauncher.R
-import one.zagura.CeramicLauncher.ui.drawable.FastColorDrawable
-import one.zagura.CeramicLauncher.ui.drawable.NonDrawable
+import one.zagura.CeramicLauncher.util.drawable.FastColorDrawable
+import one.zagura.CeramicLauncher.util.drawable.NonDrawable
 import one.zagura.CeramicLauncher.ui.ItemLongPress
 import one.zagura.CeramicLauncher.util.storage.Settings
 import one.zagura.CeramicLauncher.util.Dock
@@ -118,12 +118,10 @@ class Folder : LauncherItem {
             layerDrawable.draw(canvas)
 
             val iconShape = Icons.IconShape(Settings["icshape", 4])
-            if (!iconShape.isSquare) {
-                canvas.drawPath(iconShape.getPath(width, height), Paint().apply {
-                    isAntiAlias = true
-                    xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
-                })
-            }
+            canvas.drawPath(iconShape.getPath(width, height), Paint().apply {
+                isAntiAlias = true
+                xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
+            })
 
             return BitmapDrawable(Tools.appContext!!.resources, bitmap)
         } catch (e: Exception) { e.printStackTrace() }

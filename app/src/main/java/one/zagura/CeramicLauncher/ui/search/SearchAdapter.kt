@@ -4,49 +4,51 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import io.posidon.android.conveniencelib.units.dp
 import io.posidon.android.conveniencelib.units.toPixels
 import one.zagura.CeramicLauncher.R
 import one.zagura.CeramicLauncher.data.items.App
 import one.zagura.CeramicLauncher.data.items.LauncherItem
+import one.zagura.CeramicLauncher.ui.ItemLongPress
 import one.zagura.CeramicLauncher.util.storage.Settings
 import one.zagura.CeramicLauncher.util.theme.Icons
 
 internal class SearchAdapter(
     private val context: Context,
     private val results: List<LauncherItem>
-) : BaseAdapter() {
+) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
-    override fun getCount(): Int = results.size
-    override fun getItem(i: Int): Any = results[i]
-    override fun getItemId(position: Int): Long = 0
+    override fun getItemCount(): Int = results.size
 
-    class ViewHolder(
-        var icon: ImageView,
-        var text: TextView,
-        var notificationBadge: TextView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)
+        return ViewHolder(
+            view,
+            view.findViewById(R.id.iconimg),
+            view.findViewById(R.id.icontxt),
+            view.findViewById(R.id.notificationBadge)).apply {
+            view.setOnClickListener {
+                results[adapterPosition].open(it.context, it, -1)
+            }
+            view.setOnLongClickListener {
+                val app = results[adapterPosition]
+                if (app is App)
+                    ItemLongPress.onItemLongPress(it.context, it, app, null, null)
+                true
+            }
+        }
+    }
 
-    override fun getView(position: Int, cv: View?, parent: ViewGroup): View? {
-        var convertView = cv
-        val holder: ViewHolder
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)
-            holder = ViewHolder(
-                convertView.findViewById(R.id.iconimg),
-                convertView.findViewById(R.id.icontxt),
-                convertView.findViewById(R.id.notificationBadge))
-            convertView.tag = holder
-        } else holder = convertView.tag as ViewHolder
-
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val icon = holder.icon
         val text = holder.text
         val item = results[position]
         icon.setImageDrawable(item.icon)
         text.text = item.label
-        text.setTextColor(Settings["searchtxtcolor", -0x1])
+        text.setTextColor(Settings["search:ui:text_color", -0x1])
         if (item is App && Settings["notif:badges", true] && item.notificationCount != 0) {
             val badge = holder.notificationBadge
             badge.visibility = View.VISIBLE
@@ -61,7 +63,13 @@ internal class SearchAdapter(
         val appSize = Settings["search:icons:size", 56].dp.toPixels(context)
         holder.icon.layoutParams.height = appSize
         holder.icon.layoutParams.width = appSize
-        return convertView
     }
 
+    override fun getItemId(position: Int): Long = 0
+
+    class ViewHolder(
+        view: View,
+        var icon: ImageView,
+        var text: TextView,
+        var notificationBadge: TextView) : RecyclerView.ViewHolder(view)
 }

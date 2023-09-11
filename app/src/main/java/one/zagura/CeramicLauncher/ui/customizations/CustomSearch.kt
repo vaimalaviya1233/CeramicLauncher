@@ -23,13 +23,13 @@ class CustomSearch : AppCompatActivity() {
             color(
                 labelId = R.string.text_color,
                 iconId = R.drawable.ic_droplet,
-                key = "searchtxtcolor",
+                key = "search:ui:text_color",
                 default = 0xFFFFFFFF.toInt(),
             )
             color(
                 labelId = R.string.background,
                 iconId = R.drawable.ic_droplet,
-                key = "searchUiBg",
+                key = "search:ui:background_color",
                 default = 0x88000000.toInt(),
             )
             numberSeekBar(
@@ -51,6 +51,25 @@ class CustomSearch : AppCompatActivity() {
                 key = "search:enter_is_go",
                 default = false,
             )
+            title(R.string.searchbar)
+            color(
+                labelId = R.string.text_color,
+                iconId = R.drawable.ic_droplet,
+                key = "search:bar:text_color",
+                default = 0xFFFFFFFF.toInt(),
+            )
+            color(
+                labelId = R.string.background,
+                iconId = R.drawable.ic_droplet,
+                key = "search:bar:background_color",
+                default = 0x88000000.toInt(),
+            )
+            numberSeekBar(
+                labelId = R.string.background,
+                key = "search:bar:radius",
+                default = 0,
+                max = 30,
+            )
             title(R.string.results)
             switch(
                 labelId = R.string.package_search,
@@ -66,7 +85,7 @@ class CustomSearch : AppCompatActivity() {
             )
             switch(
                 labelId = R.string.contacts,
-                iconId = R.drawable.ic_other,
+                iconId = R.drawable.ic_contact,
                 key = "search:use_contacts",
                 default = true,
             )
@@ -84,12 +103,12 @@ class CustomSearch : AppCompatActivity() {
             )
         }
         TextViewCompat.setCompoundDrawableTintList(findViewById(R.id.hint_label), ColorStateList.valueOf(Global.getPastelAccent()))
-        findViewById<TextView>(R.id.hinttxt).text = Settings["searchhinttxt", getString(R.string.searchbarhint)]
+        findViewById<TextView>(R.id.hinttxt).text = Settings["search:text", getString(R.string.searchbarhint)]
         Global.customized = true
     }
 
     override fun onPause() {
-        Settings["searchhinttxt"] = findViewById<TextView>(R.id.hinttxt).text.toString()
+        Settings["search:text"] = findViewById<TextView>(R.id.hinttxt).text.toString()
         super.onPause()
     }
 }

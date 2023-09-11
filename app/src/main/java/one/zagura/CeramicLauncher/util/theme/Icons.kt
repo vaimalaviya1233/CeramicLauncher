@@ -17,8 +17,8 @@ import androidx.core.graphics.luminance
 import androidx.palette.graphics.Palette
 import io.posidon.android.conveniencelib.drawable.MaskedDrawable
 import one.zagura.CeramicLauncher.Global
-import one.zagura.CeramicLauncher.ui.drawable.ContactDrawable
-import one.zagura.CeramicLauncher.ui.drawable.NonDrawable
+import one.zagura.CeramicLauncher.util.drawable.ContactDrawable
+import one.zagura.CeramicLauncher.util.drawable.NonDrawable
 import one.zagura.CeramicLauncher.util.storage.Settings
 import one.zagura.CeramicLauncher.util.Tools
 import kotlin.math.abs
@@ -38,30 +38,23 @@ object Icons {
             val width = tmp.intrinsicWidth
             val height = tmp.intrinsicHeight
             tmp.setBounds(0, 0, width, height)
-            return if (iconShape.isSquare) tmp
-                else BitmapDrawable(Tools.appContext!!.resources, MaskedDrawable(tmp, iconShape.getPath(width, height)).toBitmap())
+            return BitmapDrawable(Tools.appContext!!.resources, MaskedDrawable(tmp, iconShape.getPath(width, height)).toBitmap())
         }
         return drawable
     }
 
-    private val pics = HashMap<Int, ContactDrawable>()
-    fun generateContactPicture(name: String, tmpLab: DoubleArray, paint: Paint): Drawable? {
+    private val pics = HashMap<String, ContactDrawable>()
+    fun generateContactPicture(name: String, paint: Paint, overlayPaint: Paint): Drawable? {
         if (name.isEmpty()) return null
-        val realName = name.trim { !it.isLetterOrDigit() }.uppercase()
+        val realName = name.trim().uppercase()
         if (realName.isEmpty()) return null
-        val key = (realName[0].code shl 16) + realName[realName.length / 2].code
-        return pics.getOrPut(key) {
-            val random = Random(key)
-            val base = Color.HSVToColor(floatArrayOf(random.nextFloat() * 360f, 1f, 1f))
-            ColorUtils.colorToLAB(base, tmpLab)
+        return pics.getOrPut(name) {
+            val random = Random(name.hashCode())
             ContactDrawable(
-                ColorUtils.LABToColor(
-                    50.0,
-                    tmpLab[1] / 2.0,
-                    tmpLab[2] / 2.0
-                ),
+                ColorTools.randomColors[random.nextInt(ColorTools.randomColors.size)],
                 realName[0],
-                paint
+                paint,
+                overlayPaint,
             )
         }
     }
@@ -102,6 +95,7 @@ object Icons {
                 when (int) {
                     1 -> path.addCircle(width / 2f, height / 2f, minSize / 2f - 2, Path.Direction.CCW)
                     2 -> path.addRoundRect(2f, 2f, width - 2f, height - 2f, minSize / 4f, minSize / 4f, Path.Direction.CCW)
+                    3 -> path.addRoundRect(2f, 2f, width - 2f, height - 2f, minSize / 10f, minSize / 10f, Path.Direction.CCW)
                     4 -> { //Formula: (|x|)^3 + (|y|)^3 = radius^3
                         val xx = 2
                         val yy = 2

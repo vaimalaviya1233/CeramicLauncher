@@ -12,7 +12,7 @@ import androidx.appcompat.widget.ListPopupWindow
 import androidx.recyclerview.widget.RecyclerView
 import one.zagura.CeramicLauncher.Global
 import one.zagura.CeramicLauncher.R
-import one.zagura.CeramicLauncher.ui.drawable.NonDrawable
+import one.zagura.CeramicLauncher.util.drawable.NonDrawable
 import one.zagura.CeramicLauncher.data.items.App
 import one.zagura.CeramicLauncher.data.items.Folder
 import one.zagura.CeramicLauncher.data.items.LauncherItem

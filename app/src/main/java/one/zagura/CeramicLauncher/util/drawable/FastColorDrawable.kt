@@ -1,4 +1,4 @@
-package one.zagura.CeramicLauncher.ui.drawable
+package one.zagura.CeramicLauncher.util.drawable
 
 import android.graphics.Canvas
 import android.graphics.ColorFilter
