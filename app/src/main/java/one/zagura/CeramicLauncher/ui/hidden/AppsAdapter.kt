@@ -24,7 +24,7 @@ class AppsAdapter(
     override fun getItem(position: Int) = null
     override fun getItemId(position: Int): Long = 0
 
-    private val appSize = Settings["drawer:icons:size", 64].dp.toPixels(context)
+    private val appSize = Settings["drawer:icons:size", 56].dp.toPixels(context)
 
     class ViewHolder(
         var icon: ImageView,
@@ -36,7 +36,7 @@ class AppsAdapter(
         val app = apps[position]
         if (convertView == null) {
             val li = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView = if (Settings["drawer:columns", 5] > 2) li.inflate(R.layout.drawer_item, parent, false) else {
+            convertView = if (Settings["drawer:columns", 4] > 2) li.inflate(R.layout.drawer_item, parent, false) else {
                 li.inflate(R.layout.list_item, parent, false)
             }
             holder = ViewHolder(

@@ -42,13 +42,6 @@ class CustomNotifications : AppCompatActivity() {
             )
             separator()
             numberSeekBar(
-                labelId = R.string.max_lines,
-                key = "notif:text:max_lines",
-                default = 3,
-                max = 24,
-                startsWith1 = true,
-            )
-            numberSeekBar(
                 labelId = R.string.corner_radius,
                 key = "notif:radius",
                 default = 0,
@@ -59,19 +52,6 @@ class CustomNotifications : AppCompatActivity() {
                 key = "notif:margin_x",
                 default = 0,
                 max = 32,
-            )
-            switch(
-                R.string.collapse_notifications,
-                R.drawable.ic_arrow_up,
-                "notif:collapse",
-                default = false,
-            )
-            switchTitle(R.string.action_buttons, "notif:actions:enabled", true)
-            color(
-                R.string.background,
-                R.drawable.ic_droplet,
-                "notif:actions:background_color",
-                0x88e0e0e0.toInt(),
             )
             switchTitle(R.string.notification_badges, "notif:badges", true)
             switch(
@@ -94,12 +74,6 @@ class CustomNotifications : AppCompatActivity() {
                 0xffff5555.toInt(),
             )
             clickable(R.string.hidden_apps, R.drawable.ic_visible, ::openHideApps)
-            switch(
-                R.string.hide_persistent_notifications,
-                R.drawable.ic_visible,
-                "notif:hide_persistent",
-                default = false,
-            )
         }
         Global.customized = true
     }

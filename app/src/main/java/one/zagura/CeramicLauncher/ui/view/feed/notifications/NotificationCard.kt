@@ -37,92 +37,14 @@ class NotificationCard : CardView, FeedSection {
         isNestedScrollingEnabled = false
         layoutManager = LinearLayoutManager(context)
         adapter = notificationAdapter
-    }
-
-
-    private val arrowUp = ImageView(context).apply {
-        setImageResource(R.drawable.ic_arrow_up)
-        setPadding(8.dp.toPixels(context))
-        visibility = GONE
-        imageTintList = ColorStateList.valueOf(0xffffffff.toInt())
-    }
-
-    private val parentNotificationTitle = TextView(context).apply {
-        textSize = 17f
-        gravity = Gravity.CENTER_VERTICAL
-    }
-
-    private val parentNotificationIcon = ImageView(context).apply {
-        setImageResource(R.drawable.ic_notification)
-        run {
-            val p = 4.dp.toPixels(context)
-            setPaddingRelative(p, p, p, p)
-        }
-    }
-
-    private val parentNotification = LinearLayout(context).apply {
-        orientation = LinearLayout.HORIZONTAL
-        gravity = Gravity.CENTER_VERTICAL
-        run {
-            val v = 12.dp.toPixels(context)
-            setPadding(v, 0, v, 0)
-        }
-
-        addView(arrowUp, LayoutParams(MATCH_PARENT, 48.dp.toPixels(context)))
-        addView(parentNotificationTitle, LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f))
-        addView(parentNotificationIcon, LayoutParams(32.dp.toPixels(context), 32.dp.toPixels(context)))
-
-        setOnLongClickListener(Gestures::onLongPress)
-        setOnClickListener {
-            if (notifications.visibility == VISIBLE)
-                collapse() else expand()
-        }
-    }
-
-    private val linearLayout = LinearLayout(context).apply {
-        orientation = LinearLayout.VERTICAL
-        addView(parentNotification, LayoutParams(MATCH_PARENT, 56.dp.toPixels(context)))
-        addView(notifications, LayoutParams(MATCH_PARENT, WRAP_CONTENT))
+        val p = context.resources.getDimension(R.dimen.notification_primary_area_padding).toInt()
+        setPadding(0, p / 2, 0, p / 2)
     }
 
     init {
         cardElevation = 0f
-        addView(linearLayout, LayoutParams(MATCH_PARENT, WRAP_CONTENT))
+        addView(notifications, LayoutParams(MATCH_PARENT, WRAP_CONTENT))
     }
-
-    fun collapse() {
-        val firstScroll = feed.scroll.scrollY
-        val firstMaxScroll = feed.desktopContent.height
-        notifications.visibility = GONE
-        arrowUp.visibility = GONE
-        parentNotification.background = null
-        feed.scroll.post {
-            feed.scrollUpdate(firstScroll, firstMaxScroll)
-        }
-    }
-
-    fun expand() {
-        val firstScroll = feed.scroll.scrollY
-        val firstMaxScroll = feed.desktopContent.height
-        notifications.visibility = VISIBLE
-        arrowUp.visibility = VISIBLE
-        parentNotification.setBackgroundColor(Settings["notif:text_color", -0xdad9d9] and 0xffffff or 0x22000000)
-        feed.scroll.post {
-            feed.scrollUpdate(firstScroll, firstMaxScroll)
-        }
-    }
-
-    var isCollapsingEnabled = true
-        set(value) {
-            field = value
-            if (value) {
-                collapse()
-                parentNotification.visibility = VISIBLE
-            } else {
-                expand()
-                parentNotification.visibility = GONE
-            }
-        }
 
     private lateinit var feed: Feed
 
@@ -131,26 +53,6 @@ class NotificationCard : CardView, FeedSection {
     }
 
     fun update() {
-        if (Settings["notif:collapse", false]) {
-            if (NotificationService.notificationsAmount > 1) {
-                parentNotification.visibility = VISIBLE
-                parentNotificationTitle.text = resources.getQuantityString(
-                    R.plurals.num_notifications,
-                    NotificationService.notificationsAmount,
-                    NotificationService.notificationsAmount
-                )
-                if (notifications.visibility == VISIBLE) {
-                    parentNotification.setBackgroundColor(Settings["notif:text_color", -0xdad9d9] and 0xffffff or 0x22000000)
-                    arrowUp.visibility = VISIBLE
-                } else {
-                    parentNotification.background = null
-                    arrowUp.visibility = GONE
-                }
-            } else {
-                parentNotification.visibility = GONE
-                notifications.visibility = VISIBLE
-            }
-        }
         notificationAdapter.update(NotificationService.notifications)
     }
 
@@ -165,21 +67,9 @@ class NotificationCard : CardView, FeedSection {
         }
         radius = Settings["notif:radius", 0].dp.toFloatPixels(context)
         setCardBackgroundColor(Settings["notif:background_color", -0x1])
-        parentNotificationTitle.setTextColor(Settings["notif:title_color", -0xeeeded])
-        arrowUp.imageTintList = ColorStateList.valueOf(Settings["notif:text_color", -0xdad9d9])
-        parentNotificationIcon.imageTintList = ColorStateList.valueOf(Global.accentColor)
-        isCollapsingEnabled = Settings["notif:collapse", false] && NotificationService.notificationsAmount > 1
         val restAtBottom = Settings["feed:rest_at_bottom", false]
         (notifications.layoutManager as LinearLayoutManager).apply {
             reverseLayout = restAtBottom
-        }
-        linearLayout.removeView(parentNotification)
-        linearLayout.addView(parentNotification, if (restAtBottom) 1 else 0)
-    }
-
-    override fun onPause() {
-        if (Settings["notif:collapse", false] && NotificationService.notificationsAmount > 1) {
-            collapse()
         }
     }
 

@@ -61,7 +61,7 @@ class DrawerView : FrameLayout {
             drawerGrid.numColumns = 1
             drawerGrid.verticalSpacing = 0
         } else {
-            drawerGrid.numColumns = Settings["drawer:columns", 5]
+            drawerGrid.numColumns = Settings["drawer:columns", 4]
             drawerGrid.verticalSpacing = Settings["verticalspacing", 12].dp.toPixels(context)
         }
         val searchBarEnabled = Settings["drawer:searchbar:enabled", true]

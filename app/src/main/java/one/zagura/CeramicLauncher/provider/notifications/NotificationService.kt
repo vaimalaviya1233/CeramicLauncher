@@ -3,6 +3,7 @@ package one.zagura.CeramicLauncher.provider.notifications
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationChannelGroup
+import android.app.NotificationManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -110,53 +111,42 @@ class NotificationService : NotificationListenerService() {
             }
 
             val tmpNotifications = ArrayList<NotificationItem>()
-            var i = 0
-            var notificationsAmount2 = 0
             lock.withLock {
                 try {
                     for (app in Global.apps) {
                         app.notificationCount = 0
                     }
                     if (notifications != null) {
-                        while (i < notifications.size) {
-                            val notification = notifications[i]
-
-                            if (!notification.isClearable && Settings["notif:hide_persistent", false]) {
-                                i++
+                        val iter = notifications.iterator()
+                        for (notification in iter) {
+                            if (notification.notification.flags and Notification.FLAG_GROUP_SUMMARY != 0)
                                 continue
-                            }
 
-                            if (notification.notification.flags and Notification.FLAG_GROUP_SUMMARY != 0) {
-                                i++
+                            val channel = NotificationManagerCompat.from(applicationContext).getNotificationChannel(notification.notification.channelId)
+                            if (channel != null && channel.importance < NotificationManager.IMPORTANCE_DEFAULT)
                                 continue
-                            }
+
+                            if (!notification.isClearable)
+                                continue
 
                             if (
                                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
                                 && notification.notification.bubbleMetadata?.isNotificationSuppressed == true
-                            ) {
-                                i++
+                            ) continue
+
+                            if (Settings["notif:ex:${notification.packageName}", false])
                                 continue
-                            }
 
-                            if (Settings["notif:ex:${notification.packageName}", false]) {
-                                i++
+                            if (notification.notification.extras
+                                    .getCharSequence(Notification.EXTRA_TEMPLATE) == Notification.MediaStyle::class.java.name)
                                 continue
-                            }
 
-                            val isMusic = notification.notification.extras
-                                .getCharSequence(Notification.EXTRA_TEMPLATE) == Notification.MediaStyle::class.java.name
-
-                            if (isMusic) {
-                                i++
+                            if (notification.packageName == "android")
                                 continue
-                            }
 
-                            showNotificationBadgeOnPackage(notifications[i].packageName)
+                            showNotificationBadgeOnPackage(notification.packageName)
                             tmpNotifications.add(
-                                NotificationCreator.create(applicationContext, notifications[i]))
-                            notificationsAmount2++
-                            i++
+                                NotificationCreator.create(applicationContext, notification))
                         }
                     }
                 } catch (e: Exception) {
@@ -164,10 +154,8 @@ class NotificationService : NotificationListenerService() {
                 } catch (e: OutOfMemoryError) {
                     tmpNotifications.clear()
                     Companion.notifications.clear()
-                    notificationsAmount2 = 0
                 }
                 Companion.notifications = tmpNotifications
-                notificationsAmount = notificationsAmount2
                 onUpdate()
             }
         }
@@ -185,7 +173,6 @@ class NotificationService : NotificationListenerService() {
 
         var onUpdate = {}
 
-		var notificationsAmount = 0
         private val lock = ReentrantLock()
 
         var mediaItem: MediaPlayerData? = null

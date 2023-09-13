@@ -11,6 +11,9 @@ import android.os.Build
 import android.os.Bundle
 import android.service.notification.StatusBarNotification
 import androidx.core.app.NotificationCompat
+import androidx.core.text.clearSpans
+import androidx.core.text.toSpannable
+import androidx.core.text.toSpanned
 import one.zagura.CeramicLauncher.data.NotificationItem
 import one.zagura.CeramicLauncher.util.storage.Settings
 import one.zagura.CeramicLauncher.util.theme.ColorTools
@@ -31,6 +34,7 @@ object NotificationCreator {
 
     inline fun getTitle(extras: Bundle): CharSequence? {
         val title = extras.getCharSequence(Notification.EXTRA_TITLE)
+            ?: extras.getCharSequence(Notification.EXTRA_TITLE_BIG)
         if (title == null || title.toString().replace(" ", "").isEmpty()) {
             return null
         }
@@ -42,6 +46,7 @@ object NotificationCreator {
         return if (messages == null) {
             extras.getCharSequence(Notification.EXTRA_BIG_TEXT)
                 ?: extras.getCharSequence(Notification.EXTRA_TEXT)
+                ?: extras.getCharSequence(Notification.EXTRA_SUMMARY_TEXT)
         } else buildString {
             messages.forEach {
                 val bundle = it as Bundle
@@ -95,22 +100,23 @@ object NotificationCreator {
             ))
         }
 
-        val progress = extras.getInt(Notification.EXTRA_PROGRESS, -1)
-        val maxProgress = extras.getInt(Notification.EXTRA_PROGRESS_MAX, -1)
-        val intermediate = extras.getBoolean(Notification.EXTRA_PROGRESS_INDETERMINATE, false)
-
         val autoCancel = notification.notification.flags and Notification.FLAG_AUTO_CANCEL != 0
 
         val messagingStyle = NotificationCompat.MessagingStyle.extractMessagingStyleFromNotification(
             notification.notification)
         if (messagingStyle != null) {
             messagingStyle.conversationTitle?.toString()?.let { title = it }
-            messagingStyle.messages.takeLast(3).mapNotNull { it.text }.ifEmpty { null }?.joinToString("\n")?.let { text = it }
+            messagingStyle.messages.takeLast(2).mapNotNull {
+                (it.text ?: return@mapNotNull null).trim().ifEmpty { null }
+            }.ifEmpty { null }?.joinToString("\n")?.let { text = it }
         }
 
         val image = if (isSummary) null else getImage(context, extras, notification.notification, messagingStyle)
 
+        text = text?.toSpannable()?.apply { clearSpans() }?.toString()
+
         return NotificationItem(
+            isConvo = messagingStyle != null,
             title = title,
             text = text,
             source = source,
@@ -119,11 +125,8 @@ object NotificationCreator {
             color = color,
             isSummary = isSummary,
             image = image,
-            actions = notification.notification.actions,
             contentIntent = notification.notification.contentIntent,
             key = notification.key,
-            progress = if (intermediate) -2 else progress,
-            max = if (intermediate) 0 else maxProgress,
             autoCancel = autoCancel,
             isCancellable = notification.isClearable,
         )

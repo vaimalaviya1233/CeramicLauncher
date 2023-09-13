@@ -30,14 +30,14 @@ class CustomDrawer : AppCompatActivity() {
             numberSeekBar(
                 labelId = R.string.columns,
                 key = "drawer:columns",
-                default = 5,
+                default = 4,
                 max = 7,
                 startsWith1 = true,
             )
             numberSeekBar(
                 labelId = R.string.iconSize,
                 key = "drawer:icons:size",
-                default = 64,
+                default = 56,
                 max = 96,
                 startsWith1 = true,
             )

@@ -57,11 +57,11 @@ object ItemLongPress {
             (editButton as TextView).compoundDrawableTintList = ColorStateList.valueOf(Global.getPastelAccent())
             when (removeFunction) {
                 HIDE -> {
-                    removeButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_hide, 0, 0, 0)
+                    removeButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_visible, 0, 0, 0)
                     removeButton.setText(R.string.hide)
                 }
                 UNHIDE -> {
-                    removeButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_hide, 0, 0, 0)
+                    removeButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_visible, 0, 0, 0)
                     removeButton.setText(R.string.unhide)
                 }
             }
@@ -71,7 +71,7 @@ object ItemLongPress {
             (editButton as ImageView).imageTintList = ColorStateList.valueOf(Global.getPastelAccent())
             when (removeFunction) {
                 HIDE, UNHIDE -> {
-                    removeButton.setImageResource(R.drawable.ic_hide)
+                    removeButton.setImageResource(R.drawable.ic_visible)
                 }
             }
         }

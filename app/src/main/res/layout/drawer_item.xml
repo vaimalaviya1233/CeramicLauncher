@@ -8,12 +8,12 @@
     <FrameLayout
         android:id="@+id/iconFrame"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="4dp">
+        android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/iconimg"
             android:layout_width="72dp"
-            android:layout_height="72dp"/>
+            android:layout_height="72dp"
+            android:layout_margin="4dp"/>
         <TextView
             android:id="@+id/notificationBadge"
             android:layout_width="wrap_content"

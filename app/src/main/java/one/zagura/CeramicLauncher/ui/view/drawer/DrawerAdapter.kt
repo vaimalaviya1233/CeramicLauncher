@@ -32,13 +32,13 @@ class DrawerAdapter : BaseAdapter(), SectionIndexer, HighlightAdapter {
         val app = Global.apps[i]
         if (convertView == null) {
             val li = Tools.appContext!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView = if (Settings["drawer:columns", 5] > 2) li.inflate(R.layout.drawer_item, parent, false)
+            convertView = if (Settings["drawer:columns", 4] > 2) li.inflate(R.layout.drawer_item, parent, false)
                 else li.inflate(R.layout.list_item, parent, false)
             holder = ViewHolder(
                 convertView.findViewById(R.id.iconimg),
                 convertView.findViewById(R.id.icontxt),
                 convertView.findViewById(R.id.notificationBadge))
-            val appSize = Settings["drawer:icons:size", 64].dp.toPixels(parent.context)
+            val appSize = Settings["drawer:icons:size", 56].dp.toPixels(parent.context)
             holder.icon.layoutParams.height = appSize
             holder.icon.layoutParams.width = appSize
             convertView.tag = holder

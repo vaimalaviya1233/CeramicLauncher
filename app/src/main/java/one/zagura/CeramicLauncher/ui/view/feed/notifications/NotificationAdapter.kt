@@ -33,32 +33,33 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.ViewHolder>
 
     override fun getItemCount() = notifications.size
 
+    override fun getItemViewType(i: Int): Int =
+        if (notifications[i].isConvo) 1 else 0
+
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): ViewHolder {
         val context = parent.context
 
-        val view = LayoutInflater.from(context).inflate(R.layout.notification, null).apply {
-            findViewById<TextView>(R.id.txt).maxLines = Settings["notif:text:max_lines", 3]
+        val view = LayoutInflater.from(context).inflate(if (type == 1) R.layout.notification_convo else R.layout.notification, null).apply {
             setOnLongClickListener(Gestures::onLongPress)
+            val p = context.resources.getDimension(R.dimen.notification_primary_area_padding).toInt()
+            setPadding(p, p / 2, p, p / 2)
         }
-        val card = SwipeableLayout(view).apply {
+        val swipeable = SwipeableLayout(view).apply {
             val bg = Settings["notif:card_swipe_bg_color", 0x880d0e0f.toInt()]
             setIconColor(if (bg.luminance > .6f) 0xff000000.toInt() else 0xffffffff.toInt())
             setSwipeColor(bg)
+            layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         }
 
-        view.findViewById<TextView>(R.id.source_extra).setTextColor(Settings["notif:text_color", -0xdad9d9])
+        if (type == 0)
+            view.findViewById<TextView>(R.id.source_extra).setTextColor(Settings["notif:text_color", -0xdad9d9])
         view.findViewById<TextView>(R.id.title).setTextColor(Settings["notif:title_color", -0xeeeded])
-        view.findViewById<TextView>(R.id.txt).setTextColor(Settings["notif:text_color", -0xdad9d9])
+        with(view.findViewById<TextView>(R.id.txt)) {
+            setTextColor(Settings["notif:text_color", -0xdad9d9])
+            maxLines = if (type == 1) 3 else 1
+        }
 
-        view.findViewById<View>(R.id.notif_separator)
-            .setBackgroundColor(Settings["notif:text_color", -0xdad9d9] and 0xffffff or 0x33000000)
-        view.findViewById<View>(R.id.bottom_separator)
-            .setBackgroundColor(Settings["notif:text_color", -0xdad9d9] and 0xffffff or 0x33000000)
-
-        view.findViewById<View>(R.id.action_area)
-            .setBackgroundColor(Settings["notif:actions:background_color", 0x88e0e0e0.toInt()])
-
-        return ViewHolder(card).apply {
+        return ViewHolder(swipeable).apply {
             card.onSwipeAway = {
                 val n = notifications[adapterPosition]
                 if (n.isCancellable) {
@@ -71,11 +72,22 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.ViewHolder>
     }
 
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
-        val context = holder.card.context
         val view = holder.card
+        view.reset()
+
         val notification = notifications[i]
 
-        view.reset()
+        if (!notification.isConvo) {
+            with(view.findViewById<TextView>(R.id.source_extra)) {
+                if (notification.sourceExtra == null) {
+                    text = null
+                    isVisible = false
+                } else {
+                    isVisible = true
+                    text = " • ${notification.sourceExtra}"
+                }
+            }
+        }
 
         val tintedFGColor =
             ColorTools.makeContrasty(
@@ -83,142 +95,27 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.ViewHolder>
                 Settings["notif:background_color", -0x1]
             )
 
-        val progressBar = view.findViewById<ProgressBar>(R.id.progress)
-        if (notification.max != -1 && notification.progress != -1 && notification.max != notification.progress) {
-            progressBar.isVisible = true
-            if (notification.progress == -2) {
-                progressBar.isIndeterminate = true
-            } else {
-                progressBar.isIndeterminate = false
-                progressBar.progressTintList = ColorStateList.valueOf(tintedFGColor)
-                progressBar.progressBackgroundTintList = ColorStateList.valueOf(tintedFGColor)
-                progressBar.progress = notification.progress
-                progressBar.max = notification.max
-            }
-        } else {
-            progressBar.isVisible = false
-        }
-        val actionList = view.findViewById<LinearLayout>(R.id.action_list)
-        actionList.removeAllViews()
-        if (notification.actions != null && Settings["notif:actions:enabled", true]) {
-            with(view.findViewById<View>(R.id.action_area)) {
-                isVisible = notification.actions.isNotEmpty()
-            }
-            val tintedActionColor =
-                ColorTools.makeContrasty(
-                    notification.color,
-                    Settings["notif:actions:background_color", 0x88e0e0e0.toInt()],
-                )
-            for (action in notification.actions) {
-                val a = TextView(context)
-                a.text = action.title
-                a.textSize = 14f
-                a.isAllCaps = true
-                a.typeface = Typeface.DEFAULT_BOLD
-                a.setTextColor(tintedActionColor)
-                val vPadding = 10.dp.toPixels(context)
-                val hPadding = 12.dp.toPixels(context)
-                a.setPadding(hPadding, vPadding, hPadding, vPadding)
-                actionList.addView(a)
-                a.setOnClickListener {
-                    try {
-                        val oldInputs = action.remoteInputs
-                        if (oldInputs != null) {
-                            view.findViewById<View>(R.id.bottom_separator).visibility = View.VISIBLE
-                            view.findViewById<View>(R.id.reply).apply lin@{
-                                visibility = View.VISIBLE
-                                val imm =
-                                    getSystemService(context, InputMethodManager::class.java)!!
-                                val textArea = findViewById<EditText>(R.id.replyText).apply {
-                                    setTextColor(Settings["notif:text_color", -0xdad9d9])
-                                    setHintTextColor(Settings["notif:text_color", -0xdad9d9] and 0xffffff or 0x88000000.toInt())
-                                    requestFocus()
-                                    imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
-                                    setOnFocusChangeListener { _, hasFocus ->
-                                        if (!hasFocus) {
-                                            text.clear()
-                                            this@lin.visibility = View.GONE
-                                            view.findViewById<View>(R.id.bottom_separator).visibility =
-                                                View.GONE
-                                            imm.hideSoftInputFromWindow(windowToken, 0)
-                                        }
-                                    }
-                                }
-                                findViewById<ImageView>(R.id.cancel).apply {
-                                    imageTintList =
-                                        ColorStateList.valueOf(Settings["notif:text_color", -0xdad9d9])
-                                    setOnClickListener {
-                                        textArea.text.clear()
-                                        this@lin.visibility = View.GONE
-                                        view.findViewById<View>(R.id.bottom_separator).visibility =
-                                            View.GONE
-                                    }
-                                }
-                                findViewById<ImageView>(R.id.replySend).apply {
-                                    imageTintList =
-                                        ColorStateList.valueOf(Settings["notif:text_color", -0xdad9d9])
-                                    setOnClickListener {
-                                        val intent = Intent()
-                                        val bundle = Bundle()
-                                        val actualInputs: ArrayList<RemoteInput> = ArrayList()
-                                        for (input in oldInputs) {
-                                            bundle.putCharSequence(input.resultKey, textArea.text)
-                                            val builder = RemoteInput.Builder(input.resultKey)
-                                            builder.setLabel(input.label)
-                                            builder.setChoices(input.choices)
-                                            builder.setAllowFreeFormInput(input.allowFreeFormInput)
-                                            builder.addExtras(input.extras)
-                                            actualInputs.add(builder.build())
-                                        }
-                                        val inputs = actualInputs.toArray(
-                                            arrayOfNulls<RemoteInput>(actualInputs.size)
-                                        )
-                                        RemoteInput.addResultsToIntent(inputs, intent, bundle)
-                                        action.actionIntent.send(context, 0, intent)
-                                        textArea.text.clear()
-                                        this@lin.visibility = View.GONE
-                                        view.findViewById<View>(R.id.bottom_separator).visibility =
-                                            View.GONE
-                                    }
-                                }
-                            }
-                        } else {
-                            action.actionIntent.send()
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-            }
-        } else {
-            view.findViewById<View>(R.id.action_area).isVisible = false
-        }
-
-        with(view.findViewById<TextView>(R.id.source)) {
-            text = notification.source
-            setTextColor(tintedFGColor)
-        }
-        with(view.findViewById<TextView>(R.id.source_extra)) {
-            if (notification.sourceExtra == null) {
-                text = null
-                isVisible = false
-            } else {
-                isVisible = true
-                text = " • ${notification.sourceExtra}"
-            }
-        }
         with(view.findViewById<TextView>(R.id.title)) {
             text = notification.title
+            setTextColor(if (notification.isConvo && notification.title != null)
+                ColorTools.makeContrasty(
+                    ColorTools.getColorForText(notification.title),
+                    Settings["notif:background_color", -0x1]
+                )
+            else tintedFGColor)
         }
         with(view.findViewById<TextView>(R.id.txt)) {
             text = notification.text
         }
         with(view.findViewById<ImageView>(R.id.source_icon)) {
             setImageDrawable(notification.sourceIcon)
-            imageTintList = ColorStateList.valueOf(tintedFGColor)
+            if (notification.isConvo) {
+                backgroundTintList = ColorStateList.valueOf(tintedFGColor)
+                imageTintList = ColorStateList.valueOf(Settings["notif:background_color", -0x1])
+            } else imageTintList = ColorStateList.valueOf(tintedFGColor)
         }
 
-        with(view.findViewById<ImageView>(R.id.iconimg)) {
+        with(view.findViewById<ImageView>(R.id.image)) {
             setImageDrawable(notification.image)
             isVisible = notification.image != null
         }

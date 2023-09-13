@@ -49,7 +49,7 @@ object ColorTools {
     fun makeContrasty(color: Int, against: Int): Int {
         val lab = DoubleArray(3)
         ColorUtils.colorToLAB(color, lab)
-        if (against.luminance > 0.6f) lab[0] = lab[0].coerceAtMost(10.0)
+        if (against.luminance > 0.5f) lab[0] = lab[0].coerceAtMost(10.0)
         else lab[0] = lab[0].coerceAtLeast(85.0)
         return ColorUtils.LABToColor(lab[0], lab[1], lab[2])
     }
@@ -76,7 +76,7 @@ object ColorTools {
         0xffee3264.toInt(),
     )
 
-    fun getColorForText(text: String): Int =
+    fun getColorForText(text: CharSequence): Int =
         randomColors[Random(text.hashCode()).nextInt(randomColors.size)]
 
     fun pickColor(context: Context, @ColorInt initColor: Int, onSelect: (color: Int) -> Unit) {

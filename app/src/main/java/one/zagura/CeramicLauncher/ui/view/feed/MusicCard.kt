@@ -7,6 +7,7 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.media.AudioManager
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.KeyEvent
@@ -33,15 +34,19 @@ class MusicCard(c: Context) : CardView(c), FeedSection {
     val musicService = context.getSystemService(AudioManager::class.java)
 
     val musicCardImage = BackdropImageView(context).apply {
-        scaleType = ImageView.ScaleType.FIT_END
+        scaleType = ImageView.ScaleType.FIT_START
     }
 
     val musicCardTrackTitle = TextView(context).apply {
-        textSize = 18f
+        textSize = 14f
+        isSingleLine = true
+        ellipsize = TextUtils.TruncateAt.END
     }
 
     val musicCardTrackSubtitle = TextView(context).apply {
-        textSize = 15f
+        textSize = 14f
+        isSingleLine = true
+        ellipsize = TextUtils.TruncateAt.END
     }
     
     val musicPrev = ImageView(context).apply {
@@ -79,14 +84,21 @@ class MusicCard(c: Context) : CardView(c), FeedSection {
     }
 
     val musicCardOverImg = LinearLayout(context).apply {
-        orientation = LinearLayout.VERTICAL
+        orientation = LinearLayout.HORIZONTAL
         val p = context.resources.getDimension(R.dimen.notification_primary_area_padding).toInt()
-        setPaddingRelative(p, p, p, p)
+        setPaddingRelative(p + 32.dp.toPixels(context), p, p, p)
+
+        val textLayout = LinearLayout(context).apply {
+            this.orientation = LinearLayout.VERTICAL
+
+            addView(musicCardTrackTitle, LayoutParams(MATCH_PARENT, WRAP_CONTENT))
+            addView(musicCardTrackSubtitle, LayoutParams(MATCH_PARENT, WRAP_CONTENT))
+        }
 
         val linearLayout = LinearLayout(context).apply {
             this.orientation = LinearLayout.HORIZONTAL
             this.gravity = Gravity.BOTTOM
-            setPadding(0, 8.dp.toPixels(context), 0, 0)
+            //setPadding(0, 8.dp.toPixels(context), 0, 0)
             layoutDirection = LAYOUT_DIRECTION_LTR
 
             addView(musicPrev, LinearLayout.LayoutParams(36.dp.toPixels(context), 32.dp.toPixels(context)))
@@ -96,9 +108,8 @@ class MusicCard(c: Context) : CardView(c), FeedSection {
             addView(musicNext, LinearLayout.LayoutParams(36.dp.toPixels(context), 32.dp.toPixels(context)))
         }
 
-        addView(musicCardTrackTitle, LayoutParams(MATCH_PARENT, WRAP_CONTENT))
-        addView(musicCardTrackSubtitle, LayoutParams(MATCH_PARENT, WRAP_CONTENT))
-        addView(linearLayout, LayoutParams(MATCH_PARENT, WRAP_CONTENT))
+        addView(textLayout, LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f))
+        addView(linearLayout, LayoutParams(WRAP_CONTENT, WRAP_CONTENT))
     }
 
     init {
@@ -143,7 +154,7 @@ class MusicCard(c: Context) : CardView(c), FeedSection {
             bg to Settings["notif:background_color", -0x1]
         } else {
             val bgColor = data.palette.getDominantColor(bg)
-            val fgColor = if (bgColor.luminance > 0.6f)
+            val fgColor = if (bgColor.luminance > 0.5f)
                 data.palette.getDarkVibrantColor(0xff000000.toInt())
             else data.palette.getLightMutedColor(0xffffffff.toInt())
             bgColor to ColorTools.makeContrasty(fgColor, bgColor)
@@ -152,7 +163,7 @@ class MusicCard(c: Context) : CardView(c), FeedSection {
         musicCardImage.setImageDrawable(
             LayerDrawable(arrayOf(
                 data.cover,
-                GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, intArrayOf(bgColor, bgColor and 0x00ffffff))
+                GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, intArrayOf(bgColor and 0x00ffffff, bgColor))
             )))
         with(musicCardTrackTitle) {
             setTextColor(fgColor)
