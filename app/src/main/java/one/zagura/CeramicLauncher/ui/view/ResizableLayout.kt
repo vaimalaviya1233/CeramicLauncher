@@ -21,7 +21,7 @@ import one.zagura.CeramicLauncher.util.vibrate
 import java.lang.ref.WeakReference
 import kotlin.math.abs
 
-open class ResizableLayout(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
+open class ResizableLayout(context: Context, val minHeight: Int, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
 
     private var dragHandle: View
     private var crossButton: View
@@ -40,8 +40,8 @@ open class ResizableLayout(context: Context, attrs: AttributeSet? = null) : Fram
                 dragHandle.visibility = GONE
                 crossButton.visibility = GONE
             }
-            if (layoutParams != null && layoutParams.height < MIN_HEIGHT.dp.toFloatPixels(context))
-                layoutParams.height = MIN_HEIGHT.dp.toPixels(context)
+            if (layoutParams != null && layoutParams.height < minHeight)
+                layoutParams.height = minHeight
         }
 
     override fun addView(child: View, index: Int) {
@@ -58,7 +58,6 @@ open class ResizableLayout(context: Context, attrs: AttributeSet? = null) : Fram
     }
 
     companion object {
-        private const val MIN_HEIGHT = 64
         private var currentlyResizingRef = WeakReference<ResizableLayout>(null)
         val currentlyResizing: ResizableLayout? get() = currentlyResizingRef.get()
     }
@@ -77,7 +76,7 @@ open class ResizableLayout(context: Context, attrs: AttributeSet? = null) : Fram
                 MotionEvent.ACTION_MOVE -> {
                     val location = intArrayOf(0, 0)
                     getLocationOnScreen(location)
-                    if (event.rawY - location[1] >= MIN_HEIGHT.dp.toFloatPixels(context) && event.rawY - location[1] <= maxHeight) {
+                    if (event.rawY - location[1] >= minHeight && event.rawY - location[1] <= maxHeight) {
                         val height = (event.rawY - location[1]).toInt()
                         layoutParams.height = height
                         layoutParams = layoutParams
@@ -108,6 +107,7 @@ open class ResizableLayout(context: Context, attrs: AttributeSet? = null) : Fram
             true
         }
         crossButton = findViewById(R.id.cross)
+        crossButton.backgroundTintList = ColorStateList.valueOf(Global.getPastelAccent())
         crossButton.setOnClickListener {
             resizing = false
             onResizeListener?.onCrossPress()

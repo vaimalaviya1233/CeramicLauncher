@@ -9,6 +9,7 @@ class NotificationItem(
     val title: CharSequence?,
     val text: CharSequence?,
     val source: CharSequence,
+    val sourceExtra: CharSequence?,
     val sourceIcon: Drawable?,
     val color: Int,
     val isSummary: Boolean,
@@ -33,7 +34,7 @@ class NotificationItem(
     }
 
     fun cancel() {
-        NotificationService.instance.cancelNotification(key)
+        NotificationService.instance?.cancelNotification(key)
     }
 
     override fun equals(other: Any?): Boolean {

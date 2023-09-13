@@ -8,12 +8,19 @@ import one.zagura.CeramicLauncher.R
 import one.zagura.CeramicLauncher.ui.customizations.order.FeedOrderActivity
 import one.zagura.CeramicLauncher.util.storage.Settings
 import one.zagura.CeramicLauncher.ui.view.setting.*
+import one.zagura.CeramicLauncher.util.StackTraceActivity
+import one.zagura.CeramicLauncher.util.Tools
+import java.lang.ref.WeakReference
 
 class CustomMain : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        StackTraceActivity.init(applicationContext)
         Settings.init(applicationContext)
+        if (Tools.appContext == null) {
+            Tools.appContextReference = WeakReference(applicationContext)
+        }
         configureWindowForSettings()
         Global.customized = true
     }

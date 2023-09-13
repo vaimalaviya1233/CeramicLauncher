@@ -120,7 +120,7 @@
     <string name="grouping">Agrupacion</string>
     <string name="recolor_white_bgs">Pintar fondos blancos</string>
     <string name="oops">Oops!</string>
-    <string name="posidon_launcher_crashed">Ceramic Launcher crashed</string>
+    <string name="ceramic_launcher_crashed">Ceramic Launcher crashed</string>
     <string name="send_bug_report">Enviar informe de error</string>
     <string name="show_name">Mostrar nombre</string>
     <string name="name_color">Color de nombre</string>

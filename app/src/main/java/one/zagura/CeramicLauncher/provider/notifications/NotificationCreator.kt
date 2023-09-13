@@ -7,11 +7,13 @@ import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.service.notification.StatusBarNotification
 import androidx.core.app.NotificationCompat
 import one.zagura.CeramicLauncher.data.NotificationItem
 import one.zagura.CeramicLauncher.util.storage.Settings
+import one.zagura.CeramicLauncher.util.theme.ColorTools
 
 object NotificationCreator {
 
@@ -64,18 +66,6 @@ object NotificationCreator {
         return notification.getLargeIcon()?.loadDrawable(context)
     }
 
-    inline fun getImportance(importance: Int): Int {
-        return when (importance) {
-            NotificationManager.IMPORTANCE_NONE,
-            NotificationManager.IMPORTANCE_MIN -> -1
-            NotificationManager.IMPORTANCE_LOW,
-            NotificationManager.IMPORTANCE_DEFAULT -> 0
-            NotificationManager.IMPORTANCE_HIGH -> 1
-            NotificationManager.IMPORTANCE_MAX -> 2
-            else -> throw IllegalStateException("Invalid notification importance")
-        }
-    }
-
     fun create(context: Context, notification: StatusBarNotification): NotificationItem {
 
         val extras = notification.notification.extras
@@ -88,7 +78,14 @@ object NotificationCreator {
         }
         val color = getColor(notification)
         val isSummary = notification.notification.flags and Notification.FLAG_GROUP_SUMMARY != 0
+
         val source = getSource(context, notification)
+        val sourceExtra = extras.getCharSequence(Notification.EXTRA_CONVERSATION_TITLE)
+            ?: (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+                extras.getCharSequence(Notification.EXTRA_MESSAGING_PERSON)
+            else null)
+            ?: extras.getCharSequence(Notification.EXTRA_SUB_TEXT)
+
         val sourceIcon = getIcon(context, notification)?.apply {
             this.setTintList(ColorStateList.valueOf(
                 if (
@@ -97,8 +94,6 @@ object NotificationCreator {
                 ) Settings["notif:title_color", -0xeeeded] else color
             ))
         }
-
-        //println(extras.keySet().joinToString("\n") { "$it -> " + extras[it].toString() })
 
         val progress = extras.getInt(Notification.EXTRA_PROGRESS, -1)
         val maxProgress = extras.getInt(Notification.EXTRA_PROGRESS_MAX, -1)
@@ -119,6 +114,7 @@ object NotificationCreator {
             title = title,
             text = text,
             source = source,
+            sourceExtra = sourceExtra,
             sourceIcon = sourceIcon,
             color = color,
             isSummary = isSummary,

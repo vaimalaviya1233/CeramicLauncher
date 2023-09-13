@@ -28,26 +28,6 @@ class CustomNotifications : AppCompatActivity() {
                 "notif:card_swipe_bg_color",
                 0x880d0e0f.toInt(),
             )
-            separator()
-            switch(
-                R.string.collapse_notifications,
-                R.drawable.ic_arrow_up,
-                "notif:collapse",
-                default = false,
-            )
-            numberSeekBar(
-                labelId = R.string.corner_radius,
-                key = "notif:radius",
-                default = 8,
-                max = 30,
-            )
-            numberSeekBar(
-                labelId = R.string.horizontal_margin,
-                key = "notif:margin_x",
-                default = 16,
-                max = 32,
-            )
-            title(R.string.text)
             color(
                 R.string.title_color,
                 R.drawable.ic_droplet,
@@ -60,6 +40,7 @@ class CustomNotifications : AppCompatActivity() {
                 "notif:text_color",
                 0xFF252627.toInt(),
             )
+            separator()
             numberSeekBar(
                 labelId = R.string.max_lines,
                 key = "notif:text:max_lines",
@@ -67,18 +48,30 @@ class CustomNotifications : AppCompatActivity() {
                 max = 24,
                 startsWith1 = true,
             )
+            numberSeekBar(
+                labelId = R.string.corner_radius,
+                key = "notif:radius",
+                default = 0,
+                max = 30,
+            )
+            numberSeekBar(
+                labelId = R.string.horizontal_margin,
+                key = "notif:margin_x",
+                default = 0,
+                max = 32,
+            )
+            switch(
+                R.string.collapse_notifications,
+                R.drawable.ic_arrow_up,
+                "notif:collapse",
+                default = false,
+            )
             switchTitle(R.string.action_buttons, "notif:actions:enabled", true)
             color(
                 R.string.background,
                 R.drawable.ic_droplet,
                 "notif:actions:background_color",
                 0x88e0e0e0.toInt(),
-            )
-            color(
-                R.string.text_color,
-                R.drawable.ic_droplet,
-                "notif:actions:text_color",
-                0xFF252627.toInt(),
             )
             switchTitle(R.string.notification_badges, "notif:badges", true)
             switch(

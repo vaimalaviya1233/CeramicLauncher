@@ -9,7 +9,7 @@ import one.zagura.CeramicLauncher.util.storage.Settings
 import one.zagura.CeramicLauncher.util.LiveWallpaper
 import one.zagura.CeramicLauncher.ui.view.ResizableLayout
 
-class SpacerSection(context: Activity) : ResizableLayout(context), FeedSection {
+class SpacerSection(context: Activity) : ResizableLayout(context, minHeight = 32.dp.toPixels(context)), FeedSection {
 
     private var i = -1
 

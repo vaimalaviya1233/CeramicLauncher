@@ -121,7 +121,7 @@
     <string name="grouping">Raggruppamento</string>
     <string name="recolor_white_bgs">Tinta sfondi bianchi</string>
     <string name="oops">Oops!</string>
-    <string name="posidon_launcher_crashed">Ceramic Launcher si è arrestato in modo anomalo</string>
+    <string name="ceramic_launcher_crashed">Ceramic Launcher si è arrestato in modo anomalo</string>
     <string name="send_bug_report">Invia segnalazione di bug</string>
     <string name="show_name">Mostra nome</string>
     <string name="name_color">Colore nome</string>

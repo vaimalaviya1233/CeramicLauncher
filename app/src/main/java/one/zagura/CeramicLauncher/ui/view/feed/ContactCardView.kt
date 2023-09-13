@@ -17,6 +17,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.drawable.toBitmap
+import androidx.palette.graphics.Palette
 import io.posidon.android.conveniencelib.Device
 import io.posidon.android.conveniencelib.units.dp
 import io.posidon.android.conveniencelib.units.toFloatPixels
@@ -26,6 +29,8 @@ import one.zagura.CeramicLauncher.data.items.ContactItem
 import one.zagura.CeramicLauncher.data.items.LauncherItem
 import one.zagura.CeramicLauncher.util.storage.Settings
 import one.zagura.CeramicLauncher.ui.view.groupView.ItemGroupView
+import one.zagura.CeramicLauncher.util.drawable.ContactDrawable
+import one.zagura.CeramicLauncher.util.theme.ColorTools
 import kotlin.concurrent.thread
 import kotlin.math.min
 
@@ -74,18 +79,25 @@ class ContactCardView(context: Context, attrs: AttributeSet? = null) : LinearLay
 
     fun getItemView(i: Int, item: ContactItem, parent: ViewParent): View {
         return (LayoutInflater.from(context).inflate(R.layout.floating_item, gridLayout, false)).apply {
-            val appSize = min(64.dp.toPixels(context), this@ContactCardView.measuredWidth / columns - 4.dp.toPixels(context) * 2)
-            findViewById<ImageView>(R.id.iconimg).setImageDrawable(item.icon)
-            findViewById<View>(R.id.iconimg).run {
-                layoutParams.height = appSize
-                layoutParams.width = appSize
+            val appSize = this@ContactCardView.measuredWidth / columns
+            with(findViewById<ImageView>(R.id.iconimg)) {
+                setImageDrawable(item.icon)
+                layoutParams.height = (appSize - 4.dp.toPixels(context) * 2).coerceAtMost(64.dp.toPixels(context))
             }
             with(findViewById<TextView>(R.id.icontxt)) {
                 text = item.label
-                backgroundTintList = ColorStateList.valueOf(Settings["contacts_card:bg_color", 0xffffffff.toInt()])
-                setTextColor(Settings["contacts_card:text_color", 0xff252627.toInt()])
+                val lab = DoubleArray(3)
+                val base = if (item.icon is ContactDrawable)
+                    ColorTools.getColorForText(item.label)
+                else Palette.from(item.icon.toBitmap()).generate().getDominantColor(0)
+                ColorUtils.colorToLAB(base, lab)
+                lab[0] = 80.0
+                backgroundTintList = ColorStateList.valueOf(ColorUtils.LABToColor(lab[0], lab[1], lab[2]))
+                lab[0] = 24.0
+                setTextColor(ColorUtils.LABToColor(lab[0], lab[1], lab[2]))
             }
             setOnClickListener { v -> item.open(context, v, -1) }
+            layoutParams.width = appSize
             (layoutParams as GridLayout.LayoutParams).bottomMargin = if (i / columns == 0) 0 else Settings["verticalspacing", 12].dp.toPixels(context)
         }
     }
@@ -105,7 +117,7 @@ class ContactCardView(context: Context, attrs: AttributeSet? = null) : LinearLay
     override fun onResume(activity: Activity) {
         thread (isDaemon = true) {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-                ContactItem.getList(true).also {
+                ContactItem.getList(context, true).also {
                     activity.runOnUiThread {
                         setItems(it, parent)
                     }

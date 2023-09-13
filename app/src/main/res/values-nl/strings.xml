@@ -120,7 +120,7 @@
     <string name="grouping">Groepering</string>
     <string name="recolor_white_bgs">Tint toepassen op witte achtergronden</string>
     <string name="oops">Oeps!</string>
-    <string name="posidon_launcher_crashed">Ceramic Launcher is gecrasht</string>
+    <string name="ceramic_launcher_crashed">Ceramic Launcher is gecrasht</string>
     <string name="send_bug_report">Bugmelding versturen</string>
     <string name="show_name">Naam tonen</string>
     <string name="name_color">Naam van kleur</string>

@@ -1,25 +1,36 @@
 package one.zagura.CeramicLauncher.provider.notifications
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationChannelGroup
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
+import android.media.MediaMetadata
+import android.media.session.MediaController
+import android.media.session.MediaSessionManager
+import android.media.session.PlaybackState
 import android.os.Build
 import android.os.Bundle
 import android.os.UserHandle
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.view.View
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.palette.graphics.Palette
 import io.posidon.android.conveniencelib.AnimUtils
 import io.posidon.android.conveniencelib.drawable.toBitmap
+import one.zagura.CeramicLauncher.BuildConfig
 import one.zagura.CeramicLauncher.Global
 import one.zagura.CeramicLauncher.Home
+import one.zagura.CeramicLauncher.data.MediaPlayerData
 import one.zagura.CeramicLauncher.data.NotificationItem
 import one.zagura.CeramicLauncher.data.items.App
+import one.zagura.CeramicLauncher.provider.media.MediaItemCreator
+import one.zagura.CeramicLauncher.util.StackTraceActivity
 import one.zagura.CeramicLauncher.util.storage.Settings
 import one.zagura.CeramicLauncher.util.Tools
 import java.lang.ref.WeakReference
@@ -29,119 +40,145 @@ import kotlin.concurrent.withLock
 
 class NotificationService : NotificationListenerService() {
 
-    init {
-        update = {
-            try {
-                loadNotifications(activeNotifications)
-            } catch (e: Exception) {
-                loadNotifications(null)
-            }
-        }
-    }
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    override fun onCreate() {
+        StackTraceActivity.init(applicationContext)
         Settings.init(applicationContext)
-        instance = this
         if (Tools.appContext == null) {
             Tools.appContextReference = WeakReference(applicationContext)
         }
-        update()
-        return super.onStartCommand(intent, flags, startId)
+        if (!NotificationManagerCompat.getEnabledListenerPackages(applicationContext).contains(applicationContext.packageName)) {
+            stopSelf()
+        }
+        val msm = getSystemService(MediaSessionManager::class.java)
+        msm.addOnActiveSessionsChangedListener(::onMediaControllersUpdated, componentName)
+        instance = this
     }
 
-    override fun onNotificationPosted(s: StatusBarNotification) = update()
-    override fun onNotificationPosted(s: StatusBarNotification?, rm: RankingMap?) = update()
-    override fun onNotificationRemoved(s: StatusBarNotification) = update()
-    override fun onNotificationRemoved(s: StatusBarNotification?, rm: RankingMap?) = update()
-    override fun onNotificationRemoved(s: StatusBarNotification, rm: RankingMap, reason: Int) = update()
-    override fun onNotificationRankingUpdate(rm: RankingMap) = update()
-    override fun onNotificationChannelModified(pkg: String, u: UserHandle, c: NotificationChannel, modifType: Int) = update()
-    override fun onNotificationChannelGroupModified(pkg: String, u: UserHandle, g: NotificationChannelGroup, modifType: Int) = update()
+    override fun onDestroy() {
+        super.onDestroy()
+        val msm = getSystemService(MediaSessionManager::class.java)
+        msm.removeOnActiveSessionsChangedListener(::onMediaControllersUpdated)
+    }
 
-    private fun loadNotifications(notifications: Array<StatusBarNotification>?) = thread (isDaemon = true) {
+    override fun onListenerConnected() {
+        loadNotifications(activeNotifications)
+    }
 
-        Settings.init(applicationContext)
-
-        fun showNotificationBadgeOnPackage(packageName: String) {
-            App.getFromPackage(packageName)
-                ?.forEach { it.notificationCount++ }
-        }
-
-        var hasMusic = false
-        val tmpNotifications = ArrayList<NotificationItem>()
-        var i = 0
-        var notificationsAmount2 = 0
-        lock.withLock {
-            try {
-                for (app in Global.apps) {
-                    app.notificationCount = 0
-                }
-                if (notifications != null) {
-                    while (i < notifications.size) {
-                        val notification = notifications[i]
-
-                        if (!notification.isClearable && Settings["notif:hide_persistent", false]) {
-                            i++
-                            continue
-                        }
-
-                        if (notification.notification.flags and android.app.Notification.FLAG_GROUP_SUMMARY != 0) {
-                            i++
-                            continue
-                        }
-
-                        if (
-                            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-                            && notification.notification.bubbleMetadata?.isNotificationSuppressed == true
-                        ) {
-                            i++
-                            continue
-                        }
-
-                        if (Settings["notif:ex:${notification.packageName}", false]) {
-                            i++
-                            continue
-                        }
-
-                        if (!hasMusic && Home.instance.feed.musicCard != null && notification.notification.extras.getCharSequence(
-                                android.app.Notification.EXTRA_TEMPLATE
-                            )?.let { it.subSequence(25, it.length) == "MediaStyle" } == true
-                        ) {
-                            handleMusicNotification(applicationContext, notification)
-                            hasMusic = true
-                            i++
-                            continue
-                        }
-
-                        showNotificationBadgeOnPackage(notifications[i].packageName)
-                        tmpNotifications.add(
-                            NotificationCreator.create(applicationContext, notifications[i]))
-                        notificationsAmount2++
-                        i++
-                    }
-                    if (!hasMusic) Home.instance.runOnUiThread {
-                        Home.instance.feed.musicCard?.visibility = View.GONE
-                    }
-                } else Home.instance.runOnUiThread {
-                    Home.instance.feed.musicCard?.visibility = View.GONE
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            } catch (e: OutOfMemoryError) {
-                tmpNotifications.clear()
-                Companion.notifications.clear()
-                notificationsAmount2 = 0
-                System.gc()
+    private fun onMediaControllersUpdated(controllers: MutableList<MediaController>?) {
+        val old = mediaItem
+        if (controllers.isNullOrEmpty()) {
+            mediaItem = null
+            if (old != null) {
+                onMediaUpdate(null)
             }
-            Companion.notifications = tmpNotifications
-            notificationsAmount = notificationsAmount2
-            onUpdate()
+            return
+        }
+        val controller = pickController(controllers)
+        mediaItem = controller.metadata?.let { MediaItemCreator.create(applicationContext, controller, it) }
+        if (old != mediaItem) {
+            onMediaUpdate(mediaItem)
+        }
+        controller.registerCallback(object : MediaController.Callback() {
+            override fun onMetadataChanged(metadata: MediaMetadata?) {
+                mediaItem = metadata?.let { MediaItemCreator.create(applicationContext, controller, it) }
+                onMediaUpdate(mediaItem)
+            }
+        })
+    }
+
+    fun updateMediaItem(context: Context) {
+        val msm = context.getSystemService(MediaSessionManager::class.java)
+        onMediaControllersUpdated(msm.getActiveSessions(componentName))
+    }
+
+    override fun onNotificationPosted(s: StatusBarNotification) = loadNotifications(activeNotifications)
+    override fun onNotificationPosted(s: StatusBarNotification?, rm: RankingMap?) = loadNotifications(activeNotifications)
+    override fun onNotificationRemoved(s: StatusBarNotification) = loadNotifications(activeNotifications)
+    override fun onNotificationRemoved(s: StatusBarNotification?, rm: RankingMap?) = loadNotifications(activeNotifications)
+    override fun onNotificationRemoved(s: StatusBarNotification, rm: RankingMap, reason: Int) = loadNotifications(activeNotifications)
+    override fun onNotificationRankingUpdate(rm: RankingMap) = loadNotifications(activeNotifications)
+    override fun onNotificationChannelModified(pkg: String, u: UserHandle, c: NotificationChannel, modifType: Int) = loadNotifications(activeNotifications)
+    override fun onNotificationChannelGroupModified(pkg: String, u: UserHandle, g: NotificationChannelGroup, modifType: Int) = loadNotifications(activeNotifications)
+
+    private fun loadNotifications(notifications: Array<StatusBarNotification>?) {
+        thread (name = "NotificationService loading thread", isDaemon = true) {
+            Settings.init(applicationContext)
+
+            fun showNotificationBadgeOnPackage(packageName: String) {
+                App.getFromPackage(packageName)
+                    ?.forEach { it.notificationCount++ }
+            }
+
+            val tmpNotifications = ArrayList<NotificationItem>()
+            var i = 0
+            var notificationsAmount2 = 0
+            lock.withLock {
+                try {
+                    for (app in Global.apps) {
+                        app.notificationCount = 0
+                    }
+                    if (notifications != null) {
+                        while (i < notifications.size) {
+                            val notification = notifications[i]
+
+                            if (!notification.isClearable && Settings["notif:hide_persistent", false]) {
+                                i++
+                                continue
+                            }
+
+                            if (notification.notification.flags and Notification.FLAG_GROUP_SUMMARY != 0) {
+                                i++
+                                continue
+                            }
+
+                            if (
+                                Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+                                && notification.notification.bubbleMetadata?.isNotificationSuppressed == true
+                            ) {
+                                i++
+                                continue
+                            }
+
+                            if (Settings["notif:ex:${notification.packageName}", false]) {
+                                i++
+                                continue
+                            }
+
+                            val isMusic = notification.notification.extras
+                                .getCharSequence(Notification.EXTRA_TEMPLATE) == Notification.MediaStyle::class.java.name
+
+                            if (isMusic) {
+                                i++
+                                continue
+                            }
+
+                            showNotificationBadgeOnPackage(notifications[i].packageName)
+                            tmpNotifications.add(
+                                NotificationCreator.create(applicationContext, notifications[i]))
+                            notificationsAmount2++
+                            i++
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                } catch (e: OutOfMemoryError) {
+                    tmpNotifications.clear()
+                    Companion.notifications.clear()
+                    notificationsAmount2 = 0
+                }
+                Companion.notifications = tmpNotifications
+                notificationsAmount = notificationsAmount2
+                onUpdate()
+            }
         }
     }
 
     companion object {
 
-        lateinit var instance: NotificationService private set
+        private val componentName = ComponentName(BuildConfig.APPLICATION_ID, NotificationService::class.java.name)
+
+        var instance: NotificationService? = null
+            private set
 
         var notifications = ArrayList<NotificationItem>()
             private set
@@ -151,44 +188,19 @@ class NotificationService : NotificationListenerService() {
 		var notificationsAmount = 0
         private val lock = ReentrantLock()
 
-        var update = {}
+        var mediaItem: MediaPlayerData? = null
             private set
 
-        private fun handleMusicNotification(context: Context, notification: StatusBarNotification) {
-            val icon = getIcon(context, notification)
-            val extras = notification.notification.extras
+        var onMediaUpdate: (MediaPlayerData?) -> Unit = {}
 
-            //println(extras.keySet().joinToString("\n") { "$it -> " + extras[it].toString() })
-
-            var title = extras.getCharSequence(android.app.Notification.EXTRA_TITLE)
-            if (title == null || title.toString().replace(" ", "").isEmpty()) {
-                try { title = context.packageManager.getApplicationLabel(context.packageManager.getApplicationInfo(notification.packageName, 0)) }
-                catch (e: Exception) { e.printStackTrace() }
-            }
-
-            var subtitle = extras.getCharSequence(android.app.Notification.EXTRA_BIG_TEXT)
-            if (subtitle == null) subtitle = extras.getCharSequence(android.app.Notification.EXTRA_TEXT)
-
-            Palette.from(icon!!.toBitmap()).generate {
-                val def = Settings["notif:background_color", -0x1]
-                val color = it?.getDominantColor(def) ?: def
-                Home.instance.feed.musicCard?.visibility = View.VISIBLE
-                Home.instance.feed.musicCard?.updateTrack(color, title, subtitle, icon, notification.notification.contentIntent)
-            }
-        }
-
-        private inline fun getIcon(context: Context, n: StatusBarNotification): Drawable? {
-            try {
-                return n.notification.getLargeIcon().loadDrawable(context)
-            } catch (e: Exception) {}
-            try {
-                return ResourcesCompat.getDrawable(context.createPackageContext(n.packageName, 0).resources, n.notification.icon, null)?.also {
-                    AnimUtils.tryAnimate(Home.instance, it)
-                    val colorList = ColorStateList.valueOf(if (n.notification.color == Settings["notif:background_color", -0x1] || n.notification.color == 0) Settings["notif:title_color", -0xeeeded] else n.notification.color)
-                    it.setTintList(colorList)
+        private fun pickController(controllers: List<MediaController>): MediaController {
+            for (i in controllers.indices) {
+                val mc = controllers[i]
+                if (mc.playbackState?.state == PlaybackState.STATE_PLAYING) {
+                    return mc
                 }
-            } catch (e: Exception) { e.printStackTrace() }
-            return null
+            }
+            return controllers[0]
         }
     }
 }

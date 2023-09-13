@@ -10,7 +10,7 @@ class ColorsAdapter : RecyclerView.Adapter<ColorViewHolder>() {
     private var colors = Settings.getStringsOrSetEmpty("flag:colors")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ColorViewHolder(parent, ::onColorChanged)
+        ColorViewHolder(parent, ::onColorChanged) { colors[it].toInt(16) }
 
     override fun onBindViewHolder(holder: ColorViewHolder, i: Int) {
         holder.bind(colors[i].toInt(16))

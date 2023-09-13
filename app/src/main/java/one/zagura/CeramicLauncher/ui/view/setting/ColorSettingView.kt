@@ -39,11 +39,7 @@ class ColorSettingView : IntSettingView {
 
     fun setPreviewColor(it: Int) {
         colorPreview.background = ColorTools.colorPreview(it, context)
-        val hsv = FloatArray(3)
-        Color.colorToHSV(it, hsv)
-        hsv[1] = min(hsv[1],0.5f)
-        hsv[2] = min(max(0.4f, hsv[2]), 0.75f)
-        val pastel = Color.HSVToColor(hsv)
+        val pastel = ColorTools.pastelizeColor(it)
         iconView.imageTintList = ColorStateList.valueOf(pastel)
         subtitleView.text = ColorTools.formatColor(it)
     }

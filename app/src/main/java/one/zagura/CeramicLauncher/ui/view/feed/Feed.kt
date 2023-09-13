@@ -73,9 +73,6 @@ class Feed : FrameLayout {
         false
     } else true
 
-    var musicCard: MusicCard? = null
-        private set
-
     var notifications: NotificationCard? = null
         private set
 
@@ -89,7 +86,6 @@ class Feed : FrameLayout {
     fun clearSections() {
         sections.clear()
         desktopContent.removeAllViews()
-        musicCard = null
         notifications = null
     }
 
@@ -159,8 +155,8 @@ class Feed : FrameLayout {
                     }
                 } catch (e: Exception) { e.printStackTrace() }
             }
-            try { activity.startService(Intent(context, NotificationService::class.java)) }
-            catch (e: Exception) {}
+//            try { activity.startService(Intent(context, NotificationService::class.java)) }
+//            catch (e: Exception) {}
         }
     }
 
@@ -207,7 +203,6 @@ class Feed : FrameLayout {
                 } else {
                     internalAdd(section)
                     when (section) {
-                        is MusicCard -> musicCard = section
                         is NotificationCard -> notifications = section
                     }
                     section.updateTheme(activity)

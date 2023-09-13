@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetHostView
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProviderInfo
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.ShapeDrawable
@@ -43,7 +44,7 @@ class Widget(
         const val REQUEST_BIND_WIDGET = 2
 
         fun fromIntent(activity: Activity, id: Int, provider: ComponentName): WidgetSection? {
-            val widgetManager = AppWidgetManager.getInstance(Tools.appContext)
+            val widgetManager = AppWidgetManager.getInstance(activity.applicationContext)
             return try {
                 if (!widgetManager.bindAppWidgetIdIfAllowed(id, provider)) {
                     val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_BIND)
@@ -229,7 +230,7 @@ class Widget(
                 setAppWidget(id, providerInfo)
             }
             widgetLayout.addView(hostView)
-            resize(Settings["widget:$widgetId:height", ViewGroup.LayoutParams.WRAP_CONTENT])
+            resize(widgetLayout.context, Settings["widget:$widgetId:height", ViewGroup.LayoutParams.WRAP_CONTENT])
             true
         } catch (e: Exception) {
             e.printStackTrace()
@@ -245,9 +246,9 @@ class Widget(
         Settings["widget:$widgetId"] = null
     }
 
-    fun resize(newHeight: Int) {
-        val density = Tools.appContext!!.resources.displayMetrics.density
-        val width = (Device.screenWidth(Tools.appContext!!) / density).toInt()
+    fun resize(context: Context, newHeight: Int) {
+        val density = context.resources.displayMetrics.density
+        val width = (Device.screenWidth(context) / density).toInt()
         val height = (newHeight / density).toInt()
         try {
             hostView!!.updateAppWidgetSize(null, width, height, width, height)

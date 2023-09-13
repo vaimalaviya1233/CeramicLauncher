@@ -27,7 +27,7 @@ class ContactProvider(
             canReadContacts = false
             return
         }
-        contacts = ContactItem.getList(false).toList()
+        contacts = ContactItem.getList(this, false).toList()
     }
 
     override fun getResults(context: Context, query: String): List<Pair<ContactItem, Float>> {

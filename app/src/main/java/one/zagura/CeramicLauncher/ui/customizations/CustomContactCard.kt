@@ -30,16 +30,6 @@ class CustomContactCard : AppCompatActivity() {
                 max = 5,
                 startsWith1 = true,
             )
-            color(
-                labelId = R.string.background,
-                key = "contacts_card:bg_color",
-                default = 0xffffffff.toInt(),
-            )
-            color(
-                labelId = R.string.text_color,
-                key = "contacts_card:text_color",
-                default = 0xff252627.toInt(),
-            )
         }
         Global.customized = true
     }

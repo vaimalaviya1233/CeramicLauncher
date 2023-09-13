@@ -65,6 +65,7 @@ class Home : AppCompatActivity() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        StackTraceActivity.init(applicationContext)
         Tools.appContextReference = WeakReference(applicationContext)
         Settings.init(applicationContext)
         if (Settings["init", true]) {
@@ -246,10 +247,10 @@ class Home : AppCompatActivity() {
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) {
-            if (feed.notifications != null || Settings["notif:badges", true]) {
-                try { startService(Intent(this, NotificationService::class.java)) }
-                catch (e: Exception) {}
-            }
+//            if (feed.notifications != null || Settings["notif:badges", true]) {
+//                try { startService(Intent(this, NotificationService::class.java)) }
+//                catch (e: Exception) {}
+//            }
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R && Settings["mnmlstatus", false]) window.decorView.systemUiVisibility =
                 SYSTEM_UI_FLAG_LAYOUT_STABLE or
                 SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or

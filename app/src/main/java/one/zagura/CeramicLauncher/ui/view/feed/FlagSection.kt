@@ -9,7 +9,7 @@ import one.zagura.CeramicLauncher.ui.view.FlagView
 import one.zagura.CeramicLauncher.ui.view.ResizableLayout
 import one.zagura.CeramicLauncher.util.storage.Settings
 
-class FlagSection(context: Context) : ResizableLayout(context), FeedSection {
+class FlagSection(context: Context) : ResizableLayout(context, minHeight = 32.dp.toPixels(context)), FeedSection {
 
     val flag = FlagView(context)
 
@@ -33,4 +33,6 @@ class FlagSection(context: Context) : ResizableLayout(context), FeedSection {
     override fun updateTheme(activity: Activity) {
         flag.colors = Settings.getStringsOrSetEmpty("flag:colors").map { it.toInt(16) }.toIntArray()
     }
+
+    override fun toString() = "flag"
 }

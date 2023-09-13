@@ -1,4 +1,6 @@
 <resources translatable="false">
     <string name="app_name">Ceramic Launcher</string>
     <string name="developer">Zagura</string>
+    <string name="dev_email">me@zagura.one</string>
+    <string name="crash_email_subject">Ceramic Launcher: crash log</string>
 </resources>

@@ -5,8 +5,10 @@ import android.app.WallpaperManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
@@ -17,6 +19,7 @@ import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.ColorInt
 import androidx.core.app.ActivityCompat
+import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.luminance
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
@@ -24,12 +27,32 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.posidon.android.conveniencelib.drawable.toBitmap
 import io.posidon.android.conveniencelib.units.dp
 import io.posidon.android.conveniencelib.units.toPixels
+import one.zagura.CeramicLauncher.Global
 import one.zagura.CeramicLauncher.R
 import one.zagura.CeramicLauncher.util.drawable.ColorPreviewDrawable
 import one.zagura.CeramicLauncher.util.Tools
 import one.zagura.CeramicLauncher.ui.view.recycler.LinearLayoutManager
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.random.Random
 
 object ColorTools {
+
+    fun pastelizeColor(color: Int): Int {
+        val hsv = FloatArray(3)
+        Color.colorToHSV(color, hsv)
+        hsv[1] = min(hsv[1],0.5f)
+        hsv[2] = min(max(0.4f, hsv[2]), 0.75f)
+        return Color.HSVToColor(hsv)
+    }
+
+    fun makeContrasty(color: Int, against: Int): Int {
+        val lab = DoubleArray(3)
+        ColorUtils.colorToLAB(color, lab)
+        if (against.luminance > 0.6f) lab[0] = lab[0].coerceAtMost(10.0)
+        else lab[0] = lab[0].coerceAtLeast(85.0)
+        return ColorUtils.LABToColor(lab[0], lab[1], lab[2])
+    }
 
     inline fun colorPreview(@ColorInt color: Int, context: Context): Drawable {
         return ColorPreviewDrawable(color, context)
@@ -52,6 +75,9 @@ object ColorTools {
         0xfff6724b.toInt(),
         0xffee3264.toInt(),
     )
+
+    fun getColorForText(text: String): Int =
+        randomColors[Random(text.hashCode()).nextInt(randomColors.size)]
 
     fun pickColor(context: Context, @ColorInt initColor: Int, onSelect: (color: Int) -> Unit) {
         val d = BottomSheetDialog(context, R.style.bottomsheet)
@@ -286,7 +312,7 @@ object ColorTools {
         d.show()
     }
 
-    fun getWallpaperColors(context: Context) = ArrayList<Int>().apply {
+    private fun getWallpaperColors(context: Context) = ArrayList<Int>().apply {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             val drawable = WallpaperManager.getInstance(context).fastDrawable ?: return@apply
             val palette = Palette.from(drawable.toBitmap()).generate()
@@ -299,7 +325,13 @@ object ColorTools {
             add(palette.getLightVibrantColor(0))
             removeIf { it == 0 }
         }
-    }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            val wallpaperColors = WallpaperManager.getInstance(context).getWallpaperColors(WallpaperManager.FLAG_SYSTEM) ?: return@apply
+            add(wallpaperColors.primaryColor.toArgb())
+            wallpaperColors.secondaryColor?.let { add(it.toArgb()) }
+            wallpaperColors.tertiaryColor?.let { add(it.toArgb()) }
+        }
+    }.toMutableSet().toMutableList()
 
     fun formatColor(color: Int): String {
         var a = color.toUInt().toULong().toString(16).uppercase().padStart(8, '0')

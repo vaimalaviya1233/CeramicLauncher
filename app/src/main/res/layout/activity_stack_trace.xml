@@ -12,26 +12,29 @@
         android:orientation="vertical"
         android:padding="24dp">
         <TextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="42sp"
-            android:textColor="@color/ui_card_title"
-            android:text="@string/oops"
-            android:layout_marginTop="64dp"/>
+            android:layout_marginTop="64dp"
+            android:textSize="24sp"
+            android:fontFamily="serif"
+            android:text="@string/ceramic_launcher_crashed"
+            android:textColor="@color/ui_card_title"/>
         <TextView
+            style="@style/ui_button_round"
+            android:id="@+id/send"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/ui_card_text"
-            android:text="@string/posidon_launcher_crashed"/>
-
+            android:text="@string/send_bug_report"
+            android:layout_marginTop="64dp"
+            android:gravity="center_horizontal"/>
         <TextView
-            android:id="@+id/stackTrace"
+            android:id="@+id/stack_trace"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:textColor="@color/ui_card_text_secondary"
-            android:textSize="12sp"
-            android:fontFamily="monospace"/>
+            android:textSize="14sp"
+            android:fontFamily="monospace"
+            android:textColor="@color/ui_card_text_secondary"/>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

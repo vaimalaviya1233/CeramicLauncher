@@ -48,9 +48,8 @@ object Icons {
         val realName = name.trim()
         if (realName.isEmpty()) return null
         return pics.getOrPut(name) {
-            val random = Random(name.hashCode())
             ContactDrawable(
-                ColorTools.randomColors[random.nextInt(ColorTools.randomColors.size)],
+                ColorTools.getColorForText(name),
                 realName.substring(0, realName.length.coerceAtMost(2)),
                 paint,
             )

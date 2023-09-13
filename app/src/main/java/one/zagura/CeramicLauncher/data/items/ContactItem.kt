@@ -17,6 +17,7 @@ import io.posidon.android.conveniencelib.units.toPixels
 import one.zagura.CeramicLauncher.R
 import one.zagura.CeramicLauncher.util.drawable.NonDrawable
 import one.zagura.CeramicLauncher.util.Tools
+import one.zagura.CeramicLauncher.util.theme.ColorTools
 import one.zagura.CeramicLauncher.util.theme.Icons
 import java.io.FileNotFoundException
 
@@ -53,8 +54,9 @@ class ContactItem private constructor(
     override fun hashCode() = lookupKey.hashCode()
 
     companion object {
-        fun getList(requiresStar: Boolean = false): Iterable<ContactItem> {
-            val cur = Tools.appContext!!.contentResolver.query(
+
+        fun getList(context: Context, requiresStar: Boolean = false): Iterable<ContactItem> {
+            val cur = context.contentResolver.query(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 arrayOf(ContactsContract.Contacts.LOOKUP_KEY,
                         ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
@@ -98,7 +100,7 @@ class ContactItem private constructor(
                         } else null
 
                         val icon = if (iconUri == null) Icons.generateContactPicture(name, textP) ?: NonDrawable() else try {
-                            val inputStream = Tools.appContext!!.contentResolver.openInputStream(iconUri)
+                            val inputStream = context.contentResolver.openInputStream(iconUri)
                             val pic = Drawable.createFromStream(inputStream, iconUri.toString()) ?: NonDrawable()
                             pic.setBounds(0, 0, pic.intrinsicWidth, pic.intrinsicHeight)
                             MaskedDrawable(pic, Path().apply {
@@ -117,7 +119,7 @@ class ContactItem private constructor(
                 cur.close()
             }
 
-            val nicknameCur = Tools.appContext!!.contentResolver.query(
+            val nicknameCur = context.contentResolver.query(
                 ContactsContract.Data.CONTENT_URI,
                 arrayOf(ContactsContract.CommonDataKinds.Nickname.NAME, ContactsContract.Data.LOOKUP_KEY),
                 ContactsContract.Data.MIMETYPE + "= ?",
